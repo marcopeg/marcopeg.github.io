@@ -3,10 +3,14 @@ title: "About me"
 template: "page"
 ---
 
-Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante.
+I was born in Italy, it was the hot summer of '81.
 
-![Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi.](/media/image-2.jpg)
+The first thing I wished to do was to fly, luckily my second choice was coding!
 
-*Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi.*
+I'm a Web Developer. I play with Javascript, Docker, mobile web apps and NodeJS. I did a lot of PHP in the past and still remember some of it.
 
-Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus
+I like to share code and solutions. I believe knowledge is a product worth to share so everybody can enjoy and improve our community value.
+
+I'm working hard to become a dev coach and my big objective is to speak at international JS conferences. So far I take care of MalmoJS user group at FooCafe in Malmo.
+
+I do paragliding, I love mountains, hiking and biking into nature. Recently I embraced sailing in the Baltic sea (no mountains in south Sweden!)
