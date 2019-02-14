@@ -34,6 +34,8 @@ const onCreateNode = ({ node, actions, getNode }) => {
       const categorySlug = `/category/${_.kebabCase(node.frontmatter.category)}/`;
       createNodeField({ node, name: 'categorySlug', value: categorySlug });
     }
+
+    createNodeField({ node, name: 'image', value: node.frontmatter.image });
   }
 };
 

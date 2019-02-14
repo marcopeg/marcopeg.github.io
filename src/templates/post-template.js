@@ -44,6 +44,7 @@ export const query = graphql`
       html
       fields {
         tagSlugs
+        image
       }
       frontmatter {
         date

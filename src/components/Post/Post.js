@@ -22,7 +22,7 @@ const Post = ({ post }) => {
       <Link className={styles['post__home-button']} to="/">All Articles</Link>
 
       <div className={styles['post__content']}>
-        <Content body={html} title={title} />
+        <Content body={html} title={title} image={post.fields.image} />
       </div>
 
       <div className={styles['post__footer']}>

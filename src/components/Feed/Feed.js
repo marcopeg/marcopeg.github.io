@@ -7,6 +7,12 @@ const Feed = ({ edges }) => (
   <div className={styles['feed']}>
     {edges.map((edge) => (
       <div className={styles['feed__item']} key={edge.node.fields.slug}>
+        {edge.node.fields.image && (
+          <img
+            src={`/media/${edge.node.fields.image}`}
+            alt={edge.node.fields.slug}
+          />
+        )}
         <div className={styles['feed__item-meta']}>
           <time className={styles['feed__item-meta-time']} dateTime={moment(edge.node.frontmatter.date).format('MMMM D, YYYY')}>
             {moment(edge.node.frontmatter.date).format('MMMM YYYY')}

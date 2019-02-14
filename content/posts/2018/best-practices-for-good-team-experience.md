@@ -9,6 +9,7 @@ tags:
   - "team"
   - "coding"
 description: "Few tricks I've learned that makes collaboration easier."
+image: "team-experience.jpg"
 ---
 
 Through my years in engineering I saw a couple of project succeed and some other fail. I've been exposed to many best practices: waterfall(s), agile, chaos, git. You name it, we tried it out.

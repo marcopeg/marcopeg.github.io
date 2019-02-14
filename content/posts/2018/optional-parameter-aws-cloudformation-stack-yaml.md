@@ -8,6 +8,7 @@ category: "Blog"
 tags:
   - "team"
   - "coding"
+image: "cloud-formation.png"
 ---
 
 The following YAML CloudFormation stack creates an EBS volume returning its reference for further usage in a higher level template.

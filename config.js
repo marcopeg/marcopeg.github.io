@@ -6,7 +6,7 @@ module.exports = {
   subtitle: 'Passionate Web Engineer',
   copyright: '© All rights reserved.',
   disqusShortname: '',
-  postsPerPage: 4,
+  postsPerPage: 8,
   googleAnalyticsId: 'UA-43775048-4',
   menu: [
     {
