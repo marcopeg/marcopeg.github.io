@@ -14,7 +14,7 @@
     "test:coverage": "jest --coverage --config ./tests/jest-config.js",
     "test:watch": "jest --watch --config ./tests/jest-config.js",
     "---// DEPLOY //---": "",
-    "deploy:build": "yarn run clean && gatsby build --prefix-paths && cp README.md ./public",
+    "deploy:build": "yarn run clean && gatsby build --prefix-paths && cp README.md ./public && cp CNAME ./public",
     "deploy:git:init": "(cd public && git init && git remote add origin git@github.com:marcopeg/marcopeg.github.io.git)",
     "deploy:git:commit": "(cd public && git add . && git commit -m \"pub\" && git push --force -u origin master)",
     "deploy": "yarn deploy:build &&  yarn deploy:git:init && yarn deploy:git:commit"
