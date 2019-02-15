@@ -10,6 +10,7 @@ tags:
   - "react"
   - "cra"
 description: "How to run \"react-styleguidist\" with \"react-scripts-rewired\"."
+image: "styleguidist.svg"
 ---
 
 [react-styleguidist](https://react-styleguidist.js.org) tries to load the default Webpack configuration that is provided by [create-react-app](https://facebook.github.io/create-react-app/). That works just like magic out of the box.

@@ -10,6 +10,7 @@ tags:
   - "content ownership"
 description: "And so I tried out Gatsby and promptly decided to turn
 my Wordpress based blog into a static generated website."
+image: "gastby.png"
 ---
 
 And so I tried out [Gatsby](http://gatsbyjs.org) and promptly decided to turn
