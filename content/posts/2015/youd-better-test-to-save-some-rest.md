@@ -15,7 +15,7 @@ Since the day I became a developer, I've always feared the _Big What The Fuck_.
 
 The _BWTF_ is not only related to the code you write, it is the lack of knowledge that threatens to crush your entire project. It can be as simple as a server misconfiguration that causes a gaping security flaw.
 
-![dude-wtf](/media/dude-wtf.jpg)
+![dude-wtf](./media/dude-wtf.jpg)
 
 When the _BWTF_ strike, there is nowhere to go; there is no place to hide. The _BWTF_ is like the worst earthquake in the world: no building endures. A big part of your application, job and/or reputation goes to waste. And nobody wants this to happen.
 
@@ -48,7 +48,7 @@ When it comes to a code scenario the most likely _BWTF_ is to forget to consider
 
 > The _BWTF_ is due to the unpredictability of when the problem will arise. 
 
-![unpredictability](/media/unpredictability.jpg)
+![unpredictability](./media/unpredictability.jpg)
 
 The later it shows up, the less you'll recall what the minor requirement was and where the problem lies within the code base. And how the hell it works! By the time an issue like that manifests itself, you may have moved to another technology.
 
@@ -66,7 +66,7 @@ Another important point is that you can build you tests through time; it is alwa
 
 My test suite for real life scenarios is _practical common sense_ but when it comes to a code scenario I can give some more specific pieces of advice which are specific to _Javascript_.
 
-![common-sense](/media/common-sense.jpg)
+![common-sense](./media/common-sense.jpg)
 
 [KarmaJS](http://karma-runner.github.io/0.12/index.html) is a [NodeJS](nodejs.org) command line tool which runs your unit tests. Among its features I should mention that you can run tests on multiple target browsers. You can test mobile devices connected to the same network. I use KarmaJS in combination with [GruntJS](http://gruntjs.com/) or [GulpJS](http://gulpjs.com/) to integrate tests into my building processes.
 
@@ -95,5 +95,5 @@ My test suite for real life scenarios is _practical common sense_ but when it co
 3. you can apply testing to your professional and private life
 <!-- /Markdown -->
 
-![succeed](/media/succeed.jpg)
+![succeed](./media/succeed.jpg)
 

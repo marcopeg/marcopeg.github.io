@@ -47,8 +47,9 @@ two tools that I like very much. It feels quite easy to jump into a theme that I
 and tweak it to my liking.
 
 The official documentation sucks just a little. I felt confused in moving my first steps.
-Probably they could put some more love into a comprehensive "getting started" that let you
-build your first page with some customization.
+After a while I found [a beginner tutorial](https://www.gatsbyjs.org/tutorial/) that covers
+most of the steps that you might need to get to a decent blog product. It wasn't easy
+to find, at least for me!
 
 The [starters](https://www.gatsbyjs.org/starters/?v=2) are a very nice feature. I could choose
 a theme that I like, and extend it. More or less the way I am used to do with Docker.

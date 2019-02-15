@@ -16,7 +16,7 @@ image: "wocker.jpg"
 
 This very website **WAS** hosted on a [512Mb Ram Digital Ocean droplet](https://m.do.co/c/0a72735ae62e) and is still able to serve an benchmarked **252 pages per second** with 50 concurrent requests being made.
 
-![benchmark](/media/wocker-benchmark.jpg)
+![benchmark](./media/wocker-benchmark.jpg)
 
 **How is this possible?**  
 cache my friend, it's all about cache.

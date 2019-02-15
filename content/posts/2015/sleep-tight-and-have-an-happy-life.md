@@ -24,7 +24,7 @@ But today is your lucky day because I am going to tell you that useful and dead 
 
 Now try to be honest when you answer the following questions: How many times has a villain stolen your computer? How many times have you gotten destructive viruses? How many times have you screwed your code base because you have kept coding through out the night when you should have gotten some well deserved sleep?
 
-![steal-computer](/media/steal-computer.jpg)
+![steal-computer](./media/steal-computer.jpg)
 
 **For me is the "screwed code" scenario that is responsible for my worse headaches**. It happens to me as I enter this mystical mental space in which "I see the light". I feel the urge to give life to my bright ideas so I start scrambling the existing code base here and there. Oh some times I get things done but it is a matter of luck. 8 times out of 10 it doesn't work at all, and often I can't go back to where I've started!
 
@@ -40,7 +40,7 @@ Now you can improve your backup strategy by **adding versioning support**. You a
 
 Every time you create a new archive the OS will **automatically append a version number** to it. You don't have to bother and you can access your backup's date & time informations on the archive's details panel. If you want to go even further my suggestion for you is to rename the archive, prefixing it with the current time in a "YYMMDDHHMM" format. Now the version number contains the time of the backups and **all your archives are alphabetically sorted** on your file manager view.
 
-![schedule-backups](/media/schedule-backups.jpg)
+![schedule-backups](./media/schedule-backups.jpg)
 
 Of course there is a price to pay for this simplicity. It's space. You are going to need a lot of space if you version your project often. Luckily external drives are cheap nowadays and even cloud storage is not that expensive.
 
@@ -52,7 +52,7 @@ The easiest possible solution is Mac's _Time Machine_ which will backup all your
 
 Another great backup tool is [_Carbon Copy Cloner_](https://bombich.com/), another Mac tool. **_CCC_ creates a bootable clone of your machine** and you can schedule this backup the way you like it. I use _CCC_ as disaster recovery strategy. I clone my Mac at least once a week so if I loose it, someone steal it or my dog plays with it, I can buy a new one and clone it back. **In few hours I can be back on track even in a disastrous scenario**. This is also a good strategy when I simply upgrade my computer to a new one. It's almost 8 years I've been doing this and I never have a problem with it.
 
-![external-drive](/media/external-drive.jpg)
+![external-drive](./media/external-drive.jpg)
 
 > For you that want to play a little bit with some scripting my suggestion is 
 > to buy a cheap hosting service which provides an FTP access. With this tool and 

@@ -20,7 +20,7 @@ This blog is being hosted on a [5$/mo DigitalOcean droplet](https://m.do.co/c/0a
 
 What I don't like is the **tendency to crash** that seems to be idiosyncratic to my setup. It's been going on since a couple of days: every works fine for a while, and then MySQL kinda crashes giving me a mysterious message:
 
-![mysql-error](/media/mysql-error.png)
+![mysql-error](./media/mysql-error.png)
 
 So I wore my _debugging hat_ and I started investigating the issue. In this article I'm going to place a link to the solution I found.
 
@@ -86,7 +86,7 @@ The idea is to start to **track down how often the problem manifest and to look 
 
 Wordpress' ugly `Error establishing a database connection` gives us an `HTTP 505` so **I guess I can use some free online resources to monitor it**:
 
-![mysql-error](/media/mysql-error.png)
+![mysql-error](./media/mysql-error.png)
 
 I ran a quick search for [free online monitoring services](https://www.google.se/search?q=free+online+monitoring+services&oq=free+online+monitoring+services&aqs=chrome..69i57j0l4.303j0j7&sourceid=chrome&ie=UTF-8) and I gave a go to [UptimeRobot](http://uptimerobot.com). It looks easy and it gives me 50 watchers that run every 5 minutes **for free**.
 
@@ -104,7 +104,7 @@ I decided to **follow up with the _running out of memory_ lead** and it turned o
 
 You can use a combination of `docker-compose ps`, `docker-ps` and `docker stats` to get the CPU, memory, net and disk i/o of your containers:
 
-![mysql-docker-stats](/media/mysql-docker-stats.png)
+![mysql-docker-stats](./media/mysql-docker-stats.png)
 
 I didn't like what I saw.  
 **MySQL allocated 200Mb of RAM just after booting up**.
@@ -215,7 +215,7 @@ Next step involves another round of Googling. Now that MySQL memory is under con
 
 My query was straightforward and I regret not to have searched for it earlier as it produced the complete solution as first result: **[optimise docker wordpress memory](https://www.google.se/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=optimise%20docker%20wordpress%20memory)**
 
-![mysql-answer](/media/mysql-answer.png)
+![mysql-answer](./media/mysql-answer.png)
 
 > From now on is pure theory, 
 > but thank you for reading!

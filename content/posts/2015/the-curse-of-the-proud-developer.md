@@ -20,7 +20,7 @@ It was the _Curse of the Proud Developer_ kicking in after a long day of coding.
 
 So I started to debug my code from scratch. After going through generic checkpoints, I changed my strategy. I moved to a simple but effective line by line comment and test mode. A damn long and frustrating process. The code went blurry before my eyes.
 
-![panic](/media/panic.jpg)
+![panic](./media/panic.jpg)
 
 I remember I was almost sweating under the office lights, my sight narrowed down on my keyboard. I was trying to ignore all the happy people around me, hoping for a miracle to happen. And then the miracle did happen.
 

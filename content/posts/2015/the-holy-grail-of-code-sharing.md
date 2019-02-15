@@ -35,7 +35,7 @@ The projects around the company are not that different, we do tailored based cus
 > Today there is **close to zero code sharing** around our teams and this fact costs us
 > a lot of money.
 
-![old-clock](/media/old-clock.jpg)
+![old-clock](./media/old-clock.jpg)
 
 We are a service company and **our trading value is our delopers time**.  
 When two teams solve the same problem in two different ways, they spend the double of the time. 
@@ -62,7 +62,7 @@ This solution **was hard to hear and accept by management** because it involved 
 Our second approach was driven by the hard boundary to **not change the company structure**.  
 <small>(We learned this lesson the hard way)</small>
 
-![old-clock](/media/struggle.jpg)
+![old-clock](./media/struggle.jpg)
 
 Long story short, we proposed to let our teams do their job and to create a side team of experts whose duty is to **take existing custom code and _change it to make it reusable_**.
 
@@ -107,7 +107,7 @@ This bullet list might just sound like a bunch of cliché expressions, but I hav
 > The general principle that should drive each of us is:  
 > **Don't do bullshit!**
 
-![no-bullshit](/media/no-bullshit.jpg)
+![no-bullshit](./media/no-bullshit.jpg)
 
 * to build a big module is way more expensive than to build small ones that can work together
 * to write my own DOM library is way more time consuming compared to use a jQuery custom build
