@@ -10,6 +10,7 @@ tags:
   - "proxy"
   - "wordpress"
 description: "How to proxy wp-admin in a headless wordpress setup."
+image: "nginx.jpg"
 ---
 
 At my company we are experimenting quite a lot with **headless WordPress websites**.

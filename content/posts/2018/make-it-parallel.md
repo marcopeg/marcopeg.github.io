@@ -10,6 +10,7 @@ tags:
   - "queue"
   - "parallel"
 description: "How to run consume a queue with multiple independent workers in Postgres, and survive!"
+image: "devils-fork.jpg"
 ---
 
 The first version of [my queue system](https://fetchq.com/) was very simple, in the end it proved to be too simple for a real life scenario.

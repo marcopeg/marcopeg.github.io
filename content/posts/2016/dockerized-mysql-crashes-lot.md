@@ -14,6 +14,8 @@ tags:
   - "crash"
 
 description: Have you ever experienced a dockerized MySQL to stuck in low memory VPS? I did and luckily I found a solution! (yes, I googled it)"
+
+image: "mysql_docker.png"
 ---
 
 This blog is being hosted on a [5$/mo DigitalOcean droplet](https://m.do.co/c/0a72735ae62e) and it is served as [Docker Humble](https://github.com/marcopeg/humble-cli) project. **Docker gave me pure freedom in my technology stack** for a reasonable 60$/year price. I like it, a lot.

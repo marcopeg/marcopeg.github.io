@@ -27,7 +27,7 @@ const Author = ({ author, isIndex }) => (
     )}
     {/* <p className={styles['author__subtitle']}>{author.bio}</p> */}
     <div style={{ color: '#444', fontSize: 12 }}>
-      <p style={{ marginBottom: 0 }}>
+      <p style={{ marginBottom: 15 }}>
         When it comes to write code <b>you don't need to learn magic spells</b>.
       </p>
       <p>
