@@ -39,16 +39,16 @@ module.exports = {
             resolve: 'gatsby-plugin-feed',
             options: {
                 query: `
-          {
-            site {
-              siteMetadata {
-                site_url: url
-                title
-                description: subtitle
-              }
-            }
-          }
-        `,
+                    {
+                        site {
+                            siteMetadata {
+                                site_url: url
+                                title
+                                description: subtitle
+                            }
+                        }
+                    }
+                `,
                 feeds: [{
                     serialize: ({ query: { site, allMarkdownRemark } }) => (
                         allMarkdownRemark.edges.map((edge) => Object.assign({}, edge.node.frontmatter, {
@@ -60,30 +60,30 @@ module.exports = {
                         }))
                     ),
                     query: `
-              {
-                allMarkdownRemark(
-                  limit: 1000,
-                  sort: { order: DESC, fields: [frontmatter___date] },
-                  filter: { frontmatter: { template: { eq: "post" }, draft: { ne: true } } }
-                ) {
-                  edges {
-                    node {
-                      html
-                      fields {
-                        slug
-                      }
-                      frontmatter {
-                        title
-                        date
-                        template
-                        draft
-                        description
-                      }
-                    }
-                  }
-                }
-              }
-            `,
+                        {
+                            allMarkdownRemark(
+                                limit: 1000,
+                                sort: { order: DESC, fields: [frontmatter___date] },
+                                filter: { frontmatter: { template: { eq: "post" }, draft: { ne: true } } }
+                            ) {
+                                edges {
+                                    node {
+                                        html
+                                        fields {
+                                            slug
+                                        }
+                                        frontmatter {
+                                            title
+                                            date
+                                            template
+                                            draft
+                                            description
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    `,
                     output: '/rss.xml'
                 }]
             }
