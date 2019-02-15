@@ -60,6 +60,17 @@
       ],
       "react/jsx-no-undef": 1,
       "react/jsx-uses-react": 1,
-      "react/jsx-uses-vars": 1
+      "react/jsx-uses-vars": 1,
+      "semi": [
+        "error",
+        "never"
+      ],
+      "no-extra-semi": [
+        "error"
+      ],
+      "indent": [
+        "error",
+        4
+      ]
     }
 }
