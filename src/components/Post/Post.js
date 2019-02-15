@@ -22,17 +22,23 @@ const Post = ({ post }) => {
             <Link className={styles['post__home-button']} to="/">All Articles</Link>
 
             <div className={styles['post__content']}>
-                <Content body={html} title={title} image={image} />
+                <Content
+                    body={html}
+                    title={title}
+                    image={image}
+                />
             </div>
 
-            <div className={styles['post__footer']}>
+            {/* <div className={styles['post__footer']}>
                 <Meta date={date} />
                 <Tags tags={tags} tagSlugs={tagSlugs} />
                 <Author />
-            </div>
+            </div> */}
 
             <div className={styles['post__comments']}>
-                <Comments postSlug={post.fields.slug} postTitle={post.frontmatter.title} />
+                <div className={styles['post__comments--inner']}>
+                    <Comments postSlug={post.fields.slug} postTitle={post.frontmatter.title} />
+                </div>
             </div>
         </div>
     )

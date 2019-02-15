@@ -1,31 +1,31 @@
-import React from 'react';
-import { graphql, StaticQuery } from 'gatsby';
-import { getContactHref } from '../../../utils';
-import styles from './Author.module.scss';
+import React from 'react'
+import { graphql, StaticQuery } from 'gatsby'
+import { getContactHref } from '../../../utils'
+import styles from './Author.module.scss'
 
 export const PureAuthor = ({ data }) => {
-  const { author } = data.site.siteMetadata;
+    const { author } = data.site.siteMetadata
 
-  return (
-    <div className={styles['author']}>
-      <p className={styles['author__bio']}>
-        {author.bio}
-        <a
-          className={styles['author__bio-twitter']}
-          href={getContactHref('twitter', author.contacts.twitter)}
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <strong>{author.name}</strong> on Twitter
-        </a>
-      </p>
-    </div>
-  );
-};
+    return (
+        <div className={styles['author']}>
+            <p className={styles['author__bio']}>
+                {author.bio}
+                <a
+                    className={styles['author__bio-twitter']}
+                    href={getContactHref('twitter', author.contacts.twitter)}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                >
+                    <strong>{author.name}</strong> on Twitter
+                </a>
+            </p>
+        </div>
+    )
+}
 
 export const Author = (props) => (
-  <StaticQuery
-    query={graphql`
+    <StaticQuery
+        query={graphql`
       query AuthorQuery {
         site {
           siteMetadata {
@@ -40,8 +40,8 @@ export const Author = (props) => (
         }
       }
     `}
-    render={(data) => <PureAuthor {...props} data={data} />}
-  />
-);
+        render={(data) => <PureAuthor {...props} data={data} />}
+    />
+)
 
-export default Author;
+export default Author

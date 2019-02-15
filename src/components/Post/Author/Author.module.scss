@@ -2,7 +2,8 @@
 @import '../../../assets/scss/mixins';
 
 .author {
-  border-top: 1px solid $color-gray-border;
+  border-top: 10px solid $color-gray-border;
+  border-bottom: 10px solid $color-gray-border;
   max-width: $layout-post-width;
   padding-top: 20px;
   @include line-height(1);

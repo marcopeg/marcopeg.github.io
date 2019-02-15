@@ -7,9 +7,12 @@
         padding: 0 15px;
     }
     &__comments {
+        border-top: 10px solid $color-gray-border;
         max-width: $layout-post-width;
-        margin: 0 auto;
-        padding: 0 15px;
+        margin: 100px auto;
+        &--inner {
+            margin-top: 100px;
+        }
     }
     &__home-button {
         display: block;
