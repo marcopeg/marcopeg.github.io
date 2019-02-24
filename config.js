@@ -4,7 +4,7 @@ module.exports = {
     url: 'https://marcopeg.github.io',
     title: 'Marco Pegoraro',
     subtitle: 'Passionate Web Engineer',
-    copyright: '© All rights reserved :-)',
+    copyright: '© All rights reserved',
     disqusShortname: 'marcopeg',
     postsPerPage: 8,
     googleAnalyticsId: 'UA-43775048-4',
