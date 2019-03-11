@@ -1,6 +1,6 @@
 ---
 title: AWS S3 File Names - Troubleshooting
-date: "2019-21-02T08:46:37.121Z"
+date: "2019-02-21T08:46:37.121Z"
 template: "post"
 draft: false
 slug: "/2019/aws-s3-file-names-troubleshooting"

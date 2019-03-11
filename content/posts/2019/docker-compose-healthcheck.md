@@ -1,6 +1,6 @@
 ---
 title: Docker Compose Healthcheck
-date: "2019-19-03T23:46:37.121Z"
+date: "2019-02-19T23:46:37.121Z"
 template: "post"
 draft: false
 slug: "/2019/docker-compose-healthcheck"

@@ -1,6 +1,6 @@
 ---
 title: Gatsby Begins
-date: "2019-10-02T23:46:37.121Z"
+date: "2019-02-10T23:46:37.121Z"
 template: "post"
 draft: false
 slug: "/2019/gatsby-begins"
