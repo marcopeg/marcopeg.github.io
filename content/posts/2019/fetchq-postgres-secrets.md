@@ -2,7 +2,7 @@
 title: The Secrets of a Postgres Queue Service
 date: "2019-03-07T09:46:37.121Z"
 template: "post"
-draft: false
+draft: true
 slug: "/2019/fetchq-postgres-secrets"
 category: "Blog"
 tags:
