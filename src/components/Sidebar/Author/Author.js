@@ -32,7 +32,7 @@ const Author = ({ author, isIndex }) => (
       </p>
       <p>
         All you need is to <b>take a look outside the window</b> and solve your problem
-        with <b>patterns from the real world :-)</b>
+        with <b>patterns from the real world.</b>
       </p>
     </div>
   </div>
