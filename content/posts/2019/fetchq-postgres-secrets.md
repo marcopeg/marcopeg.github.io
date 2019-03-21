@@ -186,7 +186,7 @@ Again, Postgres is just so cool:
         AND attempts < 5
         ORDER BY next_iteration ASC, attempts ASC
         LIMIT 1
-        FOR UPDATE FOR UPDATE SKIP LOCKED
+        FOR UPDATE SKIP LOCKED
     ) RETURNING subject;
 
 This query will give you a list of subjects (based on `LIMIT`) that **have been
