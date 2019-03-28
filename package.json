@@ -5,6 +5,7 @@
   "main": "n/a",
   "scripts": {
     "develop": "yarn run clean && gatsby develop",
+    "start": "yarn develop",
     "clean": "rimraf .cache public",
     "build": "yarn run clean && gatsby build",
     "serve": "yarn build && ./node_modules/.bin/http-server ./public",
