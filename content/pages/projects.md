@@ -76,9 +76,12 @@ ReactSSR is an NPM module that makes it quite easy to kick off a Universal React
 
 <div style="margin: 90px 30%;border-bottom: 1px solid #ddd"></div>
 
-## github-webhook-router
+## feedlify
 
 **NOTE:** super early stage
+
+Aggregates contents from different social media and online resources into
+an organic feed that you can share with the world.
 
 <div style="margin: 90px 30%;border-bottom: 1px solid #ddd"></div>
 

@@ -16,8 +16,8 @@ description: "Do you need a smart tool to cleanup Docker images after a new depl
 image: "docker.png"
 ---
 
-[Docker Vacuum](https://hub.docker.com/r/marcopeg/docker-vacuum) is a small devop 
-utility that runs on your production server as a container and 
+[Docker Vacuum](https://hub.docker.com/r/marcopeg/docker-vacuum) is a small devop
+utility that runs on your production server as a container and
 **keeps disk usage under control**.
 
 Vacuum prunes the system every now and then (10 minutes by default) and applies
@@ -25,8 +25,8 @@ your custom rules so to remove unused images with date based retention.
 
 > You are right, there is `docker system prune --volumes --force [--all]`!
 
-But guess what? It wasn't quite enough for me because I want to 
-**keep the last _N_ images on my server so I can quickly revert** 
+But guess what? It wasn't quite enough for me because I want to
+**keep the last _N_ images on my server so I can quickly revert**
 in case shit hits the fan. Plus I don't want to risk deleting resources that are
 needed by paused containers.
 
@@ -102,8 +102,8 @@ In that scenario I have a Git repository set up and my deployment script looks l
     docker-compose build
     docker-compose up -d
 
-Which is enough to create fresh images out of new code and rotate the containers. 
-The problem here is that building and building will generate a lot of dangling 
+Which is enough to create fresh images out of new code and rotate the containers.
+The problem here is that building and building will generate a lot of dangling
 and outdated images. Again, disck space might be a problem.
 
 **If you had just one project on my server** you could safely run:
@@ -121,7 +121,7 @@ images based on your custom rules.
 
 ## Feedback is Appreciated
 
-Thank you for reading this far!  
+Thank you for reading this far!
 I appreciate it.
 
 A good way to show you liked it is to **give me a thumb up, a clap or a comment**.
