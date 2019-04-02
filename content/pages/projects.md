@@ -72,6 +72,8 @@ ReactSSR is an NPM module that makes it quite easy to kick off a Universal React
 
 ## gatsby-deploy
 
+A Docker based automation tool to build a Gatsby project with hooks.
+
 **NOTE:** super early stage
 
 <div style="margin: 90px 30%;border-bottom: 1px solid #ddd"></div>
