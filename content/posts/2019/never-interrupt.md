@@ -1,5 +1,5 @@
 ---
-title: never interrupt your enemy when he is making a mistake
+title: "never interrupt your enemy when he is making a mistake"
 date: "2019-04-08T13:46:37.121Z"
 template: "post"
 draft: false
@@ -24,7 +24,7 @@ and **it took the greatest part of my life** to finally get to understand the de
 
 Many books refers to it as **active listening**, but I would really you to focus on the word **CAREFULLY**.
 
-It literally means **full of care**. It implies that your involvement in the converstation is definelty not
+It literally means **full of care**. It implies that your involvement in the conversation is definitely not
 passive. It is active, hence the _active listening_.
 
 It is active because you are deeply interested in getting anything that your partner is saying, so to
@@ -37,15 +37,15 @@ but **it becomes paramount when your are talking with an opponent**.
 
 In that case you are probably defending your point of view, and your partner is working hard to make her point.
 
-As long each of you is only busy defending their point, there is hardly going to be a winner or a looser.
+As long each of you is only busy defending your point, there is hardly going to be a winner or a loser.
 **You guys are just stalling**, and you can maybe win just by weary out the other guy.
 
 This is very tiresome and inefficient. But the good news is that by listening carefully you can
-**outwit your oppent by questining on her own points**.
+**outwit your opponent by questioning on her own points**.
 
 ## Questions are Key
 
-There are no ways you can convince me that the Earth is a big ball, when I'm steady on my ideas
+There are no ways you can convince me that the Earth is a big ball, when I'm steady on my idea
 that it's flat and a big wall made of ice circle it to protect us. No way.
 
 Mark Twain used to say: "Never argue with an idiot. They will drag you down to their
