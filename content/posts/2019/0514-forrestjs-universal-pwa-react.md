@@ -1,5 +1,5 @@
 ---
-title: ForrestJS
+title: ForrestJS - Universal React
 date: "2019-05-14T08:46:37.121Z"
 template: "post"
 draft: false
@@ -10,34 +10,39 @@ tags:
   - "react"
   - "pwa"
   - "universal"
-description: "Create your Universal PWA in React / ExpressJS / GraphQL. With ForrestJS it's easy and fast. In this first tutorial we'll get you up and running in 5 minutes."
+description: "Create your Universal PWA in React / ExpressJS / GraphQL. With ForrestJS it's easy and fast.
+In this first tutorial we'll get you up and running in 27 seconds!"
 image: "react.svg"
 ---
 
 [ForrestJS](https://forrestjs.github.io) provides a set of utilities and starter kits inspired by GatsbyJS, but with the purpose
 of **creating Universal PWAs that can run on server, browser and Cordova** native wrappers within the same codebase.
 
-But it's easier done that explained. Open your terminal (we tested this on a Mac) and type:
+But it's easier done that explained.
+
+Open your terminal (we tested this on a Mac so far) and type:
 
     npx forrest run my-project
 
-In a few minutes you should have a service running on port 8080:
+In less than a minute (it depends on your machine and connectivity) you should have a service running on port 8080:
 
     http://localhost:8080
 
 And it should be equivalent to the demo that is hosted on Heroku:
-
-    https://forrest-starter-universal.herokuapp.com/
+https://forrest-starter-universal.herokuapp.com/
 
 <div style="margin-top: 80px"></div>
 
-## Project Overview
+## The Universal Starter Kit
 
 Digging into the newly created project (`cd ./my-project`) we can see that **the folder structure is an
-extension of Create React App**. In fact this project has been created out of the default starter kit 
-called [starter-universal](http://github.com/forrestjs/starter-universal).
+extension of Create React App**.
 
-This starter puts together a good amount of tools:
+In fact this project has been created out of the default starter kit called
+[starter-universal](http://github.com/forrestjs/starter-universal):
+**if you are familiar with CRA, then you can build on ForrestJS!**
+
+Here is a brief list of what comes just out of the box:
 
 - React
 - Redux
@@ -54,27 +59,77 @@ This starter puts together a good amount of tools:
 - Gitbook
 - Development and Production scripts
 - Dockerfile (run the app as container)
+- **Helper scripts to run your app for free on Heroku**
+- Makefile to run 'em all
 
-We feel it is a solid starting point for any web project, but at its core it is still a CRA project.
+I feel **this is a solid starting point for any web project**, but at its core it is still a CRA project.
 So if you ever used Create React App, you know how to deal with it.
 
 <div style="margin-top: 80px"></div>
 
-## Development Mode
+## Other Starter Kits
 
-The easiest way to start the project in development mode is through the `package.json` script `start`:
+**We borrowed the concept of a _STARTER KIT_ from GatsbyJS** (more about it later). A starter is nothing more
+than a Git repository that function as a foundation for a specific type of project.
 
-    yarn start
+When you type `npm forrest run xxx` you are going to use the default
+[forrest-starter-universal](https://github.com/forrestjs/starter-universal#forrest-starter-universal),
+which is just a starter hosted on GitHub that I'm personally developing and curating.
 
-This starts the CRA's Development Server on port 3000 and the backend service on port 8080. The CRA app
-is automatically proxied to the backend for api calls.
+More default starters will come as part of the default ForrestJS distribution, but the thing is that
+**you can build your own starter** and host it on GitHub. When you want to kick off a new project based
+on your own starter just run:
 
-Try to open `src/App.js` and hack stuff around, you can tell this is Create React App... **but hot module reload is
-up and running!**
+    npx forrest run project-name -t @username/repository
 
+(At the moment the CLI assumes you host your stuff on GitHub, we have plans to make it more generic
+so to support GitLab and any kind of url).
 
+<div style="margin-top: 80px"></div>
 
+## On the Shoulders of Giants
 
+It should be quite obvious so far that I like Create React App (well, [at least the extensible version
+provided by react-scripts-rewired](https://www.npmjs.com/package/react-scripts-rewired)), but it is not
+the only great project that I took inspiration from!
 
+### GatsbyJS
+
+[GatsbyJS](https://gatsbyjs.org) is a wonderful **static site builder**
+([this blog is based on it](/2019/free-website-with-gatsby-and-gitpod)) that allows you to start a new
+React website in minutes and host it on GitHub for free.
+
+GatsbyJS is produced by the guys behind [Netlify](https://www.netlify.com) and it is
+the open source component of their commercial offering.
+
+ForrestJS project's structure is heavily inspired by GastbyJS as I use a monorepo the way they do
+(we both use [Lerna](https://lerna.js.org/) to handle it), and I definetly borrowed the concept of a
+**starter kit** from Gatsby.
+
+Whek, it works wonders for them, it will work wonders for ForrestJS!
+
+### NextJS
+
+[NextJS](https://nextjs.org) offers an incredible smooth experiece in building server side rendered websites.
+
+NextJS is produced by the guys behind [Now.sh](https://zeit.co/now) and it is the open source component of
+their commercial offering. You can build on NextJS and hosting for free on a pure serverless environment
+with Now.sh (well, "free" in sense of "free beer" if you can share that beer with anyone else).
+
+Unfortunately NextJS is limited to the web platform only and their Server Side Rendering can not be opted out.
+Plus there are some performance issues due to their hard routing choices bound to the serverless... Long story
+short **I believe NextJS is great for a website, but not for a PWA**.
+
+Anyway, they have a wonderful developer onboarding experience that I aim to mimic in ForrestJS.
+
+<div style="margin-top: 80px"></div>
+
+## Roadmap
+
+Looking ahead I aim to curate the documentation as much as my schedule allows, review Pull Requests from all
+of you contributors, and write some more step-by-step articles here on my blog.
+
+**PLEASE CONSIDER:**<br>
+Your feedback is the most important Component for this project!
 
 
