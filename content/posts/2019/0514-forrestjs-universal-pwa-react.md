@@ -23,6 +23,8 @@ In this first tutorial we'll get you up and running in 27 seconds!"
 image: "react.svg"
 ---
 
+![Forrest Gump Point](./media/forrest-gump-point.jpeg)
+
 [ForrestJS](https://forrestjs.github.io) provides a set of utilities and starter kits inspired by GatsbyJS, but with the purpose
 of **creating Universal PWAs that can run on server, browser and Cordova** native wrappers within the same codebase.
 
