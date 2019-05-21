@@ -75,11 +75,11 @@ In order to implement SSR with ForrestJS you are going to need 3 things:
 
 1. A Sever-Side entry point for your App
 2. A NodeJS server - we'll use ExpressJS
-3. Some @babel support for our server side code (I love ES6, you?)
+3. Some @babel support for our server-side code (I love ES6, you?)
 
 ### Server-Side Entry Point
 
-Create the App's server side entry point:
+Create the App's server-side entry point:
 
 ```bash
 vi src/index.ssr.js
@@ -162,13 +162,13 @@ server-side rendered. You can look at the page's source and spot some content wi
 This is going to be a hell of an improvement if you are targeting Google's bot as a steady
 visitor of your website/PWA.
 
-In the next lesson you are going to **fix some headers** and **add some routes**.
+In the next lesson, you are going to **fix some headers** and **add some routes**.
 
 ## (*) react-scripts-rewired
 
 Most of the examples work with the default setup, but when it comes to
 the **server side rendering of an application that implements code splitting** with
-[react-loadable](https://github.com/jamiebuilds/react-loadable) you are goint to
+[react-loadable](https://github.com/jamiebuilds/react-loadable) you are going to
 need to make a small fix to the default [Webpack](https://webpack.js.org/) configuration.
 
 I usually use [react-scripts-rewired](https://www.npmjs.com/package/react-scripts-rewired)
