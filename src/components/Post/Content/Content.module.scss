@@ -20,6 +20,15 @@
         @include margin-bottom(0)
     }
     &__body {
+        & > h2 {
+            margin-top: 80px;
+        }
+        & div:global(.gatsby-highlight) pre {
+            background-color: #eee;
+        }
+        & p + div:global(.gatsby-highlight) {
+            margin-top: -15px;
+        }
         & figure {
             @include margin-bottom(1);
             & blockquote {
@@ -38,6 +47,13 @@
         }
         & a {
             text-decoration: underline
+        }
+        & blockquote {
+            text-align: left;
+            font-size: 0.9em;
+        }
+        & div:global(.gatsby-highlight) + blockquote {
+            margin-top: 20px;
         }
         & *:not(div) {
             width: 100%;
