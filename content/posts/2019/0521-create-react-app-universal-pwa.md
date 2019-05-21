@@ -55,7 +55,7 @@ Now install some `ForrestJS` modules:<br>
 ## About NPM Scripts
 
 So far we just installed dependencies so the basic _package.json scripts_ that were created
-by `create-react-app` are in place with their default behaviour.
+by `create-react-app` are in place with their default behavior.
 
 **This will not change during the course of this tutorial :-)**
 
