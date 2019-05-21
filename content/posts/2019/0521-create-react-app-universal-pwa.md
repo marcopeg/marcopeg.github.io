@@ -20,6 +20,8 @@ description: "In this step-by-step tutorial you are going to kick off a new Crea
 image: "forrestjs.png"
 ---
 
+![Create React App PWA with ForrestJS](./media/create-react-app-pwa-forrestjs.png)
+
 In this step-by-step tutorial you are going to take a
 [Create React App (CRA)](https://facebook.github.io/create-react-app/)
 app, and turn it into a fully featured
