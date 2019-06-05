@@ -55,6 +55,7 @@ Then copy this [_Hooks_](https://marcopeg.com/2019/modular-node-apps-with-hooks)
 
 ```js
 const { runHookApp } = require('@forrestjs/hooks')
+
 runHookApp([ /* features go here */ ])
 ```
 
@@ -65,16 +66,17 @@ NODE_ENV=development npx nodemon index.js
 ```
 
 You might notice that... _nothing happens!_ 🤔<br>
-That's right, this is just an empty Hooks based app.
+That's right, this is just an empty Hooks based app - for now - but we are about to turn this
+into a working server with a _GraphQL_ enabled endpoint.
 
-**NOTE:** It is quite important to set `NODE_ENV=development` to have some cool stuff
-available later in the tutorial. Stick with it for now.
+> 📌<br>It is quite important to set `NODE_ENV=development` to have some cool stuff
+> available later in the tutorial. Stick with it for now.
 
 ## Step n.2 - Add ExpressJS Service
 
-Running an ExpressJS on ForrestJS is a really easy task.
+Running an _ExpressJS_ on _ForrestJS_ it's easier done than said.
 
-> If you want a better explanation of what we are about to do,<br>
+> 📌<br>you want a better explanation of what we are about to do,<br>
 > you may want to [checkout the _Hooks_ tutorial](https://marcopeg.com/2019/modular-node-apps-with-hooks) first.
 
 First install the service package:
@@ -95,16 +97,18 @@ Run the app again and we notice that some kind onf service is up and running on 
 
 ![hooks-graphql-express-console](./media/hooks-graphql-express-console.png)
 
-But if you try to navigate to `http://localhost:8080` you'll face bad luck:
+🤔 But if you try to navigate to `http://localhost:8080` you'll face bad luck:
 
 ![hooks-graphql-express-entrypoint](./media/hooks-graphql-express-entrypoint.png)
 
-That is because `@forrestjs/service-express` creates an ExpressJS app for you all right,
+That is because `@forrestjs/service-express` creates an _ExpressJS_ app for you all right,
 but it doesn't provide any route route to it.
+
+> You are in charge of your business logic!
 
 ### 2b - Add your first route
 
-It is up to you to create a custom feature and implement some your business logic,
+It is up to you to **create a custom feature** and implement some your business logic,
 here follows a super short tutorial **how to create your first route**.
 
 First let's create a new _NodeJS_ module where to place this piece of logic:
@@ -144,7 +148,7 @@ move into _GraphQL_ service.
 
 ## Step n.3 - Add GraphQL
 
-I guess you got the drill by now... Let' first install the _ForrestJS_'s package:
+I guess you got the hang of it... Let' first install the _ForrestJS_'s package:
 
 ```bash
 yarn add @forrestjs/service-express-graphql
@@ -172,13 +176,13 @@ Things start to look quite juicy now:
 
 ![hooks-graphql-info](./media/hooks-graphql-info.png)
 
-`@forrestjs/service-express-graphq` does a couple of things just out of the box:
+The package `@forrestjs/service-express-graphq` does a couple of things just out of the box:
 
 1. it mounts [`express-graphql`](https://github.com/graphql/express-graphql) on the `/api` route in your _ExpressJS_ service
 2. activates _GraphiQL_ UI in develpment (that's why `NODE_ENV=development`)
-3. it provides an `info` query and mutation (but you can override it of course)
+3. it provides an `info` _query_ and _mutation_ <br><small>(that you can of course override)</small>
 
-> As with everything in _ForrestJS_, most of the default behaviours are fully configurable
+> 📌<br>As with everything in _ForrestJS_, most of the default behaviours are fully configurable
 > via the App's configuration or _Environment Variables_.
 
 ## Step n.4 - Add your own Queries and Mutations
@@ -186,9 +190,12 @@ Things start to look quite juicy now:
 There are plenty of _GraphQL_ tutorials out there, so here we will focus in writing
 a simple query that shows how to use the `EXPRESS_GRAPHQL` hook.
 
-First create a new _Hooks Feature_ where to implement the query,
-just because it is nice to keep an eye on the
-[_Single Responsibility Principle_](https://en.wikipedia.org/wiki/Single_responsibility_principle) 😏
+First create a new _Hooks Feature_ where to implement the query
+
+> 📌<br>
+> I often suggest to **package your stuff as Hooks Features** as they will become easier to reuse,
+> plus you will keep improving on the subject of
+> [_Single Responsibility Principle_](https://en.wikipedia.org/wiki/Single_responsibility_principle) 😏
 
 ```bash
 vi welcome.query.js
