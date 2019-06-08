@@ -1,5 +1,5 @@
 ---
-title: GraphQL made easy with Hooks
+title: GraphQL - Made Easy
 date: "2019-06-05T08:47:37.121Z"
 template: "post"
 draft: false
@@ -13,8 +13,8 @@ tags:
   - "nodejs"
   - "graphql"
   - "query"
-description: "How to serve a GraphQL endpoint in 5 minutes using ForrestJS and Hooks."
-image: "forrestjs.png"
+description: "How to integrate GraphQL into an ExpressJS app with ForrestJS"
+image: "graphql-icon.png"
 ---
 
 Facebook's crew didn't only come up with [React](https://reactjs.org/) and
@@ -42,6 +42,8 @@ in NodeJS, using [ExpressJS](https://expressjs.com/) and [ForrestJS' Hooks](http
 
 > If you just want to see this in action, [download this tutorial codebase here](https://forrestjs.github.io/downloads/hooks-graphql.zip),<br>
 > then run `yarn boot`.
+
+![GraphQL](./media/graphql.png)
 
 ## Step n.1 - Create a Hooks App
 
@@ -208,7 +210,7 @@ And paste this code in it:
 const { EXPRESS_GRAPHQL } = require('@forrestjs/service-express-graphql')
 const { GraphQLList, GraphQLString } = require('graphql')
 
-const welcomeHandler = (_, args, { req }) => [
+const welcomeHandler = (_, args, req) => [
     `Welcome, ${args.name}!`,
     req.protocol + '://' + req.get('host') + req.originalUrl,
 ]
