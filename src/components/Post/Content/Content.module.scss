@@ -52,8 +52,15 @@
             text-align: left;
             font-size: 0.9em;
         }
-        & div:global(.gatsby-highlight) + blockquote {
+        & div:global(.gatsby-highlight) + blockquote,
+        & div:global(.gatsby-highlight) + p {
             margin-top: 20px;
+        }
+
+        & div:global(.gatsby-highlight) + h1,
+        & div:global(.gatsby-highlight) + h2,
+        & div:global(.gatsby-highlight) + h3 {
+            margin-top: 50px;
         }
         & *:not(div) {
             width: 100%;
