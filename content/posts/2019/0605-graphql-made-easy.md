@@ -292,3 +292,6 @@ You now have all the basics components to play around with your ExpressJS app an
 
 Can you build a **simple authentication system** so that a mutation will give you access
 to some protected queries?
+
+[Click here if you can't wait to play around with the Authentication layer](https://marcopeg.com/2019/simple-auth-in-graphql)
+

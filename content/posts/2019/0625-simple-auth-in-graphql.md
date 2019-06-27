@@ -265,24 +265,7 @@ reusable we are going to:
 - split responsibilities into isolated modules
 - create some exension points (hooks)
 
-### Step n.1 - Isolate "canAccessAuth"
-
-The function `canAccessAuth()` is the core of this feature, she has the responsibility filter
-incoming requests. She really deserves our attention (and probably some testing later on!)
-
-```bash
-vi ./graphql-auth/can-access-auth.js
-```
-
-and paste:
-
-```js
-exports.canAccessAuth = () => true
-```
-
-Yes, for now we keep our dumb implementation. We are going to work on this function in the next chapter.
-
-### Step n.2 - Isolate "extendsGraphQLSchema"
+### Step n.1 - Isolate "extendsGraphQLSchema"
 
 Now we can really focus on the extensibility task. The first step is to create a new hook
 definition in `./graphql-auth/hooks.js` so that other features can import it:
@@ -296,7 +279,7 @@ exports.GRAPHQL_AUTH = `${this.FEATURE_NAME}/queries`
 then create the actual module:
 
 ```bash
-vi ./graphql-auth/extends-graphql-schema.js
+vi ./graphql-auth/graphql-schema.js
 ```
 
 and paste:
@@ -304,8 +287,10 @@ and paste:
 ```js
 const { createHook } = require('@forrestjs/hooks')
 const { GraphQLObjectType, GraphQLID } = require('graphql')
-const { canAccessAuth } = require('./can-access-auth')
 const { GRAPHQL_AUTH } = require('./hooks')
+
+// We will work on this very soon
+const canAccessAuth = () => true
 
 exports.extendsGraphQLSchema = ({
     queries: appQueries,
@@ -362,13 +347,13 @@ queries and mutations and don't know if any feature will actually register anyth
 applied to both queries and mutations. Plus we let any registered extension the possibility to
 extend it as they wish. This is actually a simple preparation step for the next chapter.
 
-### Step n.3 - Refactor the Entry Point
+### Step n.2 - Refactor the Entry Point
 
-With the modules that we wrote so far, the entry point becomes dramatically simple:
+With `graphql-schema` module isolated, the entry point becomes dramatically simple:
 
 ```js
 const { EXPRESS_GRAPHQL } = require('@forrestjs/service-express-graphql')
-const { extendsGraphQLSchema } = require('./extends-graphql-schema')
+const { extendsGraphQLSchema } = require('./graphql-schema')
 const { FEATURE_NAME } = require('./hooks')
 
 exports.register = ({ registerAction }) =>
@@ -382,7 +367,7 @@ exports.register = ({ registerAction }) =>
 > Mind that we will work some more on this file in order to hack into the _Express middlewares_
 > when we will implement a real protection business logic.
 
-### Step n.4 - Register the "getPersonalInfo" query
+### Step n.3 - Register the "getPersonalInfo" query
 
 I'm sure you will like this step.
 
@@ -440,11 +425,11 @@ as soon you remove this demo extension.
 
 ## Implement the Auth Business Logic
 
-It's finally time to play around the `canAccessAuth()` function. As we implemented it so far,
-this is going to be a standard GraphQL resolver:
+It's finally time to play around the `canAccessAuth()` function in `./graphql-auth/graphql-schema.js`,
+and refactor it into a standard GraphQL resolver:
 
 ```js
-exports.canAccessAuth = (_, args, { req }) =>
+const canAccessAuth = (_, args, { req }) =>
     req.authValidateToken(args) ? true : null
 ```
 
@@ -458,7 +443,7 @@ are about to write as the second extension of our `graphql-auth` feature.
 Create:
 
 ```bash
-vi ./graph-auth/express-middleware.js
+vi ./graph-auth/auth-middleware.js
 ```
 
 and paste:
@@ -638,10 +623,114 @@ throw errors if misused by extensions. It makes it for a very neat API.
 If you run the App with the latest implementation of `./graphql-auth/auth-middleware.js` you will
 surely notice that it crashes due to the missing `settings.authToken` or `process.env.GRAPHQL_AUTH_TOKEN`.
 
-We need to provide that information, and there are a couple of ways to achieve so.
+We need to provide that information, and here are a couple of ways to achieve so.
 
 ### App's Configuration
 
+The easiest approach is to provide a static piece of configuration in `./index.js`:
+
+```js
+registerAction({
+    hook: SETTINGS,
+    name: '♦ boot',
+    handler: ({ settings }) => {
+        settings.express = {
+            ...,
+            authToken: 'xxx',
+        }
+    },
+})
+```
+
+But, of course, we wouldn't really like to hard code values like that, so let's investigate a different approach.
+
 ### Runtime ENV Variable
 
-### ENV File
+We can provide the value at boot time:
+
+```bash
+GRAPHQL_AUTH_TOKEN=xxx yarn start
+```
+
+This way the token is highly dynamic, but we would need to remember it every time... which is suboptimal,
+to say the less.
+
+### ENV File to Rescue
+
+A common practice is to use `.env` files to list boot time environment variables. It really makes things easy for us.
+
+Our `.env` file looks like this:
+
+```bash
+vi .env
+```
+
+and paste:
+
+```bash
+GRAPHQL_AUTH_TOKEN=xxx
+ANOTHER_VAR=yyy
+YET_ANOTHER="hoho"
+```
+
+Now the big deal is **how to read this file** so that we could access the values as:
+
+```js
+process.env.GRAPHQL_AUTH_TOKEN
+```
+
+There are plenty of _NPM packages_ that help you in this task, but as we are using
+_ForrestJS_, we can simply add the `@forrestjs/service-env` that wraps one of those
+modules and integrates with `runHookApp()`:
+
+```bash
+yarn add @forrestjs/service-env
+```
+
+Then edit `./index.js` as:
+
+```js
+...
+runHookApp({
+    services: [
+        require('@forrestjs/service-env'),
+        require('@forrestjs/service-express'),
+        require('@forrestjs/service-express-graphql'),
+        require('./graphql-auth'),
+    ],
+    features: [
+        require('./home.route'),
+        require('./welcome.query'),
+        require('./get-personal-info.query'),
+    ],
+})
+```
+
+You notice that we split our extensions in two groups: `services` and `features`. We have introduced
+some notions about the differences between them, but at a very high level we can say that
+`services` can hook into extensions point that `features` can not.
+
+When it comes to the `service-env`, it can run some logic even before the `SETTINGS` hook fires up.
+
+The separation between `services` and `features` will also help you to clearify **what is really
+relevant for your project's business value**, and what is just infrastructural stuff.
+
+## Takeaways
+
+This was a long tutorial, I hope you survived to it! Anyway the relevant takeaways that you may
+want to explore in more details are:
+
+- how to create GraphQL Extensible Wrappers
+- how to delegate Business Logic outside the GraphQL layer
+- how to build extensible features / services by offering hooks
+
+## Download
+
+If you experienced any trouble following the steps above,
+[download this tutorial codebase here](https://forrestjs.github.io/downloads/graphql-auth.zip).
+
+## Challenge
+
+Can you create an extension to this feature that allows to **log-in** and persist the
+"logged in" status in a cookie?
+
