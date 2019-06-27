@@ -519,4 +519,129 @@ query BadQuery {
 }
 ```
 
-The first query should
+The first query should yeld the full response, the second should yeld `data.auth = null`.
+If this is the case, you are ready to move to the next chapter and work on this function
+some more so to make it versatile and extensibile.
+
+- Wouldn't be cool to authorize a request based on headers?
+- Wouldn't be cool to let a custom extension completely change the authorization logic?
+
+Spoiler alert: it is cool.
+
+## Make it a Service
+
+In ForrestJS's land there are **features** and **services**. They look like the same and
+you write them in the exact same way. So you already know how to build services.
+
+But they have a different meaning.
+
+A **FEATURE** is project specific and implements stuff that your customer (or yourself)
+are happy to pay for. It is also unusual that you will ever share a feature across
+two different projects.
+
+A **SERVICE** is totally general. Your customer doesn't want to pay for it and she likely
+doesn't understand anything of it (too abstract). You have already used some generic
+ForrestJS's services like `@forrestjs/service-express`. You also clearly want to share
+those kind of stuff across your projects. Services probably belong to _NPM_.
+
+In this chapter we will:
+
+- increase the capabilities of our Auth middleware
+- make it generic and extensible to the point that we are happy to call it a service
+
+It actually makes sense because we are simply building a "guarded wrapper" for GraphQL
+queries... What could be more generic than that?
+
+### An Extensible Middleware
+
+First thing let's add a new hook name to the service's manifest `./graphql-auth/hooks.js`:
+
+```js
+...
+exports.GRAPHQL_VALIDATE = `${this.FEATURE_NAME}/validate`
+```
+
+And then copy this slightly more sophisticated implementation of the middleware in
+`./graphql-auth/auth-middleware.js`:
+
+```js
+const { createHook } = require('@forrestjs/hooks')
+const { GRAPHQL_VALIDATE } = require('./hooks')
+
+exports.authMiddleware = ({ app, settings }) => {
+    // 1. Enforce settings and fail at boot time
+    const validToken = settings.authToken || process.env.GRAPHQL_AUTH_TOKEN
+    if (!validToken) {
+        throw new Error('You need to provide an "authToken" in the Express settings (settings.express.authToken = "xxx")')
+    }
+
+    // 2. Let other extensions mess up with the Business Logic
+    let validateRequest = null
+    let validateToken = null
+
+    createHook(GRAPHQL_VALIDATE, {
+        args: {
+            settings,
+            setValidateRequest: fn => validateRequest = fn,
+            setValidateToken: fn => validateToken = fn,
+        }
+    })
+
+    // 3. Provide a default Business Logic
+    validateRequest = validateRequest || (req => {
+        try {
+            req.authToken = req.headers.authorization.substr(7)
+            req.authTokenIsValid = req.authToken === validToken
+        } catch (err) {
+            req.authToken = null
+            req.authTokenIsValid = false
+        }
+    })
+
+    validateToken = validateToken || ((req, { token }) => {
+        if (token) {
+            req.authToken = token
+            req.authTokenIsValid = token === validToken
+        }
+        return req.authTokenIsValid
+    })
+
+    // 4. Create the middleware
+    app.use(async (req, res, next) => {
+        validateRequest(req)
+        req.authValidateToken = args => validateToken(req, args)
+        next()
+    })
+}
+```
+
+There are few interesting things going on here:
+
+**Point n.1:** Crash fast. If your feature or service depends on a setting or _environment variable_,
+it is good practice to **validate it at boot time**.
+
+> I've been through lot of hicups because of unvalidated settings that were used in some obscure
+> and seldom used corner cases.
+
+**Point n.2:** Let extensions take over. The trick is to provide extensions with "setter" functions
+that can be used to affect some internal logic. Those setters could implement some type check and
+throw errors if misused by extensions. It makes it for a very neat API.
+
+**Point n.3:** Provide a default business logic in case no extension register into this particular hook.
+
+**Point n.4:** Implement the _ExpressJS Middleware_. No big deal here, you know how to handle this.
+
+## Configuration Made Easy
+
+> this might become a standalone tutorial!
+
+If you run the App with the latest implementation of `./graphql-auth/auth-middleware.js` you will
+surely notice that it crashes due to the missing `settings.authToken` or `process.env.GRAPHQL_AUTH_TOKEN`.
+
+We need to provide that information, and there are a couple of ways to achieve so.
+
+### App's Configuration
+
+### Runtime ENV Variable
+
+### ENV File
