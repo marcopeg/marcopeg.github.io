@@ -123,12 +123,10 @@ vi home.route.js
 And paste this code into it:
 
 ```js
-const { EXPRESS_ROUTE } = require('@forrestjs/service-express')
+const routeHome = ({ registerRoute }) =>
+    registerRoute.get('/', (_, res) => res.send('Welcome!'))
 
-const routeHome = ({ app }) =>
-    app.get('/', (_, res) => res.send('Welcome!'))
-
-module.exports = [ EXPRESS_ROUTE, routeHome ]
+module.exports = [ '$EXPRESS_ROUTE', routeHome ]
 ```
 
 Believe it or not, this is a perfectly functional _ForrestJS_'s feature!
@@ -160,13 +158,13 @@ yarn add @forrestjs/service-express-graphql
 Then register it into your App:
 
 ```js
-...
+const { runHookApp } = require('@forrestjs/hooks')
 
 runHookApp([
-    ...
+    require('@forrestjs/service-express'),
     require('@forrestjs/service-express-graphql'),
+    require('./home.route'),
 ])
-
 ```
 
 This is still a very small codebase, but if you try to hit:
@@ -177,13 +175,17 @@ http://localhost:8080/api
 
 Things start to look quite juicy:
 
-![hooks-graphql-info](./media/hooks-graphql-info.png)
+![hooks-graphql-info](./media/hooks-graphql-empty.png)
+
+**NOTE:** Don't be alarmed by the error, that happens because ForrestJS´s
+GraphQL service does not provide any query out of the box. We are going to add
+the very first query in the next paragraph.
 
 The package `@forrestjs/service-express-graphq` does a couple of things just out of the box:
 
 1. it mounts [`express-graphql`](https://github.com/graphql/express-graphql) on the `/api` route in your _ExpressJS_ service
 2. activates _GraphiQL_ UI in development (that's why `NODE_ENV=development`)
-3. it provides an `info` _query_ and _mutation_ <br><small>(that you can of course override)</small>
+3. it provides a new hook `$EXPRESS_GRAPHQL` that you can use to add your queries
 
 > 📌<br>As with everything in _ForrestJS_, most of the default behaviours are fully configurable
 > via the App's configuration or _Environment Variables_.
@@ -191,14 +193,14 @@ The package `@forrestjs/service-express-graphq` does a couple of things just out
 ## Step n.4 - Add your own Queries and Mutations
 
 There are plenty of _GraphQL_ tutorials out there, so here we will focus on writing
-a simple query that shows how to use the `EXPRESS_GRAPHQL` hook.
-
-First, create a new _Hooks Feature_ where to implement the query
+a simple query that shows how to use the `$EXPRESS_GRAPHQL` hook.
 
 > 📌<br>
 > I often suggest to **package your stuff as Hooks Features** as they will become easier to reuse,
 > plus you will keep improving on the subject of
 > [_Single Responsibility Principle_](https://en.wikipedia.org/wiki/Single_responsibility_principle) 😏
+
+First, create a new _Feature_ and implement the `welcome` query:
 
 ```bash
 vi welcome.query.js
@@ -207,16 +209,15 @@ vi welcome.query.js
 And paste this code in it:
 
 ```js
-const { EXPRESS_GRAPHQL } = require('@forrestjs/service-express-graphql')
 const { GraphQLList, GraphQLString } = require('graphql')
 
-const welcomeHandler = (_, args, req) => [
+const welcomeQueryHandler = (_, args, { req }) => [
     `Welcome, ${args.name}!`,
     req.protocol + '://' + req.get('host') + req.originalUrl,
 ]
 
-const welcomeQuery = ({ queries }) =>
-    queries.welcome = {
+const welcomeQuery = ({ registerQuery }) =>
+    registerQuery('welcome', {
         description: 'Welcome the user',
         args: {
             name: {
@@ -225,19 +226,21 @@ const welcomeQuery = ({ queries }) =>
             },
         },
         type: new GraphQLList(GraphQLString),
-        resolve: welcomeHandler,
-    }
+        resolve: welcomeQueryHandler,
+    })
 
-module.exports = [ EXPRESS_GRAPHQL, welcomeQuery ]
+module.exports = [ '$EXPRESS_GRAPHQL', welcomeQuery ]
 ```
 
 Now it's just a matter of registering the new feature in your app:
 
 ```js
-...
+const { runHookApp } = require('@forrestjs/hooks')
 
 runHookApp([
-    ...
+    require('@forrestjs/service-express'),
+    require('@forrestjs/service-express-graphql'),
+    require('./home.route'),
     require('./welcome.query'),
 ])
 ```
@@ -253,7 +256,7 @@ _ExpressJS_' middleware. This comes in handy if you plan to have some middleware
 
 **NOTE n.2:** Most of the time I even split the query's definition from the query's
 implementation (the `resolve` function) into two separated modules. I do that mostly
-because of testability, but it time it turns our a very good practice.
+because of testability, but in time it turns our a very good practice.
 
 ## Configuration - How to change the Endpoint name
 
@@ -263,22 +266,18 @@ Here is how you can hook into the App's boot process and provide custom configur
 
 ```js
 const { runHookApp } = require('@forrestjs/hooks')
-const { registerAction, SETTINGS } = require('@forrestjs/hooks')
 
-registerAction([SETTINGS, ({ settings }) => {
-    settings.express = {
-        graphql: {
-            mountPoint: '/graphql',
-        },
-    }
-}])
-
-runHookApp([
-    require('@forrestjs/service-express'),
-    require('./home.route'),
-    require('@forrestjs/service-express-graphql'),
-    require('./welcome.query'),
-])
+runHookApp({
+    settings: ({ setConfig }) => {
+        setConfig('expressGraphql.mountPoint', '/graphql')
+    },
+    features: [
+        require('@forrestjs/service-express'),
+        require('@forrestjs/service-express-graphql'),
+        require('./home.route'),
+        require('./welcome.query'),
+    ]
+})
 ```
 
 ## Download
