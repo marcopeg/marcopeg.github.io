@@ -115,7 +115,7 @@ Javascript application.
 With the hooks you can refactor the code we wrote earlier into this:
 
 ```js
-const { runHookApp, createHook, START_SERVICES } = require('@forrestjs/hooks')
+const { runHookApp, createHook } = require('@forrestjs/hooks')
 
 // Infrastructure
 const expressService = () => {
@@ -139,9 +139,9 @@ const featureSum = ({ app }) =>
     })
 
 runHookApp([
-    [ START_SERVICES, expressService ],
+    [ '$START_SERVICES', expressService ],
     [ 'express', featureSum ],
-])
+]).catch(console.log)
 ```
 
 Although is a little bit longer, it enables a clear **separation of responsibilities**
@@ -157,20 +157,18 @@ As a matter of fact, _ForrestJS_ did exactly that:
 
 ```js
 const { runHookApp } = require('@forrestjs/hooks')
-const { EXPRESS_ROUTE, ...expressService } = require('@forrestjs/service-express')
 
-const featureSum = ({ app }) =>
-    app.get('/:p1/:p2', (req, res) => {
+const featureSum = ({ registerRoute }) =>
+    registerRoute.get('/:p1/:p2', (req, res) => {
         const { p1, p2 } = req.params
         const sum = Number(p1) + Number(p2)
         res.send(`${p1} + ${p2} = ${sum}`)
     })
 
 runHookApp([
-    expressService,
-    [ EXPRESS_ROUTE, featureSum ],
+    require('@forrestjs/service-express'),
+    [ '$EXPRESS_ROUTE', featureSum ],
 ])
-
 ```
 
 This is a perfectly viable NodeJS app that **focuses on implementing the business
@@ -196,8 +194,8 @@ const { runHookApp, traceBoot } = require('@forrestjs/hooks')
 
 runHookApp([
     traceBoot,
-    expressService,
-    [ EXPRESS_ROUTE, featureSum ],
+    require('@forrestjs/service-express'),
+    [ '$EXPRESS_ROUTE', featureSum ],
 ])
 ```
 
