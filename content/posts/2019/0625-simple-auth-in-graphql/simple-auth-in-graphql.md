@@ -16,16 +16,16 @@ tags:
   - "auth"
   - "authorization"
   - "authorization"
-description: "How to add an Authentication layer for your GraphQL API - At the end of this article you are able to authenticate GraphQL requests and protect your sensible queries."
+description: "How to add an Authentication layer for your GraphQL API - At the end of this article, you are able to authenticate GraphQL requests and protect your sensible queries."
 image: "graphql-icon.png"
 ---
 
-The official [GraphQL documentation](https://graphql.org/learn/authorization/) suggest to put the
+The official [GraphQL documentation](https://graphql.org/learn/authorization/) suggests putting the
 authentication & authorization logic in the **business layer** of your application, leaving the
 GraphQL completely unaware of it.
 
-While I agree to do not bloat the GraphQL layer with complex code, and totally vouch the idea of having
-a **single source of truth** in the _business layer_, I think we can meet half way and add some basic
+While I agree to do not bloat the GraphQL layer with a complex code and totally vouch for the idea of having
+a **single source of truth** in the _business layer_, I think we can meet halfway and add some basic
 mechanisms that will help to **protect our sensible queries and mutations** in a very simple fashion.
 
 Imagine you could write something like this:
@@ -43,10 +43,10 @@ query {
 ```
 
 The idea is that any query that we place inside the `auth` wrapper will be guarded by some
-authentication & authorization logic. If the user doesn't have the right to access `auth`,
+authentication & authorization logic. If the user doesn't have the right to access the `auth` wrapper,
 then none of the sub-queries will be ever executed.
 
-> I like to consider this approace a "High Order Components" applied to GraphQL.
+> I like to consider this approach a "High Order Components" applied to GraphQL.
 
 🤘Let's get started already!
 
@@ -84,28 +84,33 @@ const { FEATURE } = require('@forrestjs/hooks')
 exports.FEATURE_NAME = `${FEATURE} graphql-auth`
 ```
 
-The **feature's entry point** has the responsibility to to integrate
-with the rest of the application and extending it's capabilities.
+The **feature's entry point** has the responsibility to integrate
+with the rest of the application and extending its capabilities.
 
 Copy this into `./graphql-auth/index.js`:
 
 ```js
-const { EXPRESS_GRAPHQL } = require('@forrestjs/service-express-graphql')
-const { FEATURE_NAME } = require('./hooks')
+const hooks = require('./hooks')
 
 const extendsGraphQLSchema = () => {
     console.log('we will extend the GraphQL schema')
 }
 
-exports.register = ({ registerAction }) => {
+module.exports = ({ registerHook, registerAction }) => {
+    // Add any custom hooks into the App's context so that other features ca
+    // refer to them as "$HOOK_NAME" (we will use this later on)
+    registerHook(hooks)
+
+    // Register an action to the GraphQL service's hook
     registerAction({
-        hook: EXPRESS_GRAPHQL,
-        name: FEATURE_NAME,
+        hook: '$EXPRESS_GRAPHQL',
+        name: hooks.FEATURE_NAME,
         handler: extendsGraphQLSchema,
+    })
 }
 ```
 
-At last we can open our App's entry point (`index.js`) and **register the new feature**:
+At last, we can open our App's entry point (`index.js`) and **register the new feature**:
 
 ```js
 ...
@@ -123,15 +128,18 @@ Of course, the answer is _yes_!
 ## 🔔 bonus - How to add a Boot Trace
 
 As we are working with the main entry point I suggest we register a small Hooks utility that
-will help visualizing what is going on in our app at boot time:
+will help to visualize what is going on in our app at boot time:
 
 ```js
-const { FINISH, logBoot } = require('@forrestjs/hooks')
-registerAction([ FINISH, () => logBoot() ])
+...
+runHookApp({
+    trace: true,
+    settings: ({ setConfig }) => {
+...
 ```
 
 After your App restarts, you should be able to see the **hooks integration trace**, basically
-the logical tree of "what hooks into what":
+the logical tree of **what hooks into what**:
 
 ![boot trace](./media/graphql-auth-boot-trace.png)
 
@@ -144,10 +152,11 @@ You can read the row in the red box as:
 ## GraphQL Wrapper, what is it?
 
 We work now in `./graphql-auth/index.js` and play around with `extendsGraphQLSchema()` so to
-crate the `auth` wrapper as we have imagined it before:
+create the `auth` wrapper as we have imagined it before:
 
 ```js
 const { GraphQLObjectType, GraphQLString } = require('graphql')
+const hooks = require('./hooks')
 
 // Demo sub-query that provides some confidential informations:
 const getPersonalInfo = {
@@ -158,7 +167,10 @@ const getPersonalInfo = {
             surname: { type: GraphQLString },
         },
     }),
-    resolve: () => ({ name: 'Marco', surname: 'Pegoraro' })
+    resolve: () => ({
+        name: 'Marco',
+        surname: 'Pegoraro',
+    })
 }
 
 // GraphQL shape of the `auth` wrapper, here we can add the
@@ -174,12 +186,20 @@ const AuthQuery = new GraphQLObjectType({
 // --> This is the critical piece of logic! <--
 const canAccessAuth = () => true
 
-// Add the `auth` wrapper to the App's GraphQL schema:
-const extendsGraphQLSchema = ({ queries }) => {
-    queries.auth = {
+const extendsGraphQLSchema = ({ registerQuery }) => {
+    registerQuery('auth', {
         type: AuthQuery,
         resolve: canAccessAuth,
-    }
+    })
+}
+
+module.exports = ({ registerHook, registerAction }) => {
+    registerHook(hooks)
+    registerAction({
+        hook: '$EXPRESS_GRAPHQL',
+        name: hooks.FEATURE_NAME,
+        handler: extendsGraphQLSchema,
+    })
 }
 ```
 
@@ -230,30 +250,30 @@ and run the query again... Nothing! The whole `auth` returns just `null`:
 > 📌 By forcing a `null` value into a nullable GraphQL query, we force GraphQL to
 > **skip the resolution of any sub-query**.
 
-And this is our **simple strategy** that regulates the access to some critical queries!
+And this is our **simple strategy** that regulates access to some critical queries!
 
-#### ✅ Strenghts:
+#### ✅ Strengths:
 
-- queries inside `auth` don't need to implement any protection logic
-- `canAccessAuth` works like an _Express middleware_ which is a well known concept
-- it is possible to deep-nest more wrappers that implement fine grained data-access policies
+- queries nested inside the `auth` wrapper doesn't need to implement any protection logic
+- `canAccessAuth` works like an _Express middleware_ which is a widely adopted concept
+- it is possible to deep-nest more wrappers that implement fine-grained data-access policies
 
 #### 🔸Limitations:
 
 - only the access to `auth` is regulated, a more fine-grained regulation must be implemented
   query by query
-- you might not like the shape of the API, but this is personal
+- you might not like the shape of the API, but this is personal and I hope you like it anyway 😇
 
 
 
 ## PART II - Make it Reusable
 
-From now on, we will work on refining the code above and implement two important responsabilities:
+From now on, we will work on refining the code above and implement two important responsibilities:
 
 1. Make this "auth wrapper" extensible so that other features can register some protected routes
 2. Implement the `canAccessAuth` with some real (but still simple) protection mechanism
 
-So in the end the GraphQL crew were right, we will implement the authentication / authorization logic
+So, in the end, the GraphQL crew were right, we will implement the authentication/authorization logic
 in the business layer, but **we do abstract it away from most of our codebase** thanks to a simple GraphQL wrapper.
 
 ## Create an Extensible Feature
@@ -263,7 +283,7 @@ chances to produce some really reusable features. In order to make `graphql-auth
 reusable we are going to:
 
 - split responsibilities into isolated modules
-- create some exension points (hooks)
+- create some extension points (hooks)
 
 ### Step n.1 - Isolate "extendsGraphQLSchema"
 
@@ -273,7 +293,7 @@ definition in `./graphql-auth/hooks.js` so that other features can import it:
 ```js
 const { FEATURE } = require('@forrestjs/hooks')
 exports.FEATURE_NAME = `${FEATURE} graphql-auth`
-exports.GRAPHQL_AUTH = `${this.FEATURE_NAME}/queries`
+exports.GRAPHQL_AUTH = `${exports.FEATURE_NAME}/queries`
 ```
 
 then create the actual module:
@@ -285,17 +305,13 @@ vi ./graphql-auth/graphql-schema.js
 and paste:
 
 ```js
-const { createHook } = require('@forrestjs/hooks')
 const { GraphQLObjectType, GraphQLID } = require('graphql')
 const { GRAPHQL_AUTH } = require('./hooks')
 
 // We will work on this very soon
 const canAccessAuth = () => true
 
-exports.extendsGraphQLSchema = ({
-    queries: appQueries,
-    mutations: appMutations,
-}) => {
+exports.extendsGraphQLSchema = ({ registerQuery, registerMutation }, { createHook }) => {
     // Collect queries and mutations that needs session validation
     const queries = {}
     const mutations = {}
@@ -305,13 +321,20 @@ exports.extendsGraphQLSchema = ({
         }
     }
 
-    // Let other features integrate their own queries and mutations
+    // Let other features integrate their own queries and mutations.
+    // It is always a good idea to provide getters/setters to the extensions
+    // so to retain full control over the internal data structure:
     createHook(GRAPHQL_AUTH, {
-        args: { queries, mutations, args },
+        args: {
+            registerQuery: (name, def) => queries[name] = def,
+            registerMutation: (name, def) => mutations[name] = def,
+            setArg: (key, val) => args[key] = val,
+        },
     })
 
     // Extends the app's queries with the "auth" wrapper
-    Object.keys(queries).length && (appQueries.auth = {
+    // (only if at least one query was registered)
+    Object.keys(queries).length && registerQuery('auth', {
         args,
         type: new GraphQLObjectType({
             name: 'AuthQueryWrapper',
@@ -321,7 +344,8 @@ exports.extendsGraphQLSchema = ({
     })
 
     // Extends the app's mutations with the "auth" wrapper
-    Object.keys(mutations).length && (appMutations.auth = {
+    // (only if at least one mutation was registered)
+    Object.keys(mutations).length && registerMutation('auth', {
         args,
         type: new GraphQLObjectType({
             name: 'AuthMutationWrapper',
@@ -333,35 +357,34 @@ exports.extendsGraphQLSchema = ({
 ```
 
 The magic happens with the `createHook(GRAPHQL_AUTH, ...)` instruction. Here we pass down
-**a referenceto the local queries and mutations** so that other features can inject their
-own.
+**some setter methods** so that other features can inject their own queries, mutations, and arguments.
 
-The thing with the `Object.keys()...` is a simple conditional statement:
-
-GraphQL requires `GraphQLObjectType` to have at least one field. But we start with an empty set of
-queries and mutations and don't know if any feature will actually register anything in them.
+The thing with the `Object.keys()...` is a simple conditional statement: GraphQL requires `GraphQLObjectType`
+to have at least one field. But we start with an empty set of queries and mutations and don't know if any
+feature will actually register anything in them.
 
 > So we need to skip injecting the `auth` wrapper in case there are no sub-queries available.
 
 **NOTE:** You might have noticed that we create an **optional argument** `token` that is then
 applied to both queries and mutations. Plus we let any registered extension the possibility to
-extend it as they wish. This is actually a simple preparation step for the next chapter.
+extend the `args` as they wish. This is actually a simple preparation step for the next chapter.
 
 ### Step n.2 - Refactor the Entry Point
 
-With `graphql-schema` module isolated, the entry point becomes dramatically simple:
+Now that we have the `graphql-schema` module, the entry point becomes dramatically simple:
 
 ```js
-const { EXPRESS_GRAPHQL } = require('@forrestjs/service-express-graphql')
-const { extendsGraphQLSchema } = require('./graphql-schema')
-const { FEATURE_NAME } = require('./hooks')
+const hooks = require('./hooks')
+const { extendsGraphQLSchema } = require('./graphql-schema')
 
-exports.register = ({ registerAction }) =>
+module.exports = ({ registerHook, registerAction }) => {
+    registerHook(hooks)
     registerAction({
-        hook: EXPRESS_GRAPHQL,
-        name: FEATURE_NAME,
+        hook: '$EXPRESS_GRAPHQL',
+        name: hooks.FEATURE_NAME,
         handler: extendsGraphQLSchema,
     })
+}
 ```
 
 > Mind that we will work some more on this file in order to hack into the _Express middlewares_
@@ -385,26 +408,31 @@ then paste:
 
 ```js
 const { GraphQLObjectType, GraphQLString } = require('graphql')
-const { GRAPHQL_AUTH } = require('./graphql-auth/hooks')
 
+// Fake resolver, this should connect to some dbms and fetch
+// very sensible data!
 const resolve = () => ({
     name: 'Marco',
     surname: 'Pegoraro',
 })
 
-const getPersonalInfo = ({ queries }) =>
-    queries.getPersonalInfo = {
-        type: new GraphQLObjectType({
-            name: 'PersonalInfo',
-            fields: {
-                name: { type: GraphQLString },
-                surname: { type: GraphQLString },
-            },
-        }),
-        resolve,
-    }
+// Shape the GraphQL Type for our sensible data:
+const GraphQLPesonalInfo = new GraphQLObjectType({
+    name: 'PersonalInfo',
+    fields: {
+        name: { type: GraphQLString },
+        surname: { type: GraphQLString },
+    },
+})
 
-module.exports = [ GRAPHQL_AUTH, getPersonalInfo ]
+// Register the sensible query into the "auth" hook:
+module.exports = [
+    '$GRAPHQL_AUTH',
+    ({ registerQuery }) => registerQuery('getPersonalInfo', {
+        type: GraphQLPesonalInfo,
+        resolve,
+    }),
+]
 ```
 
 And register the extension into `./index.js`:
@@ -420,7 +448,13 @@ runHookApp([
 
 I encourage you to play and toggle the `require('./get-personal-info.query')` instruction and
 investigate the GraphQLi docs, so to notice that the whole `auth` wrapper will disappear
-as soon you remove this demo extension.
+as soon as you remove this demo extension.
+
+If everything works then **you have just created your first extensible feature** (or is it a service?)
+and a custom implementation of your own hook!
+
+Congrats 👍
+
 
 
 ## Implement the Auth Business Logic
@@ -456,38 +490,40 @@ exports.authMiddleware = () => {}
 then register this extension right away in `./graphql-auth/index.js`:
 
 ```js
-const { EXPRESS_MIDDLEWARE } = require('@forrestjs/service-express')
+const hooks = require('./hooks')
+const { extendsGraphQLSchema } = require('./graphql-schema')
 const { authMiddleware } = require('./auth-middleware')
 
-...
-
-exports.register = ({ registerAction }) => {
-    ...
-
-    // Inject the proper Business Logic into the Exrpress App
+module.exports = ({ registerHook, registerAction }) => {
+    registerHook(hooks)
     registerAction({
-        hook: EXPRESS_MIDDLEWARE,
-        name: FEATURE_NAME,
+        hook: '$EXPRESS_GRAPHQL',
+        name: hooks.FEATURE_NAME,
+        handler: extendsGraphQLSchema,
+    })
+    registerAction({
+        hook: '$EXPRESS_GRAPHQL_MIDDLEWARE',
+        name: hooks.FEATURE_NAME,
         handler: authMiddleware,
     })
 }
 ```
 
-As we see this extension hooks into `EXPRESS_MIDDLEWARE`, which gives us a reference to the
-Express App's instance, plus a reference to any App settings concerning Express.
+As we see this extension hooks into `EXPRESS_GRAPHQL_MIDDLEWARE`, which gives us a helper
+function that let us push a new middleware into the GraphQL's mountPoint route.
 
 We can now focus on the middleware implementation:
 
 ```js
-exports.authMiddleware = ({ app }) =>
-    app.use(async (req, res, next) => {
+exports.authMiddleware = ({ registerMiddleware }) =>
+    registerMiddleware((req, res, next) => {
         req.authValidateToken = args => args.token === 'xxx'
         next()
     })
 ```
 
-This is just a first static implementation. The "password" is hard coded and this solution
-is definelty not extensible. We are going to improve this soon enough, but for now why don't
+This is just a first static implementation. The "password" is hardcoded and this solution
+is definitely not extensible. We are going to improve this soon enough, but for now, why don't
 you try to run those queries:
 
 ```gql
@@ -504,30 +540,30 @@ query BadQuery {
 }
 ```
 
-The first query should yeld the full response, the second should yeld `data.auth = null`.
+The first query should yield the full response, the second should yield `data.auth = null`.
 If this is the case, you are ready to move to the next chapter and work on this function
-some more so to make it versatile and extensibile.
+some more so to make it versatile and extensible.
 
 - Wouldn't be cool to authorize a request based on headers?
 - Wouldn't be cool to let a custom extension completely change the authorization logic?
 
-Spoiler alert: it is cool.
+Spoiler alert: _it is cool_.
 
 ## Make it a Service
 
-In ForrestJS's land there are **features** and **services**. They look like the same and
+In ForrestJS's land, there are **features** and **services**. They look like the same and
 you write them in the exact same way. So you already know how to build services.
 
 But they have a different meaning.
 
-A **FEATURE** is project specific and implements stuff that your customer (or yourself)
+A **FEATURE** is project-specific and implements stuff that your customer (or yourself)
 are happy to pay for. It is also unusual that you will ever share a feature across
 two different projects.
 
 A **SERVICE** is totally general. Your customer doesn't want to pay for it and she likely
 doesn't understand anything of it (too abstract). You have already used some generic
 ForrestJS's services like `@forrestjs/service-express`. You also clearly want to share
-those kind of stuff across your projects. Services probably belong to _NPM_.
+those kinds of stuff across your projects. Services probably belong to _NPM_.
 
 In this chapter we will:
 
@@ -543,33 +579,26 @@ First thing let's add a new hook name to the service's manifest `./graphql-auth/
 
 ```js
 ...
-exports.GRAPHQL_VALIDATE = `${this.FEATURE_NAME}/validate`
+exports.GRAPHQL_VALIDATE = `${exports.FEATURE_NAME}/validate`
 ```
 
 And then copy this slightly more sophisticated implementation of the middleware in
 `./graphql-auth/auth-middleware.js`:
 
 ```js
-const { createHook } = require('@forrestjs/hooks')
-const { GRAPHQL_VALIDATE } = require('./hooks')
+const hooks = require('./hooks')
 
-exports.authMiddleware = ({ app, settings }) => {
+exports.authMiddleware = ({ registerMiddleware }, { getConfig, createHook }) => {
     // 1. Enforce settings and fail at boot time
-    const validToken = settings.authToken || process.env.GRAPHQL_AUTH_TOKEN
-    if (!validToken) {
-        throw new Error('You need to provide an "authToken" in the Express settings (settings.express.authToken = "xxx")')
-    }
+    const validToken = getConfig('authToken', process.env.GRAPHQL_AUTH_TOKEN)
 
     // 2. Let other extensions mess up with the Business Logic
     let validateRequest = null
     let validateToken = null
 
-    createHook(GRAPHQL_VALIDATE, {
-        args: {
-            settings,
-            setValidateRequest: fn => validateRequest = fn,
-            setValidateToken: fn => validateToken = fn,
-        }
+    createHook.sync(hooks.GRAPHQL_VALIDATE, {
+        setValidateRequest: fn => validateRequest = fn,
+        setValidateToken: fn => validateToken = fn,
     })
 
     // 3. Provide a default Business Logic
@@ -592,7 +621,7 @@ exports.authMiddleware = ({ app, settings }) => {
     })
 
     // 4. Create the middleware
-    app.use(async (req, res, next) => {
+    registerMiddleware((req, res, next) => {
         validateRequest(req)
         req.authValidateToken = args => validateToken(req, args)
         next()
@@ -600,7 +629,7 @@ exports.authMiddleware = ({ app, settings }) => {
 }
 ```
 
-There are few interesting things going on here:
+There are a few interesting things going on here:
 
 **Point n.1:** Crash fast. If your feature or service depends on a setting or _environment variable_,
 it is good practice to **validate it at boot time**.
@@ -608,11 +637,14 @@ it is good practice to **validate it at boot time**.
 > I've been through lot of hicups because of unvalidated settings that were used in some obscure
 > and seldom used corner cases.
 
+The function `getConfig()` is part of the `createHooksApp()` context and provides a simple interface
+for accessing configuration values.
+
 **Point n.2:** Let extensions take over. The trick is to provide extensions with "setter" functions
 that can be used to affect some internal logic. Those setters could implement some type check and
 throw errors if misused by extensions. It makes it for a very neat API.
 
-**Point n.3:** Provide a default business logic in case no extension register into this particular hook.
+**Point n.3:** Provide a default business logic in case of no extension register into this particular hook.
 
 **Point n.4:** Implement the _ExpressJS Middleware_. No big deal here, you know how to handle this.
 
@@ -629,24 +661,22 @@ We need to provide that information, and here are a couple of ways to achieve so
 
 The easiest approach is to provide a static piece of configuration in `./index.js`:
 
-```js
-registerAction({
-    hook: SETTINGS,
-    name: '♦ boot',
-    handler: ({ settings }) => {
-        settings.express = {
-            ...,
-            authToken: 'xxx',
-        }
+```json
+...
+runHookApp({
+    trace: true,
+    settings: ({ setConfig }) => {
+        setConfig('expressGraphql.mountPoint', '/graphql')
+        setConfig('authToken', 'xxx')
     },
-})
+...
 ```
 
 But, of course, we wouldn't really like to hard code values like that, so let's investigate a different approach.
 
 ### Runtime ENV Variable
 
-We can provide the value at boot time:
+We can provide the value at boot-time:
 
 ```bash
 GRAPHQL_AUTH_TOKEN=xxx yarn start
@@ -657,7 +687,7 @@ to say the less.
 
 ### ENV File to Rescue
 
-A common practice is to use `.env` files to list boot time environment variables. It really makes things easy for us.
+A common practice is to use `.env` files to list boot-time environment variables. It really makes things easy for us.
 
 Our `.env` file looks like this:
 
@@ -690,8 +720,13 @@ yarn add @forrestjs/service-env
 Then edit `./index.js` as:
 
 ```js
-...
+const { runHookApp } = require('@forrestjs/hooks')
+
 runHookApp({
+    trace: true,
+    settings: ({ setConfig }) => {
+        setConfig('expressGraphql.mountPoint', '/graphql')
+    },
     services: [
         require('@forrestjs/service-env'),
         require('@forrestjs/service-express'),
@@ -702,35 +737,35 @@ runHookApp({
         require('./home.route'),
         require('./welcome.query'),
         require('./get-personal-info.query'),
-    ],
+    ]
 })
 ```
 
-You notice that we split our extensions in two groups: `services` and `features`. We have introduced
+You notice that we split our extensions into two groups: `services` and `features`. We have introduced
 some notions about the differences between them, but at a very high level we can say that
 `services` can hook into extensions point that `features` can not.
 
 When it comes to the `service-env`, it can run some logic even before the `SETTINGS` hook fires up.
 
-The separation between `services` and `features` will also help you to clearify **what is really
+The separation between `services` and `features` will also help you to clarify **what is really
 relevant for your project's business value**, and what is just infrastructural stuff.
 
 ## Takeaways
 
-This was a long tutorial, I hope you survived to it! Anyway the relevant takeaways that you may
+This was a long tutorial, I hope you survived to it! Anyway, the relevant takeaways that you may
 want to explore in more details are:
 
 - how to create GraphQL Extensible Wrappers
 - how to delegate Business Logic outside the GraphQL layer
-- how to build extensible features / services by offering hooks
+- how to build extensible features/services by offering hooks
 
 ## Download
 
 If you experienced any trouble following the steps above,
-[download this tutorial codebase here](https://forrestjs.github.io/downloads/graphql-auth.zip).
+[download this tutorial codebase here](https://forrestjs.github.io/downloads/hooks-graphql-auth.zip).
 
 ## Challenge
 
-Can you create an extension to this feature that allows to **log-in** and persist the
+Can you create an extension to this feature that allows to **log-in** and persists the
 "logged in" status in a cookie?
 
