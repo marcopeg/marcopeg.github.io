@@ -68,7 +68,7 @@ WHERE name = 'marco';
 
 ## Basic Encryption
 
-The general idea with **basic encryption** is that the way we save data so far is quite open to external access.
+The general idea with **basic encryption** is that the way we save data, so far is quite open to external access.
 I'm not talking about _NSA_ hackers, I'm talking much simpler - everyday problem - security stuff.
 
 **What happens if you take a dump of the database for backup purposes?**
