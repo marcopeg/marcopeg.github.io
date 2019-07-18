@@ -123,7 +123,7 @@ It should never be hardcoded or committed to any repository, and it shouldn't be
 
 ✅ Strengths:
 
-- people (aka your employees) will not be able to (easily) read into user's data
+- people (aka your employees) will not be able to (easily) read into users data
 - **you can store your backups as plain dumps and they are still fairly safe**
 - backup/restore operations are easy if you know the encryption key
 
