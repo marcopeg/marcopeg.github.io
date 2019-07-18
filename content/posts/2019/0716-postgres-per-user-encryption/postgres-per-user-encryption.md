@@ -16,12 +16,14 @@ description: "In this article you learn how to apply per-user encryption to the 
 image: "postgres.png"
 ---
 
-It's a tough world that we are living into. Users want privacy. **Storing plain data in our _db_ is not enough anymore**.
+It's a tough world that we are living in. Users want privacy. **Storing plain data in our _DB_ is not enough anymore**.
 
 Crazy, uh?
 
-In this article we will consider a possible approach to improve the level of security and privacy of our storage strategy using
-[PostgreSQL](https://www.postgresql.org) as database. We will cover:
+In this article, we will consider a possible approach to improve the level of security and privacy of our storage strategy using
+[PostgreSQL](https://www.postgresql.org).
+
+We will cover:
 
 - basic encryption
 - sandwich encryption
@@ -30,11 +32,11 @@ In this article we will consider a possible approach to improve the level of sec
 ## Preparation
 
 In order to follow the content of this article and get the best out of it, you should be able to run some queries against a
-PosrgreSQL database.
+PostgreSQL database.
 
-> You can run a free PosrgreSQL on [ElephantSQL](https://www.elephantsql.com) 🤘
+> You can run a free PostgreSQL on [ElephantSQL](https://www.elephantsql.com) 🤘
 
-For the pourpose of this tutorial we are going to read and write some **sensible data that are tied to a user idendity**:
+For the purpose of this tutorial we are going to read and write some **sensible data that are tied to a user identity**:
 
 ```sql
 CREATE TABLE users (
@@ -66,18 +68,18 @@ WHERE name = 'marco';
 
 ## Basic Encryption
 
-The general idea with a **basic encryption** is that the way we save data so far is quite open to external access.
-I'm not talking about _NSA_ hackers, I'm talking much simpler - every day problem - security stuff.
+The general idea with **basic encryption** is that the way we save data so far is quite open to external access.
+I'm not talking about _NSA_ hackers, I'm talking much simpler - everyday problem - security stuff.
 
-**What happens if you take a dump of the database for backup pourposes?**
+**What happens if you take a dump of the database for backup purposes?**
 Who can read it? Your employees? Your DevOps only? Is it safe for them to being able to do so? I don't think so.
 
-With the **basic encryption** we are going to **encrypt the `data` column** using a **server password** that you will not
+With the **basic encryption**, we are going to **encrypt the `data` column** using a **server password** that you will not
 share with your employees. That password should be set as **ENVIRONMENT VARIABLE** and should have different values
 between development, staging and production environments.
 
 The first step is to enable the [pgcrypto](https://www.postgresql.org/docs/8.3/pgcrypto.html) extension that we will
-use to apply a **simmetric encryption** strategy:
+use to apply a **symmetric encryption** strategy:
 
 ```sql
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
@@ -117,17 +119,17 @@ FROM users WHERE name = 'marco';
 ```
 
 📌 **IMPORTANT:** the `key` should be a fairly robust password that is given to your application as **ENVIRONMENT VARIABLE**.
-It should never be hardcoded or commited to any repository, and it shouldn't be distributed to your team members!
+It should never be hardcoded or committed to any repository, and it shouldn't be distributed to your team members!
 
 ✅ Strengths:
 
-- people (aka: your employees) will not be able to (easily) read into user's data
+- people (aka your employees) will not be able to (easily) read into user's data
 - **you can store your backups as plain dumps and they are still fairly safe**
 - backup/restore operations are easy if you know the encryption key
 
 🔸Limitations:
 
-- simmetrical encryption strategies will not stand a serious brute force attack (_NSA_ people will read your stuff)
+- symmetrical encryption strategies will not stand a serious brute force attack (_NSA_ people will read your stuff)
 - encrypted data is not indexable nor searchable
 - not so easy to debug (but that is a tradeoff)
 
@@ -137,12 +139,12 @@ So far you have achieved a decent level of protection and your user's data are p
 
 **🔔But, the problem now is that you still can read through anybody's data!**
 
-What if you want to guarantee that whatever a single users writes in your system, will remain private to her own eyes?
+What if you want to guarantee that whatever a single user writes in your system, will remain private to her own eyes?
 
-👉 The obvious solution is to **use a _per-user_ encryption key**. This could be the user's plain password, or just a _PIN_.
+👉 The obvious solution is to **use a _per-user_ encryption key**. This could be the user's plain password or just a _PIN_.
 The trick is that this piece of information **should never be persisted into your database**, and not even in your server's memory.
 
-But this is still not enough, because if some bad guy manage to stea the user's PIN and a dump of the database, they will
+But this is still not enough, because if some bad guy manages to steal the user's PIN and a dump of the database, they will
 still be able to decode the data. Here is where the **Sandwich Encryption** comes in handy.
 
 We will take the per-user encrypted data, and encrypt it with the server's production key.
@@ -202,12 +204,12 @@ FROM users WHERE name = 'marco';
 
 ## How to Migrate Encryption Keys
 
-The **Sandwich Encryption** is farily safe. It basically guarantees full privacy to your users unless
-your emplyees are NSA undercover agents. Which is quite enough for current _GDPR_ requirements.
+The **Sandwich Encryption** is fairly safe. It basically guarantees full privacy to your users unless
+your employees are _NSA_ undercover agents. Which is quite enough for current _GDPR_ requirements.
 
 **🔔But, what happens when the user changes her password or PIN?**
 
-Well this is tricky as she might permanently loose access to all the data she saved with the old password!
+Well, this is tricky as she might permanently lose access to all the data she saved with the old password!
 
 During the password update, we need to use the `oldPassword` to decrypt the user's data, and then the
 `newPassword` to re-encrypt it:
@@ -332,18 +334,18 @@ const migrateUserKey = (name, oldKey, newKey, serverKey) =>
 
 ## Conclusions
 
-It is definetly not difficult to apply a basic encryption protection on the data that we save in our database.
+It is definitely not difficult to apply basic encryption protection on the data that we save in our database.
 
 The level of security that we can handle with the ideas from this article will guarantee that I can not access
-my user's data. I am definetly not capable of brute-forcing that :-)
+my user's data. I am definitely not capable of brute-forcing that :-)
 
 Among other safety checks that you may want to look into there are:
 
-- disk level encryption
-- restrict access to ssl connections
-- white listing client's IPs
+- enable disk-level encryption
+- restrict access to _SSL_ connections
+- whitelisting client's IPs
 - run your database in a private network
-- (I'm sure there are plenty of stuff that I don't know...)
+- (I'm sure there is plenty of stuff that I don't know...)
 
 Please, use the comments below to let me know what you think, and to suggest improvements to this article!
 
