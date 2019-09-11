@@ -14,3 +14,5 @@ I like to share code and solutions. I believe knowledge is a product worth to sh
 I'm working hard to become a dev coach and my big objective is to speak at international JS conferences. So far I take care of MalmoJS user group at FooCafe in Malmo.
 
 I do paragliding, I love mountains, hiking and biking into nature. Recently I embraced sailing in the Baltic sea (no mountains in south Sweden!)
+
+![Marco Pegoraro](./marcopeg.jpg)

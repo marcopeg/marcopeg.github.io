@@ -14,11 +14,44 @@ serious level.
 
 Here is a list of the projects that I am actively maintaining, where "maintain" means:
 
-> activelery working on features **and documentation**
+> actively working on features **and documentation**
 
 <div style="margin: 90px 30%;border-bottom: 1px solid #ddd"></div>
 
-## fetchq
+## LearnJS
+
+On Sundays I help people approaching _Web Development_ from scratch and
+_LearnJS_ is the material that I am preparing to make the best of this effort.
+
+There are a few principles that I am following:
+
+- **path of less resistance** - students should not bother with complex setups 
+  (at least in the beginning), Internet is packed with incredible tools that
+  make learning a fun and simple experience
+- **challenge based** - instead of teaching abstract concepts like "array mapping"
+  I provide real-world challenges, exercises that becomes progressively more
+  interesting (or challenging), but that are always visible and demoable
+- **zero teaching** - Internet is full of free valuable resources that a student
+  can leverage to learn almost everything. We do our best to curate lists of
+  external resources
+- **collaborative** - students should be able (and encouraged) to post their
+  solutions and discuss it live on the page. I'm looking for ways to integrate slack
+  channels into each page
+
+[Discover LearnJS](https://marcopeg.com/learnjs)
+
+<div style="margin: 90px 30%;border-bottom: 1px solid #ddd"></div>
+
+## ForrestJS
+
+Node/React ecosystem that help you focus on **developing features** and
+bring value to your project.
+
+[Discover ForrestJS](https://forrestjs.github.io)
+
+<div style="margin: 90px 30%;border-bottom: 1px solid #ddd"></div>
+
+## FetchQ
 
 Fetchq is a Postgres based queue service. It's a task scheduler that handles parallel
 queue processing and can scale from a tiny ~20Mb RAM development instance, to a
@@ -28,7 +61,7 @@ big scraping project with more than 100 servers working in parallel.
 
 <div style="margin: 90px 30%;border-bottom: 1px solid #ddd"></div>
 
-## stuffer
+## Stuffer
 
 Stuffer is a file server where you can post stuff. It handles some nice features like
 post-upload queued processing, and on-demand processing. Some use cases:
@@ -47,7 +80,7 @@ image resizing.
 
 <div style="margin: 90px 30%;border-bottom: 1px solid #ddd"></div>
 
-## pigtail
+## Pigtail
 
 Pigtail is a server monitoring system built in Javascript.
 
@@ -57,33 +90,11 @@ Pigtail is a server monitoring system built in Javascript.
 
 <div style="margin: 90px 30%;border-bottom: 1px solid #ddd"></div>
 
-## react-ssr
-
-ReactSSR is an NPM module that makes it quite easy to kick off a Universal React app with:
-
-- redux
-- code splitting
-- server side rendering
-- customizable cache
-
-[More details on ReactSSR](https://marcopeg.com/react-ssr)
-
-<div style="margin: 90px 30%;border-bottom: 1px solid #ddd"></div>
-
 ## gatsby-deploy
 
 A Docker based automation tool to build a Gatsby project with hooks.
 
 **NOTE:** super early stage
-
-<div style="margin: 90px 30%;border-bottom: 1px solid #ddd"></div>
-
-## feedlify
-
-**NOTE:** super early stage
-
-Aggregates contents from different social media and online resources into
-an organic feed that you can share with the world.
 
 <div style="margin: 90px 30%;border-bottom: 1px solid #ddd"></div>
 
