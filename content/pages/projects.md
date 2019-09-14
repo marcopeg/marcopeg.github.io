@@ -38,7 +38,7 @@ There are a few principles that I am following:
   solutions and discuss it live on the page. I'm looking for ways to integrate slack
   channels into each page
 
-[Discover LearnJS](https://marcopeg.com/learnjs)
+[Discover LearnJS](https://learnjs.today)
 
 <div style="margin: 90px 30%;border-bottom: 1px solid #ddd"></div>
 
