@@ -9,4 +9,4 @@ exercises** that guide the student into the Web Development experience.
 I started to build this for my sister and for helping immigrants to find a good
 job in Sweden. But it's open and **free to use and contribute** for everyone.
 
-[LearnJS](https://learnjs.today)
+[Open LearnJS!](https://learnjs.today)

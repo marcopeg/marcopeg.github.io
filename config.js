@@ -18,6 +18,10 @@ module.exports = {
             path: '/pages/about'
         },
         {
+            label: 'LearnJS',
+            path: '/pages/learnjs'
+        },
+        {
             label: 'Projects',
             path: '/pages/projects'
         },
