@@ -169,6 +169,15 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 ## Credits
 Nature graphic by [Anna Bearne](https://www.behance.net/annabearne) from [Noun Project](https://thenounproject.com/) is licensed under [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/us/legalcode).
 
+## Troubleshooting
+
+**yarn install // node-gyp build errors**
+
+```
+npm rebuild node-sass
+```
+
+
 ## License
 The MIT License (MIT)
 
