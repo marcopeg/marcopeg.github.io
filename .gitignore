@@ -9,3 +9,4 @@ gatsby-starter-lumen.iml
 .deploy
 yarn.lock
 package-lock.json
+yarn.lock
