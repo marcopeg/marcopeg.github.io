@@ -1,7 +1,7 @@
 'use strict'
 
 module.exports = {
-    url: 'https://marcopeg.github.io',
+    url: 'https://marcopeg.com',
     title: 'Marco Pegoraro',
     subtitle: 'Passionate Web Engineer',
     copyright: '© All rights reserved',
