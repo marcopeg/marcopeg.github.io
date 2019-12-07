@@ -94,17 +94,34 @@ module.exports = {
             options: {
                 plugins: [
                     {
+                        resolve: "gatsby-remark-embed-video",
+                        options: {
+                          width: 450,
+                          ratio: 1, // Optional: Defaults to 16/9 = 1.77
+                        //   height: 100, // Optional: Overrides optional.ratio
+                          related: false, //Optional: Will remove related videos from the end of an embedded YouTube video.
+                          noIframeBorder: true, //Optional: Disable insertion of <style> border: 0
+                        //   urlOverrides: [
+                        //     {
+                        //       id: 'youtube',
+                        //       embedURL: (videoId) => `https://www.youtube-nocookie.com/embed/${videoId}`,
+                        //     }
+                        //   ] //Optional: Override URL of a service provider, e.g to enable youtube-nocookie support
+                        }
+                    },
+                    {
                         resolve: 'gatsby-remark-images',
                         options: { maxWidth: 500 }
                     },
-                    {
-                        resolve: 'gatsby-remark-responsive-iframe',
-                        options: { wrapperStyle: 'margin-bottom: 1.0725rem' }
-                    },
+                    // {
+                    //     resolve: 'gatsby-remark-responsive-iframe',
+                    //     options: { wrapperStyle: 'margin-bottom: 1.0725rem' }
+                    // },
                     'gatsby-remark-prismjs',
                     'gatsby-remark-copy-linked-files',
-                    'gatsby-remark-smartypants'
-                ]
+                    'gatsby-remark-smartypants',
+                    // 'gatsby-remark-responsive-iframe',
+                ],
             }
         },
         'gatsby-transformer-sharp',

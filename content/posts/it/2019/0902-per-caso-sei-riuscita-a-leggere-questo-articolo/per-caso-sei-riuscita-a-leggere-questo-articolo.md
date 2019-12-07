@@ -2,7 +2,7 @@
 title: Per caso, sei riuscita a leggere questo articolo?
 date: "2019-10-02T08:47:37.121Z"
 template: "post"
-draft: false
+draft: true
 slug: "/it/2019/per-caso-sei-riuscita-a-leggere-questo-articolo"
 category: "Blog"
 tags:

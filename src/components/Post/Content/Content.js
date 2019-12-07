@@ -1,6 +1,7 @@
 import React from 'react'
 import PostImage from '../../PostImage'
 import styles from './Content.module.scss'
+import './Content.css'
 
 const Content = ({ body, title, image }) => (
     <div className={styles['content']}>

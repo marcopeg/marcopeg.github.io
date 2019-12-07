@@ -1,0 +1,7 @@
+div.embedVideo-container {
+    text-align: center;
+}
+
+div.embedVideo-container iframe {
+    margin: auto;
+}
