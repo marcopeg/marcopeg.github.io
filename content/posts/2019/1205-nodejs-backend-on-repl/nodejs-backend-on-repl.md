@@ -14,7 +14,7 @@ tags:
   - "learning"
   - "tools"
   - "tutorial"
-description: "Write your first NodejS REST API on the browser for free, and persist data in a Postgres database"
+description: "Write your first NodejS REST API on the browser for free, and persist data in a Postgres database."
 image: "nodejs.png"
 ---
 
@@ -32,7 +32,7 @@ The backend service should:
 2. implement a **data model** to represent todos
 3. expose a REST API as a server that is reachable from the Internet
 
-You are going to use [Repl.it](https://repl.it) as backend playground. 
+You are going to use [Repl.it](https://repl.it) as backend playground.
 
 Once you get to the website, follow this short video to create your account and kick-off your first _REPL.it_ project:
 
@@ -74,7 +74,7 @@ An environment variable file is simply a list of informations written as `KEY=va
 
 Environment variables are often critical to the correct beavior of your application. If you forget to provide one of those variables, your App may behave unexpectedly.
 
-If you want to provide a high quality codebase, I suggest you validate all your environment variables at boot time, providing nice error messages in case something goes wrong. 
+If you want to provide a high quality codebase, I suggest you validate all your environment variables at boot time, providing nice error messages in case something goes wrong.
 
 In the following video I use [envalid](https://www.npmjs.com/package/envalid) to achieve this:
 
@@ -86,8 +86,8 @@ You are going to build a solid micro-service so you will need a few variables fo
 const env = envalid.cleanEnv(process.env, {
   PGSTRING: envalid.url(), // this is mandatory!
   SERVER_PORT: envalid.port({ default: 8080 }),
-  SERVER_INTERFACE: envalid.str({ default: '::' }),
-  DATA_CLEANUP_INTERVAL: envalid.num({ default: 60000 }),
+  SERVER_INTERFACE: envalid.str({ default: "::" }),
+  DATA_CLEANUP_INTERVAL: envalid.num({ default: 60000 })
 });
 ```
 
@@ -99,7 +99,7 @@ There are way more variables than you defined! That's because _NodeJS_ already p
 
 ### Expose a REST API Server
 
-The goal of your backend service is to support your frontend (you are going to create a cool React App) and one way to achieve this is to offer [REST API](https://restfulapi.net/). 
+The goal of your backend service is to support your frontend (you are going to create a cool React App) and one way to achieve this is to offer [REST API](https://restfulapi.net/).
 
 There are many ways to do so, and many different frameworks that make your life easier. One of them is [Fastify](https://fastify.io) which facilitates the creation of an _HTTP Server_ and comes prepared for security and performances so you can sleep tight(er) at night.
 
@@ -115,9 +115,9 @@ There are two distinct parts in this code session:
 The configuration is a **synchronous javascript** piece of code that simply imports the _Fastify_ library and setup the first route. The following piece of code is basically the "hello world" example that you can find on the Fastify's documentation page:
 
 ```js
-const fastify = require('fastify');
-const server = fastify({ logger: true });
-server.get('/', async () => 'Hello World!');
+const fastify = require("fastify");
+const server = fastify({ logger: true });
+server.get("/", async () => "Hello World!");
 ```
 
 But then you want to kick-off this service, and that part deals with **NodeJS's network API that are asynchronous**. It simply means that things can go wrong and NodeJS can't even tell how long it will take to know. For that reason NodeJS will handle similar situations with [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) and we will handle them in a modern fashion using [async/await](https://medium.com/javascript-in-plain-english/async-await-javascript-5038668ec6eb).
@@ -135,11 +135,11 @@ boot();
 A more sophisticated way to write the same code using [immediate functions](https://blog.kevinchisholm.com/javascript/javascript-immediate-functions-basics/) would be:
 
 ```js
-;(async () => {
+(async () => {
   try {
     await server.listen(env.SERVER_PORT, env.SERVER_INTERFACE);
   } catch (err) {
-    console.error(err)
+    console.error(err);
   }
 })();
 ```
@@ -148,9 +148,9 @@ You may see similar code in many projects, it's just a weird syntax for defining
 
 ### Handling the Database
 
-It's now time to establish a connection with the database and handle a `todos` folder where you can safely store data. 
+It's now time to establish a connection with the database and handle a `todos` folder where you can safely store data.
 
-You are going to use [Sequelize](https://sequelize.org/), a good _ORM_ for Postgres, MySQL and more. This library lets you describe your data and then provides you with simple Javascript methods to perform the most common operations. You are not going to write a single line of _SQL: in this tutorial!
+You are going to use [Sequelize](https://sequelize.org/), a good _ORM_ for Postgres, MySQL and more. This library lets you describe your data and then provides you with simple Javascript methods to perform the most common operations. You are not going to write a single line of \_SQL: in this tutorial!
 
 The aforementioned "description of your data" is called **model** and once defined, you are going to use it to interact with the database. In the next step you will work on the _REST API_ again to connect an _HTTP Request_ with a _Data Action_ using the model itself.
 
@@ -165,14 +165,14 @@ Step n.1 is to create a Sequelize client as in the following snippet. Just remem
 Also, I recommend you set up the **connection pooling** to open max connection toward your database. ElephantSQL free instances accept up to 5 connections, but I've gotten in trouble while reloading my scripts sometime, **limiting the pooling to 1 is a safe development setting**, even if it would be slow and unreliable in production.
 
 ```js
-const Sequelize = require('sequelize');
-const db = new Sequelize(env.PGSTRING, { pool: { max: 1 }});
+const Sequelize = require("sequelize");
+const db = new Sequelize(env.PGSTRING, { pool: { max: 1 } });
 ```
 
 Step n.2 is to **create a data model** for our todos. You can read a lot about it in the [Sequelize documentation page](https://sequelize.org/v5/manual/getting-started.html#modeling-a-table), just think of a data model as a utility that helps you define a Postgres table and read/write data to it:
 
 ```js
-const Todo = db.define('todo', {
+const Todo = db.define("todo", {
   id: {
     type: Sequelize.UUID,
     allowNull: false,
@@ -180,7 +180,7 @@ const Todo = db.define('todo', {
   },
   text: {
     type: Sequelize.TEXT,
-    allowNull: false,
+    allowNull: false
   },
   completed: {
     type: Sequelize.BOOLEAN,
@@ -211,18 +211,18 @@ In production, you would certainly need to add some form of protection layer, to
 
 ```js
 // read all entries sorted, last created at the bottom
-server.get('/', () =>
+server.get("/", () =>
   Todo.findAll({
-    order: [[ 'createdAt', 'ASC' ]],
+    order: [["createdAt", "ASC"]]
   })
 );
 
 // add a new entry, it calculates a universal unique id
-server.post('/', req =>
+server.post("/", req =>
   Todo.create({
     ...req.body,
     id: uuid(),
-    completed: false,
+    completed: false
   })
 );
 
@@ -230,14 +230,14 @@ server.post('/', req =>
 server.put(`/:id`, req =>
   Todo.update(req.body, {
     where: req.params,
-    returning: true,
+    returning: true
   })
 );
 
 // deletes an existing entry by id
-server.delete('/:id', req =>
+server.delete("/:id", req =>
   Todo.destroy({
-    where: req.params,
+    where: req.params
   })
 );
 ```
@@ -248,7 +248,7 @@ If you are not very familiar with it, here it comes the update functionality wri
 
 ```js
 // Define the Fastify route handler:
-function handleTodoUpdate (req) {
+function handleTodoUpdate(req) {
   // extract the ID from the request's URL params:
   const todoId = req.body.id;
 
@@ -256,8 +256,8 @@ function handleTodoUpdate (req) {
   // tell Sequelize how to target the correct record:
   const queryOptions = {
     where: {
-      id: todoId,
-    },
+      id: todoId
+    }
   };
 
   // trigger the UPDATE query on the "todos" table in the
@@ -271,7 +271,7 @@ function handleTodoUpdate (req) {
 
 // Declare a Fastify params based route and connect it to the
 // route's handler that we previously declared:
-server.put('/:id', handleTodoUpdate);
+server.put("/:id", handleTodoUpdate);
 ```
 
 Of course, you are free to write code the way you want, but I really believe that **arrow functions** make our developer life much easier!
@@ -281,7 +281,7 @@ Of course, you are free to write code the way you want, but I really believe tha
 This is a delicate step even if the code change that you are about to do is dramatically simple:
 
 ```js
-const cors = require('fastify-cors');
+const cors = require("fastify-cors");
 
 const server = fastify({ logger: true });
 server.register(cors); // this is the new line!
