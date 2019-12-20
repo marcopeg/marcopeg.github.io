@@ -1,6 +1,6 @@
 ports:
   - port: 8000
 tasks:
-  - init: yarn install
-    command: yarn start
+  - init: npm install
+    command: npm start
     openIn: bottom

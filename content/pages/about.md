@@ -7,7 +7,7 @@ I was born in Italy, it was the hot summer of '81.
 
 The first thing I wished to do was to fly, luckily my second choice was coding!
 
-I'm a Web Developer. I play with Javascript, Docker, mobile web apps and NodeJS. I did a lot of PHP in the past and still remember some of it.
+**I'm a Web Developer.** I play with Javascript, Docker, mobile web apps and NodeJS. I did a lot of PHP in the past and still remember some of it.
 
 I like to share code and solutions. I believe knowledge is a product worth to share so everybody can enjoy and improve our community value.
 
