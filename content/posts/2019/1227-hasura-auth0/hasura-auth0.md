@@ -99,6 +99,127 @@ Also you may want to take a read on [Hasura's Authentication and Authorization][
 with the concept of the [JWT token][jwt] used in the request's headers. It is not a bad idea to play around with 
 it to the point that you can manually generate a token on jwt.io and use it to perform some user-level queries.
 
+## Prepare your backend with Users and Todos endpoints
+
+This step requires you to login into your new Hasura dashboard and prepare your backend to handle:
+
+- User synchroniation between Auth0 and Hasura
+- User based queries (aka: Hasura authorization on the Todos table)
+
+### Prepare the Users
+
+The **users table** will store all the signups and logins.
+
+Go to "Data -> Create Table" and create a table named "users":
+
+- id, integer, auto-increment, primary
+- auth0_id, text, **unique**
+- email, text
+- created_at, timestamp
+- updated_at, timestamp
+
+![users table](./images/hasura-table-users.png)
+
+### Prepare the Todos
+
+The **todos table** will store a list of tasks that need to be performed for each user.
+
+👉 The final goal is to login as a user and make sure that she can access only her own todos!
+
+Go to "Data -> Create Table" and create a table named "todos":
+
+- id, integer, auto-increment, primary
+- user_id, integer
+- text, text
+
+For this table you are also going to modify the "Permissions" adding a new role and set it up so to
+restrict any `SELECT *` statement to a sub-group of rows filtered by the `user_id`:
+
+![todos permissions](./images/hasura-table-todos-permission.png)
+
+**NOTE:** be sure that you select all the columns under "Column select permission" panel:
+
+![todos permissions](./images/hasura-table-todos-columns.png)
+
+### Test Todos Permissions
+
+In order to verify that the permissions setup work as expected I suggest you test it out before you proceed any further.
+
+**Step 1:** add some todos with different `user_id` values using the "Data -> todos -> Insert Row" utility:
+
+![todos permissions](./images/hasura-table-todos-data.png)
+
+**Step 2:** simulate a role base query using the Hasura's Graphiql UI:
+
+![todos permissions](./images/hasura-graphiql-todos.png)
+
+Once everything works as expected, you can move on to the next step.
+
+## Configure Auth0 to sync users with Hasura
+
+In this step you are going to **write an Auth0 rule** that is capable of 
+**syncing data from Auth0 to the Hasura's users table** every time a user authenticates.
+
+From your Auth0 dashboard head to "Rules -> Create Rule" and select "Empty Rule" as template, 
+name the rule "sync user to hasura" and paste the following code into it:
+
+```js
+function syncUserToHasura (user, context, callback) {
+  const query = `
+    mutation($userId: String!, $email: String) {
+      insert_users(
+        objects: [{
+            auth0_id: $userId
+            email: $email
+        }],
+        on_conflict: {
+            constraint: users_auth0_id_key,
+            update_columns: [updated_at]
+        }) {
+            affected_rows
+      }
+    }
+  `;
+
+  const variables = {
+    userId: user.user_id,
+    email: user.email,
+  };
+
+  const payload = {
+    headers: {
+      "content-type": "application/json",
+      "x-hasura-admin-secret": configuration.ACCESS_KEY
+    },
+    url: `${configuration.BASE_URL}/v1/graphql`,
+    body: JSON.stringify({ query, variables }),
+  };
+
+  request.post(payload, (error, response, body) => callback(error, user, context));
+}
+```
+
+This piece of code works more or less as a _Lambda function_ and simply sends a mutation to your Hasura backend
+to create or update a _users table_ row using values from the Auth0 context.
+
+You may have noticed that there are 2 variables that looks awfully like _environment variables_:
+
+- `configuration.BASE_URL`
+- `configuration.ACCESS_KEY`
+
+In order to configure the correct values, go back to "Auth0 -> Rules" and scroll toward the bottom of the page
+until you find the "Settings" panel:
+
+![rules settings](./images/hasura-rules-settings.png)
+
+Now add your Hasura's base url (mine looks like: `https://hasura-article.herokuapp.com/`) and secret, then you can
+go back into your rule an click on "TRY THIS RULE" at the bottom of the page.
+
+If everything goes as planned, you should be able to see a new _users table_ line:
+
+![rules settings](./images/hasura-table-users-jdoe.png)
+
+
 
 [hasura]: https://hasura.io "Real Time GraphQL Engine"
 [gql]: https://graphql.org "GraphQL"
