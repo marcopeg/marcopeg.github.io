@@ -74,6 +74,31 @@ should fully configure the connection between Google and Auth0 by creating a Goo
 This configuration is out of the scope of this tutorial, and I simply suggest to use the email/password signup/login.
 That will work just fine 😀.
 
+## Setup an Hasura App on Heroku
+
+This step consists in following the ufficial documentation from the Hasura website:  
+https://docs.hasura.io/1.0/graphql/manual/getting-started/heroku-simple.html
+
+I feel this is a **great quick start experience** with the "Deploy to Heroku" button:
+
+1. From the documentation page click on "Deploy to Heroku"
+2. Choose you App's name and region
+3. Click on "Deploy App" (wait a minute or two)
+4. Click on "View App" to open the Hasura dashboard 🤪
+
+Can anything be easier than that?  
+I don't think so!
+
+**👉 IMPORTANT:** After you play around with some [basic Hasura introduction tutorials][hasura-basics], I strongly suggest you go through the
+[Securing the GraphQL endpoint tutorial][hasura-secret].
+
+_That's all Folks!_ before you move on, I suggest you play around with some basic Hasura tutorials how to build
+tables, perform queries and mutations. 
+
+Also you may want to take a read on [Hasura's Authentication and Authorization][hasura-auth] in order to familiarize
+with the concept of the [JWT token][jwt] used in the request's headers. It is not a bad idea to play around with 
+it to the point that you can manually generate a token on jwt.io and use it to perform some user-level queries.
+
 
 [hasura]: https://hasura.io "Real Time GraphQL Engine"
 [gql]: https://graphql.org "GraphQL"
@@ -83,3 +108,6 @@ That will work just fine 😀.
 [heroku]: https://heroku.com "Cloud Application Platform"
 [gitpod]: https://gitpod.io "Cloud IDE"
 [jwt]: https://jwt.io "JSON Web Token"
+[hasura-basics]: https://docs.hasura.io/1.0/graphql/manual/getting-started/first-graphql-query.html
+[hasura-secret]: https://docs.hasura.io/1.0/graphql/manual/deployment/heroku/securing-graphql-endpoint.html
+[hasura-auth]: https://docs.hasura.io/1.0/graphql/manual/auth/index.html
