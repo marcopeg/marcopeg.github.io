@@ -11,24 +11,24 @@ tags:
   - "postgres"
   - "architecture"
   - "micro service"
-description: "Two years ago I started to work on a scraping project with my startup Mysocial.io and we 
-needed to distribute work across multiple servers while achieving uniqueness on the system. We were 
+description: "Two years ago I was working on a web-scraper with my startup Mysocial.io and we 
+needed to distribute work across multiple servers while achieving uniqueness in the system. We were 
 handling hundreds of millions of tasks and FetchQ is the result of that effort."
 image: "postgres.png"
 ---
 
 It was the beginning of 2018 and my young soon-to-be co-founder asked me: 
 
->  Can you download Instagram's influencers?
+>  Can we download Instagram's influencers?
 
 That's the very beginning of my startup journey as co-founder of [Mysocial.io][mysocial] and  
 my answer was a straight:
 
-> NO YOU CAN'T!
+> NO WE CAN'T!
 
-Luckily I was wrong and when I got home that night my brain started to work on the challenge. 
+Luckily I was wrong, and when I got home that night my brain began to work on the challenge ahead. 
 
-A few months later we were successfully scraping Instagram **tracking 4 millions influecers on a daily basis** 
+A few months later, we were successfully scraping Instagram, **tracking 4 millions influecers on a daily basis**, 
 while growing a database of over 100 millions Instagram profiles.
 
 This is how [FetchQ][fetchq] came to life. Possibly the most challenging project of my entire career.
@@ -36,45 +36,61 @@ The whole story is available on youtube:
 
 `youtube: https://youtu.be/g8P_w5dyW3c`
 
-## A Queue System in Real Life <sup>(tm)</sup>
+## Queue Systems in Real Life <sup>(tm)</sup>
 
-**Queues are everywhere in real life.** Think last time you went to a coffee shop (I live in Sweden and they are
-crazy slow with coffee making, so you can bet there is a queue ther), or just try to go into a 
+**Queues are ubiquitous in real life.** Think last time you went to a coffee shop (I live in Sweden and they are
+crazy slow coffee makers, so you can bet you'll find a queue there), or just try to enter a 
 supermarket during rush hours, what do you see at the cashier? A queue.
 
-The supermarket example is spot-on because it represents exceptionally the problem that a queue system
-helps mitigating in a software. Let's look into it.
+The supermarket example is spot-on because it clearly represents the problem that a queue system
+helps mitigating in a software problem. Let's look into it.
 
-A) It's 15:00 in the afternoon, **the supermarket is basically empty**.
-You pick your stuff and approach the cashier.
-Only one cashier is open.
+#### It's 15:00 in the afternoon and **the supermarket is basically empty**:
+
+You pick your stuff and approach the cashier. Only one cashier is open.
 There is just one guy in front of you and you are out in just a minute.
 
-B) It's 18:30 in the evening, **it's rush hour** at the supermarket.
+#### It's 18:30 in the evening and **it's rush hour**:
+
 You pick up your stuff and approach the cashier.
-There are many open and you choose the one with the shorter queue.
-It takes up to 10 minutes to get out.
+There are many open lines and you choose the one with the shorter queue.
+It takes up to 10 minutes to get out of there.
+
+> In _Real Life_ queues form when the amount of work todo grows faster than the processing capabilities.
+> Also, we use to open new cashiers during rush hours to handle a bigger workload for a short amount of time.
+
+Keep this example in mind while you walk into the software-side of this story!
 
 ## Queues in Sofware Development
 
-A queue system is a todo-list for applications.  
-It normally works like this:
+A queue system is a todo-list for applications and it normally works like this:
 
 ```
 ---> Feeding the Queue
 App1 adds stuff to do into a queue.
-App2 adds LOT of stuff do do.
+App1 adds LOT of stuff do do.
 
 ---> Processing the Queue
-App3 picks the first item from the queue and processes it.
-App3 does it again (and again) until the queue is empty.
+App2 picks the first item from the queue and processes it.
+App2 does it again (and again) until the queue is empty.
 ```
+
+Often, `App1` is way faster at producing workload than `App2` is at processing. More or less like
+a supermarket during rush hours. In such a situation **you can use a _queue system_ to collect the
+"pending workload"** and run multiple instances of `App2` to increase the system processing capacity.
+
+Again, it's the supermarket situation translated to computers.
 
 > A queue system helps **digest massive workload** by distributing it across multiple
 > processes or servers.
 
-A common situation where a queue system help simplifying development is **users signup**.
-The app's flow looks like this:
+## Queues to Improve UX
+
+But queues can also be used to **improve User Experience** by delegating non-critical tasks 
+to some side processes. A common situation where you can benefit from a 
+**queue-oriented architecture** is users signup.
+
+The signup's flow looks like this:
 
 1. get data from the request's body
 2. apply formal validation (username length, valid email)
