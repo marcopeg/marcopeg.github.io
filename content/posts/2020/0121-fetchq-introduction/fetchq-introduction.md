@@ -38,6 +38,9 @@ The whole story is available on youtube:
 
 `youtube: https://youtu.be/g8P_w5dyW3c`
 
+Click here for the slides:  
+https://www.slideshare.net/marcopeg/fetchq-the-origins
+
 ## Queue Systems in Real Life <sup>(tm)</sup>
 
 **Queues are ubiquitous in real life.** Think last time you went to a coffee shop (I live in Sweden and they are
@@ -208,8 +211,11 @@ way you approach backend development**.
 In the next article you will go through the **"FetchQ Hello World"**, a quick tutorial that will guide
 you setting up your first queue based application in just one single NodeJS file.
 
-Courious? Check this out!  
-https://codesandbox.io/s/fetchq-workflow-coruu
+Courious? Check this _sandboxes_ out!  
+**You can play with FetchQ online and for free 🙌**
+
+- [FIFO with FetchQ](https://codesandbox.io/s/fetchq-fifo-8xjrg)
+- [Async workflow with FetchQ and Fastify](https://codesandbox.io/s/fetchq-workflow-coruu)
 
 
 [fetchq]: https://fetchq.com "Statefull queue system built on top of Postgres"
