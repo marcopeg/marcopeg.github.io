@@ -19,7 +19,7 @@ image: "postgres.png"
 
 ![Photo by Marvin Heilemann on Unsplash](./penguins-line-small.jpg)
 
-It was the spring of 2018 and my young soon-to-be co-founder asked me: 
+It was the spring of 2018 and my young soon-to-be a co-founder asked me: 
 
 >  Can you download Instagram's influencers?
 
@@ -30,8 +30,8 @@ my answer was a straight:
 
 Luckily I was wrong, and when I got home that night my brain began to work on the challenge ahead. 
 
-A few months later, we were successfully scraping Instagram, **tracking 4 millions influencers on a daily basis**, 
-while growing a database of over 100 millions Instagram profiles.
+A few months later, we were successfully scraping Instagram, **tracking 4 million influencers on a daily basis**, 
+while growing a database of over 100 million Instagram profiles.
 
 This is how [FetchQ][fetchq] came to life. Possibly the most challenging project of my entire career.
 And the whole story is available on youtube:
@@ -48,7 +48,7 @@ crazy slow coffee makers, so you can bet you'll find a queue there), or just try
 supermarket during rush hours, what do you see at the cashier? A queue.
 
 The supermarket example is spot-on because it clearly represents the problem that a queue system
-helps mitigating. Let's look into it.
+helps to mitigate. Let's look into it.
 
 #### It's 15:00 in the afternoon and **the supermarket is empty**:
 
@@ -69,7 +69,7 @@ Keep this example in mind while you walk into the software-side of this story!
 
 ## Queues in Software Development
 
-A queue system is a to do list for applications and it normally works like this:
+A queue system is a to-do list for applications and it normally works like this:
 
 ```
 ---> Feeding the Queue
@@ -107,7 +107,7 @@ The signup's flow looks like this:
 4. **_SEND A WELCOME EMAIL_**
 5. return a welcome message to the user
 
-What is the bottleneck here? The email. Sending email is slow and unreliable.
+What is the bottleneck here? The email. Sending an email is slow and unreliable.
 But it is necessary to give positive feedback to the user and **share critical info** like a confirm link.
 
 Say you own a successful social-network and millions of people sign up. You can control
@@ -131,7 +131,7 @@ A queue system let you re-work the signup flow as:
 insanely fast. [FetchQ][fetchq] works with your Postgres instance and
 queuing a new task is as fast as creating the user's record in the `accounts` table.
 
-On the email processing side, you can spin up one (or many) processes/machines who's [single responsibility](srp) is to
+On the email processing side, you can spin up one (or many) processes/machines whose [single responsibility](srp) is to
 process the emails queue, actually sending the emails using Mandrill or whatever service you like best.
 
 This side pipeline **should also be in charge of handling soft errors**, making sure that if the network is
@@ -151,7 +151,7 @@ seriously consider one of those services:
 to store tasks and distribute it across multiple consumers. It is easy to start with it as it comes
 as Docker image that you can spin up in seconds, but it is costly to deploy (you need to cluster it).
 
-[AWS - SQS](https://aws.amazon.com/sqs/) is the off-the-shelf Amazon queue service. As any AWS service,
+[AWS - SQS](https://aws.amazon.com/sqs/) is the off-the-shelf Amazon queue service. As with any AWS service,
 this can intake almost any workload that you can think of. And you pay as you go. 
 _The more you pay, the more you go._
 
@@ -180,7 +180,7 @@ I can't even start telling you how many times I've heard this quote thinking it'
 
 > This time we really had to implement it. 
 
-We could choose to take in a bunch of different technologies such
+We could choose to take in a bunch of different technologies such as
 RabbitMQ, Redis and probably Kafka and work hard to wire them together to squeeze out the features we
 so desperately needed.
 
@@ -190,17 +190,17 @@ Luckily, we chose the latter. 😎
 
 ## Postgres to Rescue
 
-[Postgres][postgres] is a dbms used by gigantic companies to handle unbearable amounts of data. 
+[Postgres][postgres] is a DBMS used by gigantic companies to handle unbearable amounts of data. 
 We were (naively) aiming to _only_ a few million influencers... It should be enough, right?
 
 Right!
 
 Fast forward a few months, we were now handling **hundreds of millions of tasks in a single small
-Postgres instance**. To be totally transparent with you, we were running our db on an `ec2.m4.medium` instance on AWS
-with a 1Tb EBS data disk attached to it. At the same time **we had 100+ servers connected to that
+Postgres instance**. To be totally transparent with you, we were running our DB on an `ec2.m4.medium` instance on AWS
+with a 1Tb EBS data disk attached to it. At the same time, **we had 100+ servers connected to that
 database** who were consuming and populating many different queues. 🤙
 
-It's been a long uphill road working with indexes, data partitioning, smart constraints, triggers and notifications.
+It's been a long uphill road working with indexes, data partitioning, smart constraints, triggers, and notifications.
 We hit dead ends and we went back to the drawing board more than once.
 
 ![Whiteboarding FetchQ](./fetchq-whiteboard.png)
@@ -209,7 +209,7 @@ But in the very end we did it, and now you can enjoy an Open Source product that
 way you approach backend development**.
 
 In the next article you will go through the **"FetchQ Hello World"**, a quick tutorial that will guide
-you setting up your first queue based application in just one single NodeJS file.
+you setting up your first queue-based application in just one single NodeJS file.
 
 Curious? Check out these _sandboxes_!  
 **You can play with FetchQ online and for free 🙌**
