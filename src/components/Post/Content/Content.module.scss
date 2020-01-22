@@ -23,12 +23,27 @@
         & > h2 {
             margin-top: 80px;
         }
+
+        /* preformatted */
         & div:global(.gatsby-highlight) pre {
-            background-color: #eee;
+            background-color: #ddd;
+            font-size: 0.8em;
+
+            & code[class*="language-"] {
+                color: #222;
+            }
         }
         & p + div:global(.gatsby-highlight) {
             margin-top: -15px;
         }
+        /* inline code */
+        & p code[class*="language-"]  {
+            color: #222;
+            background-color: #ddd;
+            font-size: 0.85em;
+            padding: 0 3px;
+        }
+
         & figure {
             @include margin-bottom(1);
             & blockquote {
@@ -50,7 +65,20 @@
         }
         & blockquote {
             text-align: left;
-            font-size: 0.9em;
+            font-weight: 300;
+            color: #666;
+            padding: 1em 2em;
+            border: none;
+            line-height: 1.5em;
+
+            p {
+                line-height: 1.5em;
+                font-size: 1.3em;
+
+                strong {
+                    color: #444;
+                }
+            }
         }
         & div:global(.gatsby-highlight) + blockquote,
         & div:global(.gatsby-highlight) + p {
