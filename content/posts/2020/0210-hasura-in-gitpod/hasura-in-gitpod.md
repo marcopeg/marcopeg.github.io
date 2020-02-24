@@ -137,29 +137,6 @@ want to click this button and experience it for yourself:
 <img src="https://gitpod.io/button/open-in-gitpod.svg" alt="Open in GitPod" style="width: 200px">
 </a>
 
-## Persistent Postgres Data
-
-There is a caviat though, **the offical `gitpod-postgres` workspace image looses
-all the data you save in the db when you stop the workspace**. That sucks and I
-have no clue why they do that.
-
-After some research, I built my own version of that image, it basically do the
-very same thing, but sets the data folder under the `/workspace` directory
-at boot time. That make things work.
-
-If you want to give it a go, just swap the following two lines:
-
-```Dockerfile
-# Find:
-FROM gitpod/workspace-postgres
-
-# Change to:
-FROM marcopeg/gitpod-workspace-postgres
-```
-
-The source code for this custom workspace is [available here](https://github.com/marcopeg/docker-images/tree/master/gitpod-workspace-postgres)
-and I will write a detailed article about it soon.
-
 ## A Workspace is just a Docker image!
 
 Stating the obvious? Well, maybe. Still I believe it is interesting to point
