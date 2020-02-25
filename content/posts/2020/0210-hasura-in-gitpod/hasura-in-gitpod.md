@@ -28,7 +28,7 @@ click on the following button:
 And then just take a look at the source code:<br>
 <a href="https://github.com/marcopeg/hasura-gitpod">https://github.com/marcopeg/hasura-gitpod</a><br>
 or at the todo-list project:<br>
-<a href="https://github.com/marcopeg/hasura-gitpod">https://github.com/marcopeg/gitpod-hasura-demo</a>
+<a href="https://github.com/marcopeg/gitpod-hasura-demo">https://github.com/marcopeg/gitpod-hasura-demo</a>
 </div>
 
 ## Overture:
