@@ -26,7 +26,9 @@ click on the following button:
 
 <div style="text-align:center">
 And then just take a look at the source code:<br>
-<a href="https://github.com/marcopeg/hasura-gitpod">https://github.com/marcopeg/hasura-gitpod</a>
+<a href="https://github.com/marcopeg/hasura-gitpod">https://github.com/marcopeg/hasura-gitpod</a><br>
+or at the todo-list project:<br>
+<a href="https://github.com/marcopeg/hasura-gitpod">https://github.com/marcopeg/gitpod-hasura-demo</a>
 </div>
 
 ## Overture:
@@ -40,13 +42,13 @@ since long years. It's a **great open-source database** that keeps surprinsing
 me with incredible features almost day after day.
 
 Hasura provides a nice [30 seconds Heroku tutorial](https://docs.hasura.io/1.0/graphql/manual/getting-started/heroku-simple.html)
-which get you up and running with the famous hosting company.
+which gets you up and running with the famous hosting company.
 
-**But what if you want to just play with it in a fully discardable workspace?**
+> But what if you want to just play with it in a fully discardable workspace?
 
-## Docker to Rescue!
+## GitPod + Docker to Rescue!
 
-GitPod makes it easy to **customize your workspace** using a _YAML_ 
+GitPod makes it easy to [**customize your workspace**](https://www.gitpod.io/blog/gitpodify/) using a _YAML_ 
 configuration file:
 
 ```yml
@@ -60,6 +62,7 @@ And a Dockerfile:
 ```Dockerfile
 # .gitpod.Dockerfile
 FROM gitpod/workspace-full:latest
+RUN apt-get install xxx
 ```
 
 There are also several **examples of custom images** that bring into GitPod
