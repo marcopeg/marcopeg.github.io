@@ -31,6 +31,10 @@ or at the todo-list project:<br>
 <a href="https://github.com/marcopeg/gitpod-hasura-demo">https://github.com/marcopeg/gitpod-hasura-demo</a>
 </div>
 
+<div style="margin-top:30px"></div>
+
+![GitPod Hasura Demo](https://github.com/marcopeg/gitpod-hasura-demo/raw/master/gitpod-hasura-demo.gif)
+
 ## Overture:
 
 I'm falling in love with the concept of a **Cloud IDE** thanks to 
