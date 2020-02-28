@@ -20,13 +20,13 @@ image: "hasura-in-gitpod.png"
 **SPOILER ALERT:** If you are in a hurry and just want to try it out,
 click on the following button:
 
-<a href="https://gitpod.io/#https://github.com/marcopeg/hasura-gitpod">
+<a href="https://gitpod.io/#https://github.com/marcopeg/gitpod-hasura">
 <img src="https://gitpod.io/button/open-in-gitpod.svg" alt="Open in GitPod" style="width: 200px">
 </a>
 
 <div style="text-align:center">
 And then just take a look at the source code:<br>
-<a href="https://github.com/marcopeg/hasura-gitpod">https://github.com/marcopeg/hasura-gitpod</a><br>
+<a href="https://github.com/marcopeg/gitpod-hasura">https://github.com/marcopeg/gitpod-hasura</a><br>
 or at the todo-list project:<br>
 <a href="https://github.com/marcopeg/gitpod-hasura-demo">https://github.com/marcopeg/gitpod-hasura-demo</a>
 </div>
@@ -136,7 +136,7 @@ ports:
 Once again, if you just want to play around with Hasura on GitPod, you may
 want to click this button and experience it for yourself:
 
-<a href="https://gitpod.io/#https://github.com/marcopeg/hasura-gitpod">
+<a href="https://gitpod.io/#https://github.com/marcopeg/gitpod-hasura">
 <img src="https://gitpod.io/button/open-in-gitpod.svg" alt="Open in GitPod" style="width: 200px">
 </a>
 
@@ -163,7 +163,7 @@ ports:
     onOpen: open-browser
 ```
 
-<a href="https://gitpod.io/#https://github.com/marcopeg/hasura-gitpod">
+<a href="https://gitpod.io/#https://github.com/marcopeg/gitpod-hasura">
 <img src="https://gitpod.io/button/open-in-gitpod.svg" alt="Open in GitPod" style="width: 200px">
 </a>
 
