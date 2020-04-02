@@ -23,28 +23,29 @@ image: "fetchq-cron.png"
 
 I started to work on the _FetchqCRON_ project when I realized I was re-implementing the
 architecture around repeatable jobs over and over, project by project. 
-An you don't like to repeat yourself, right?
+
+> And you don't like to repeat yourself, right?
 
 Let's start with an example:  
-An ideal scenario to handle a user signup would be:
+An ideal scenario to **handle users signup** would be:
 
 1. sign the user up
 2. 👉 _in 2 hours, check on the user to see if he/she confirmed his/her email_
 3. thank the user
 
-_FetchqCRON_ lets you solve point n.2 with a simple REST call that plans the **execution
-of a _webhook_ in 2 hours**.
+Point n.1 and n.3 are up to your route handler, **_FetchqCRON_ lets you solve point n.2** 
+with a simple _REST_ call that plans the execution of a _webhook_ in 2 hours.
 
-You can easily configure **how to execute the webhook**. I can be any kind of REST call where
-you are in control of headers and body structure, or it can be a GraphQL query or mutation.
+You can easily configure **how to execute the webhook**. It can be any kind of _REST_ call where
+you are in control of headers and body structure, or it can be a _GraphQL_ query or mutation.
 
-For a full documentation, please go to:  
-https://cron.fetchq.com
+> Wanna dig into the documentation?  
+> 👉 https://cron.fetchq.com
 
-## How to setup a Webhook job:
+## How to se tup a Webhook job:
 
 Here is an example call that sets up a task with 2 hours delay. It will _post_ to
-a given url, providing custom headers:
+a given _URL_, providing custom headers:
 
 ```bash
 /* post://fetchq-cron-instance.com/api/v1/cron */
@@ -71,13 +72,16 @@ a given url, providing custom headers:
 }
 ```
 
-The target webhook is demanded to respond with a `statusCode=200` in order
-to yield a successful run. In such a case, the webhook will be triggered again in 2 hours.
+The target webhook should respond with `statusCode=200` in order
+to yield a successful run. In such a case, the webhook will be triggered again in 2 more hours.
+
+> Successfull webhook execution:  
+> statusCode = 200
 
 **In case any error should happen,** the action is re-attempted for a configurable amount of times
-before the system gives up, every failing run is dutily logged for full traceability.
+before the system gives up, every failing run is duly logged for full traceability.
 
-> BUT THAT'S NOT IT! 
+## Webhooks can reschedule the job:
 
 The target webhook can interact back with the scheduler,
 **providing active feedback and re-programming the execution plan**:
@@ -97,11 +101,10 @@ The target webhook can interact back with the scheduler,
 ```
 
 This kind of response will re-schedule the next execution 999 years in the future.
-It's just a hacky way to kill the task. We have an `action` key in the development plan,
-it will allow to simply drop the task for good.
+It's just a hacky way to kill the task. _We have more features coming up soon._ 😊
 
-It also writes a log entry in the task's history. _FetchqCRON_ keeps a detailed
-execution logs where you can trace any activity that happened to a task.
+It also writes a log entry in the task's history. _FetchqCRON_ keeps a **detailed
+execution log** where you can trace any activity that happened to a task.
 
 
 ## Main Features:
@@ -110,10 +113,10 @@ execution logs where you can trace any activity that happened to a task.
 - setup time-based jobs via WebConsole
 - access detailed logs per task / group / server
 - scale up the job workers for parallel execution
-- run the server in API only mode (good for micro-serive architecture)
-- fine graine authorization via JWT (*)
+- run the server in API only mode (good for micro-service architecture)
+- fine-grained authorization via JWT (*)
 
-(*) in development pipeline
+_(*) in development_
 
 ## Job Types:
 
@@ -121,27 +124,36 @@ execution logs where you can trace any activity that happened to a task.
 - AWS Lambda functions (*)
 - Docker functions (*)
 
-(*) in development pipeline
+_(*) in development_
 
 ## Try it out on Heroku
 
-Wanna try it? It takes just a few minutes to run your own instance in Heroku:
+😎 Wanna try it?  
+It takes just a few minutes to run your own instance in Heroku:
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/marcopeg/fetchq-cron-heroku)
+<p style="max-width:200px;">
+<a href="https://heroku.com/deploy?template=https://github.com/marcopeg/fetchq-cron-heroku" title="Deploy on Heroku">
+<img src="https://www.herokucdn.com/deploy/button.svg" alt="deploy on Heroku">
+</a>
+</p>
 
-Feeling adventurous? Do you want to play around with the codebase?  
-We have you covered, click here to run the cloud-based development environment:
+🤓 Feeling adventurous?  
+We have you covered, click here to _run the cloud-based development environment:_
 
-[![Open in GitPod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io#https://github.com/marcopeg/fetchq-cron)
+<p style="max-width:200px;">
+<a href="https://gitpod.io#https://github.com/marcopeg/fetchq-cron" title="Open in GitPod">
+<img src="https://gitpod.io/button/open-in-gitpod.svg" alt="Open in GitPod">
+</a>
+</p>
 
 ## Feedback & Contribute
 
-Documentation project:  
-https://cron.fetchq.com
+Read the Documentation:  
+📖 https://cron.fetchq.com
 
-Please come and give your feeback on our ProductHunt page:  
-https://www.producthunt.com/posts/fetchq-cron
+Please come and **give your feedback** on our ProductHunt page:  
+👉 https://www.producthunt.com/posts/fetchq-cron
 
-And don't forget to give us a star on GitHub:  
-https://github.com/marcopeg/fetchq-cron
+And don't forget to **give us a star** on GitHub:  
+⭐ https://github.com/marcopeg/fetchq-cron
 
