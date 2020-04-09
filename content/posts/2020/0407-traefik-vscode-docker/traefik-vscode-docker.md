@@ -123,17 +123,17 @@ services:
     - "traefik.enable=true"
     - "traefik.http.middlewares.https_redirect.redirectscheme.scheme=https"
     - "traefik.http.middlewares.https_redirect.redirectscheme.permanent=true"
-    - "traefik.http.middlewares.nginx-auth.basicauth.users=test:$$apr1$$paZscWCA$$cbr0JI.3VBV7V9JNb.4xs1"
+    - "traefik.http.middlewares.service-name--auth.basicauth.users=test:$$apr1$$paZscWCA$$cbr0JI.3VBV7V9JNb.4xs1"
 
-    - "traefik.http.routers.nginx.rule=Host(`web.dev.marcopeg.com`)"
-    - "traefik.http.routers.nginx.entrypoints=web"
-    - "traefik.http.routers.nginx.middlewares=https_redirect"
+    - "traefik.http.routers.service-name.rule=Host(`web.dev.marcopeg.com`)"
+    - "traefik.http.routers.service-name.entrypoints=web"
+    - "traefik.http.routers.service-name.middlewares=https_redirect"
 
-    - "traefik.http.routers.nginx-secure.rule=Host(`web.dev.marcopeg.com`)"
-    - "traefik.http.routers.nginx-secure.entrypoints=websecure"
-    - "traefik.http.routers.nginx-secure.tls=true"
-    - "traefik.http.routers.nginx-secure.tls.certresolver=myresolver"
-    - "traefik.http.routers.nginx-secure.middlewares=nginx-auth"
+    - "traefik.http.routers.service-name--secure.rule=Host(`web.dev.marcopeg.com`)"
+    - "traefik.http.routers.service-name--secure.entrypoints=websecure"
+    - "traefik.http.routers.service-name--secure.tls=true"
+    - "traefik.http.routers.service-name--secure.tls.certresolver=myresolver"
+    - "traefik.http.routers.service-name--secure.middlewares=service-name--auth"
 
     image: nginx
     networks:
@@ -152,4 +152,65 @@ Generate simple auth with:
 
 ```bash
 htpasswd -n test
+```
+
+
+### VSCode Install script
+
+```bash
+VSCODE_VERSION=${1:-"3.0.2"}
+
+# Save the starting point so the script can come back
+PWD_START=$(pwd)
+
+# Where to install VSCode
+PWD_CODE=~/code-server
+
+mkdir -p ${PWD_CODE}
+cd ${PWD_CODE}
+
+# Download & Extract
+if [ ! -d "${PWD_CODE}/code-server-${VSCODE_VERSION}-linux-x86_64" ]; then
+  wget https://github.com/cdr/code-server/releases/download/${VSCODE_VERSION}/code-server-${VSCODE_VERSION}-linux-x86_64.tar.gz
+  tar -xzvf code-server-${VSCODE_VERSION}-linux-x86_64.tar.gz
+fi
+
+# Install command from the downloaded version
+# cd code-server-${VSCODE_VERSION}-linux-x86_64
+echo "Copy files..."
+sudo rm -f /usr/bin/code-server
+sudo rm -rf /usr/lib/code-server
+sudo cp -R code-server-${VSCODE_VERSION}-linux-x86_64 /usr/lib/code-server
+sudo ln -s /usr/lib/code-server/code-server /usr/bin/code-server
+
+# Prepare the data folder
+if [ ! -f "/var/lib/code-server" ]; then
+  sudo mkdir -p /var/lib/code-server 
+  sudo chown ubuntu /var/lib/code-server 
+fi
+
+
+###
+### Replace the service file
+###
+sudo rm -f /lib/systemd/system/code-server.service
+sudo tee -a /lib/systemd/system/code-server.service > /dev/null <<EOT
+[Unit]
+Description=code-server
+After=nginx.service
+
+[Service]
+Type=simple
+Environment=PASSWORD=foobar
+ExecStart=/usr/bin/code-server --host 0.0.0.0 --user-data-dir /var/lib/code-server --auth password
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+EOT
+sudo systemctl daemon-reload
+
+# Go back to the starting point
+cd ${PWD_START}
+
 ```
