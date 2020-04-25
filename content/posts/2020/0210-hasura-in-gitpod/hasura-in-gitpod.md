@@ -38,11 +38,11 @@ or at the todo-list project:<br>
 ## Overture:
 
 I'm falling in love with the concept of a **Cloud IDE** thanks to 
-[GitPod.io](https://gitpod.io), and with **backendless** thanks to
+[GitPod.io](https://gitpod.io), and with **backend-less** thanks to
 [Hasura.io](https://hasura.io).
 
 Obviously, I'm in deep deep love with [Postgres](https://www.postgresql.org)
-since long years. It's a **great open-source database** that keeps surprinsing 
+for long years. It's a **great open-source database** that keeps surprising 
 me with incredible features almost day after day.
 
 Hasura provides a nice [30 seconds Heroku tutorial](https://docs.hasura.io/1.0/graphql/manual/getting-started/heroku-simple.html)
@@ -102,11 +102,11 @@ custom GitPod workspace that runs Postgres.
 
 > That's right, with Docker you can extend multiple base images!
 
-This technique it is called **multi stage build**, and 
+This technique is called a **multi-stage build**, and 
 [you can find more details here](https://blog.alexellis.io/mutli-stage-docker-builds/).
 
 The interesting part comes with the `COPY` command that imports the
-*hasura engine* into the worskpace's image. Now we have a Docker image that
+*Hasura engine* into the workspace's's image. Now we have a Docker image that
 contains **Postgres _AND_ Hasura**.
 
 The next command creates globally available _CLI_ command that you can
@@ -119,7 +119,7 @@ workspace](https://www.gitpod.io/docs/environment-variables/).
 
 ## The Power of Tasks
 
-Just before you run your newly created worskpace, let me add a few lines
+Just before you run your newly created workspace, let me add a few lines
 to the `.gitpod.yml` so that Hasura will start automatically:
 
 ```yml
@@ -146,7 +146,7 @@ want to click this button and experience it for yourself:
 
 ## A Workspace is just a Docker image!
 
-Stating the obvious? Well, maybe. Still I believe it is interesting to point
+Stating the obvious? Well, maybe. Still, I believe it is interesting to point
 out that you can build your own custom GitPod workspace and push it to 
 DockerHub for others to enjoy.
 
