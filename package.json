@@ -78,7 +78,7 @@
     "netlify-cms": "^2.3.3",
     "node-sass": "^4.13.0",
     "normalize-scss": "^7.0.1",
-    "prismjs": "^1.15.0",
+    "prismjs": "^1.21.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.1",
     "react-disqus-comments": "^1.4.0",
