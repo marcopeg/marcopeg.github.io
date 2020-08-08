@@ -27,30 +27,58 @@ Today I'd like to share with you a few **running examples** of the services that
 
 ## Fastify
 
-https://codesandbox.io/s/service-fastify-th8dq
+Runs a Fastify instance within your ForrestJS App
+
+- 👉 [Install it from NPM](https://www.npmjs.com/package/@forrestjs/service-fastify)
+- 👉 [Open the Documentation](https://github.com/forrestjs/forrestjs/blob/master/packages/service-fastify/README.md#readme)
+- 👉 [**Open the CodeSandbox example**](https://codesandbox.io/s/service-fastify-th8dq)
 
 ## Fastify Static
 
-https://codesandbox.io/s/service-fastify-static-6u8mm
+Wrapper around [fastify-static](https://www.npmjs.com/package/fastify-static) plugin.
+
+- 👉 [Install it from NPM](https://www.npmjs.com/package/@forrestjs/service-fastify-static)
+- 👉 [Open the Documentation](https://github.com/forrestjs/forrestjs/blob/master/packages/service-fastify-static/README.md#readme)
+- 👉 [**Open the CodeSandbox example**](https://codesandbox.io/s/service-fastify-static-6u8mm)
 
 ## Fastify Healthz
 
-https://codesandbox.io/s/service-fastify-healthz-4g3my
+Provides a healthcheck route that you can configure via simple hooks.
+
+- 👉 [Install it from NPM](https://www.npmjs.com/package/@forrestjs/service-fastify-healthz)
+- 👉 [Open the Documentation](https://github.com/forrestjs/forrestjs/blob/master/packages/service-fastify-healthz/README.md#readme)
+- 👉 [**Open the CodeSandbox example**](https://codesandbox.io/s/service-fastify-healthz-4g3my)
 
 ## Fastify JWT
 
-https://codesandbox.io/s/service-fastify-jwt-fnfqc
+Wrapper around [fastify-jwt](https://github.com/fastify/fastify-jwt) plugin.
+
+- 👉 [Install it from NPM](https://www.npmjs.com/package/@forrestjs/service-fastify-jwt)
+- 👉 [Open the Documentation](https://github.com/forrestjs/forrestjs/blob/master/packages/service-fastify-jwt/README.md#readme)
+- 👉 [**Open the CodeSandbox example**](https://codesandbox.io/s/service-fastify-jwt-fnfqc)
 
 ## Fastify Cookie
 
-https://codesandbox.io/s/service-fastify-cookie-pq2m0
+Wrapper around [fastify-cookie](https://github.com/fastify/fastify-cookie) plugin.
+
+- 👉 [Install it from NPM](https://www.npmjs.com/package/@forrestjs/service-fastify-cookie)
+- 👉 [Open the Documentation](https://github.com/forrestjs/forrestjs/blob/master/packages/service-fastify-cookie/README.md#readme)
+- 👉 [**Open the CodeSandbox example**](https://codesandbox.io/s/service-fastify-cookie-pq2m0)
 
 ## Fastify Apollo
 
-https://codesandbox.io/s/service-fastify-apollo-80oug
+Sets up an Apollo Client in the ForrestJS app and makes it available to route handlers.
+
+- 👉 [Install it from NPM](https://www.npmjs.com/package/@forrestjs/service-fastify-apollo)
+- 👉 [Open the Documentation](https://github.com/forrestjs/forrestjs/blob/master/packages/service-fastify-apollo/README.md#readme)
+- 👉 [**Open the CodeSandbox example**](https://codesandbox.io/s/service-fastify-apollo-80oug)
 
 ## Fastify Fetchq
 
-https://codesandbox.io/s/service-fastify-fetchq-0by8x
+Sets up an Fetchq Client in the ForrestJS app and makes it available to route handlers.
+
+- 👉 [Install it from NPM](https://www.npmjs.com/package/@forrestjs/service-fastify-fetchq)
+- 👉 [Open the Documentation](https://github.com/forrestjs/forrestjs/blob/master/packages/service-fastify-fetchq/README.md#readme)
+- 👉 [**Open the CodeSandbox example**](https://codesandbox.io/s/service-fastify-fetchq-0by8x)
 
 
