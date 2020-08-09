@@ -65,6 +65,18 @@ Wrapper around [fastify-cookie](https://github.com/fastify/fastify-cookie) plugi
 - 👉 [Open the Documentation](https://github.com/forrestjs/forrestjs/blob/master/packages/service-fastify-cookie/README.md#readme)
 - 👉 [**Open the CodeSandbox example**](https://codesandbox.io/s/service-fastify-cookie-pq2m0)
 
+## Fastify GQL
+
+Sets up an [Apollo Graphql Server](https://www.apollographql.com/docs/apollo-server/) 
+in the ForrestJS app and provides hooks to extend the schema from a feature.
+
+- 👉 [Install it from NPM](https://www.npmjs.com/package/@forrestjs/service-fastify-gql)
+- 👉 [Open the Documentation](https://github.com/forrestjs/forrestjs/blob/master/packages/service-fastify-gql/README.md#readme)
+- 👉 [**Open the CodeSandbox example**](https://codesandbox.io/s/service-fastify-gql-3ijs6)
+
+**NOTE:** At the time of writing an issue prevents the `apollo-server-fastify` plugin
+from rendering the playground. (https://github.com/apollographql/apollo-server/issues/4463)
+
 ## Fastify Apollo
 
 Sets up an Apollo Client in the ForrestJS app and makes it available to route handlers.
