@@ -23,7 +23,7 @@ In the book, Douglas focuses on aspects of the language that we can use
 
 This is my reviewed version of it, adjourned to 2020, because a whole lot of things have changed in the last 12 years.
 
-> Less is more  
+> Less is More  
 > -- Ludwig Mies van der Rohe
 
 
@@ -249,12 +249,54 @@ a map of `key:value` that makes it possible:
 
 [Click here to read a good article about "named arguments vs positional arguments"](https://blog.bitsrc.io/javascript-why-named-arguments-are-better-than-positional-arguments-9b15ab3155ef)
 
+[[ TODO: add nested destructuring example ]]
+
 ## Array API
 
 Lists are ubiquitous nowadays and the good ol' `for ... do` is gone. Instead, you should
-consider using the [Array API][array-api]
+consider using the [Array API][array-api] that, in composition with the **arrow functions**
+make your code more expressive and readable.
+
+> Javascript engines like [V8][v8] are also able to seriously optimize the 
+> exeution of chained Array API.
+
+```js
+const jsStuff = [{
+  operator: 'switch',
+  isAnyGood: false
+}, {
+  operator: 'var',
+  isAnyGood: false
+}, {
+  operator: 'for',
+  isAnyGood: false
+}, {
+  operator: 'const',
+  isAnyGood: true
+}, {
+  operator: '...',
+  isAnyGood: true
+}];
+
+// ❌ bad way, using variables and FOR Loops:
+let theGoodPart = [];
+for (let item of jsStuff) {
+  if (true === item.isAnyGood) {
+    theGoodPart.push(item);
+  }
+}
+
+// ✅ good way, using Array API and Function Composition:
+const isGood = (item) => (true === item.isAnyGood);
+const operatorOnly = (item) => item.operator;
+const theGoodPart = jsStuff
+  .filter(isGood)
+  .map(operatorOnly);
+```
 
 ## Rest Operator
+
+The [rest operator][rest-operator]
 
 ```js
 const foo = (...args) =>
@@ -264,7 +306,11 @@ const foo = (...args) =>
 foo('a', 'b', 'c');
 ```
 
+[[ TO BE COMPLETED ]]
+
 ## Spread Operator
+
+[[ TO BE COMPLETED ]]
 
 
 
@@ -282,3 +328,4 @@ foo('a', 'b', 'c');
 [open-closed]: https://en.wikipedia.org/wiki/Open%E2%80%93closed_principle "Open-Closed Principle on Wikipedia"
 [destructuring]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment "MDN: Destructuring Assignment"
 [array-api]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array "MDN: Array API"
+[rest-operator]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters "MDN: Rest Operator"
