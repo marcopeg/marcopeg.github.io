@@ -11,7 +11,7 @@ tags:
   - "const"
   - "array"
 description: "This is a personal list of the stuff that I like about JavaScript and that I believe should be used today."
-image: "javascript.svg"
+image: "javascript.png"
 ---
 
 "JavaScript: the good parts" is a book by Douglas Crockford that made it big in 2008 
@@ -19,13 +19,28 @@ as the world began to realize that web development and,  particularly, frontend
 development were here to stay. 
 
 In the book, Douglas focuses on aspects of the language that we can use 
-**to write clean code that runs fast**.
+**to write clean code that runs fast**: JavaScript for the Enterprise.
 
-This is my reviewed version of it, adjourned to 2020, because a whole lot of things have changed in the last 12 years.
+This is my reviewed version of it, adjourned to 2020, because a whole lot of things 
+have changed in the last 12 years.
 
 > Less is More  
 > -- Ludwig Mies van der Rohe
 
+## In This Article:
+
+- [Contants](#constants)
+- [Strict Equality](#strict-equality)
+- [Template Literals](#template-literals)
+- [Arrow Functions](#arrow-functions)
+- [Destructuring Assignment](#destructuring-assignment)
+- [Array API](#array-api)
+- [Rest Operator](#rest-operator)
+- [Spread Operator](#spread-operator)
+- [Promises](#promises)
+- [Async / Await](#async--await)
+- [Try / Catch](#try--catch)
+- [Custom Errors](#custom-errors)
 
 ## Constants
 
@@ -69,6 +84,29 @@ const result = doSomething();
 const foo = (result === null)
   ? 'default value'
   : result
+```
+
+## Strict Equality
+
+[Strict Equality][strict-equality] ensure faster comparison by enforcing type check.
+
+```js
+// ❌ bad way, using loose equality:
+//    those examples will yield "true" even if it's 
+//    quite obvious that it is not what we expect:lear that 
+console.log(1 == "1");
+console.log(1 == true);
+console.log(0 == false);
+console.log(0 == "");
+console.log(null == undefined);
+
+// ✅ good way, using strict equality:
+//    the same comparison will now yield a correct "false" result:
+console.log(1 === "1");
+console.log(1 === true);
+console.log(0 === false);
+console.log(0 === "");
+console.log(null === undefined);
 ```
 
 ## Template Literals
@@ -249,7 +287,52 @@ a map of `key:value` that makes it possible:
 
 [Click here to read a good article about "named arguments vs positional arguments"](https://blog.bitsrc.io/javascript-why-named-arguments-are-better-than-positional-arguments-9b15ab3155ef)
 
-[[ TODO: add nested destructuring example ]]
+👉 You can rename properties while destructuring:
+
+```js
+const payload = {
+  first: "Marco",
+  last: "Pegoraro"
+};
+
+const { first: name, last: surname } = payload;
+
+console.log(`${name} ${surname}`);
+```
+
+👉 You can also nest destructuring assignments:
+
+```js
+const payload = {
+  name: {
+    first: "Marco",
+    last: "Pegoraro"
+  },
+  address: {
+    city: "Malmö",
+    country: "Sweden"
+  }
+};
+
+const {
+  name: { first: name },
+  address: { city }
+} = payload;
+
+console.log(`${name} lives in ${city}`);
+```
+
+👉 Destructuring Assignment **works with arrays as well**:
+
+```js
+const payload = ['one', 'two', 'three'];
+
+// Destructure the first two items:
+const [ first, second ] = payload;
+
+console.log(`first: ${first}`);
+console.log(`second: ${second}`);
+```
 
 ## Array API
 
@@ -296,22 +379,101 @@ const theGoodPart = jsStuff
 
 ## Rest Operator
 
-The [rest operator][rest-operator]
+The [rest operator][rest-operator] is a sweet tool collect "whatever else" from a Javascript
+object.
+
+👉 Use it in combination with the Destructuring Assignment:
 
 ```js
-const foo = (...args) =>
-  args.forEach((arg, idx) =>
-    console.log(`${idx}: ${arg}`));
+const payload = {
+  name: 'Marco',
+  surname: 'Pegoraro',
+  dateOfBirth: '1981-06-30',
+  hobbies: ['paragliding', 'sailing']
+};
 
-foo('a', 'b', 'c');
+// Extract information and collect the remaining keys into "other"
+const { name, surname, ...other } = payload;
+
+console.log(other);
 ```
 
-[[ TO BE COMPLETED ]]
+👉 Use it to collect a function's arguments into an array:
+
+```js
+const foo = (a, b, ...args) => {
+  console.log(`a: ${a}`);
+  console.log(`b: ${b}`);
+
+  // Log all the other arguments:
+  args.forEach((arg, idx) => console.log(`${idx}: ${arg}`));
+}
+
+foo('a', 'b', 'c', 'd', 'e');
+```
 
 ## Spread Operator
 
+The [Spread Operator][spread-operator] lets you quikly build [shallow copies][shallow-copy] 
+of objects:
+
+```js
+const payload = {
+  name: 'Marco',
+  surname: 'Pegoraro',
+  dateOfBirth: '1781-06-30',
+  hobbies: ['paragliding', 'sailing']
+};
+
+const shallowCopy = {
+  ...payload,
+  dateOfBirth: '1981-06-30', // I'm not THAT old!
+  married: true
+}
+```
+
+👉 You can nest spread operator to achieve a _manual deep copy_:
+
+```js
+const payload = {
+  info: {
+    first: "Marco",
+    last: "Pegoraro"
+    address: {
+      city: "Malmö",
+      country: "Sweden"
+    }
+  },
+  hobbies: ['paragliding', 'sailing']
+};
+
+// This is not going to look good for deeply nested objects...
+// https://www.npmjs.com/package/clone-deep
+const shallowCopy = {
+  ...payload,
+  info: { 
+    ...payload.info,
+    address: { ...payload.info.address }
+  },
+  hobbies: [ ...payload.hobbies ],
+}
+```
+
+## Promises
+
 [[ TO BE COMPLETED ]]
 
+## Async / Await
+
+[[ TO BE COMPLETED ]]
+
+## Try / Catch
+
+[[ TO BE COMPLETED ]]
+
+## Custom Errors
+
+[[ TO BE COMPLETED ]]
 
 
 [block-scoped]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/block "MDN: Block Scoped"
@@ -329,3 +491,6 @@ foo('a', 'b', 'c');
 [destructuring]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment "MDN: Destructuring Assignment"
 [array-api]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array "MDN: Array API"
 [rest-operator]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters "MDN: Rest Operator"
+[spread-operator]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax "MDN: Spread Operator"
+[shallow-copy]: https://medium.com/@serdarkabaoglu/shallow-copying-cloning-objects-in-javascript-ee8e0f1c1058 "Shallow copy article on Medium"
+[strict-equality]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Strict_equality "MDN: Strict Equality"
