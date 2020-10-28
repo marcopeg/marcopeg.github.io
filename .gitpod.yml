@@ -4,3 +4,7 @@ tasks:
   - init: npm install
     command: npm start
     openIn: bottom
+
+vscode:
+  extensions:
+    - znck.grammarly@0.12.5:JdrR0JlktcOeKLu6lxGbJw==
