@@ -461,11 +461,108 @@ const shallowCopy = {
 
 ## Promises
 
-[[ TO BE COMPLETED ]]
+[Promises][promise] are ways to streamline what once was referred as
+[the callback hell](http://callbackhell.com/).
+
+Any asynchronous code could be wrapped up and served as a Promise:
+
+```js
+const doSomething = () => console.log('do something...');
+
+// ❌ bad way, using callbacks:
+setTimeout(doSomething, 1000);
+
+// ✅ good way, wrap the asynchronous code with a promise:
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+// then use the Promised based asynchronous utility:
+delay(1000).then(doSomething);
+```
+
+For this little example it may seem to be an overcomplication... but if
+you try to do something more complex like putting together multiple
+asynchronous and callback based functions it will make much more sense:
+
+```js
+// Some ludicrous but asynchronous functions:
+const delayedSum = (a, b, next) => setTimeout(() => next(a + b), 10);
+const delayedMulti = (a, b, next) => setTimeout(() => next(a * b), 10);
+const delayedDivision = (a, b, next) => setTimeout(() => next(a / b), 10);
+
+// ❌ bad way, callback hell:
+delayedSum(1, 1, (result) => {
+  delayedMulti(result, 2, (result) => {
+    delayedDivision(result, 2, (result) => {
+      console.log(`(1 + 1) * 2 / 2 = ${result}`);
+    });
+  });
+});
+```
+
+This thing with nested callbacks can go on forever when you deal with
+multiple database lookups, HTTP requests or File System interactions.
+
+Here is a small utility that uses [Arrow Functions](#arrow-functions), 
+[Rest Operator](#rest-operator) and [Currying][curry] to 
+**transform any callback based function into a promise based** one:
+
+```js
+const promisify = (fn) => (...args) =>
+  new Promise((resolve, reject) =>
+    fn(...args, (err, result) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(result);
+      }
+    })
+  );
+```
+
+With this utility, we can easily transform our functions to Promises:
+
+```js
+// ✅ good way, wrap the asynchronous code with a promise:
+const delayedSumP = promisify(delayedSum);
+const delayedMultiP = promisify(delayedMulti);
+const delayedDivisionP = promisify(delayedDivision);
+```
+
+And finally use them in a nice Promise chain:
+
+```js
+// ✅ good way, use Promise.resolve() to start a Promise chain:
+Promise.resolve()
+  .then(() => delayedSumP(1, 1))
+  .then((result) => delayedMultiP(result, 2))
+  .then((result) => delayedDivisionP(result, 2))
+  .then((result) => console.log(`(1 + 1) * 2 / 2 = ${result}`));
+```
+
+[[ ADD CATCH EXAMPLES ]]
 
 ## Async / Await
 
-[[ TO BE COMPLETED ]]
+The [`async / await`][async] is just a smimpler syntax around [Promises][promise].
+
+We can easily rewrite the last example as:
+
+```js
+// 👉 "await" must be used inside an "async" function
+const doTheJob = async () => {
+  const r1 = await delayedSumP(1, 1);
+  const r2 = await delayedMultiP(r1, 2);
+  return delayedDivisionP(r2, 2);
+}
+
+// 👉 an "async" function always return a promise:
+doTheJob().then(result => console.log(`(1 + 1) * 2 / 2 = ${result}`));
+```
+
+In the end, `async / await` it's just syntactic sugar around a Promise and
+let you write your code in a procedural style that is easier on the eye.
+
+[[ ADD CATCH EXAMPLES ]]
 
 ## Try / Catch
 
@@ -494,3 +591,5 @@ const shallowCopy = {
 [spread-operator]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax "MDN: Spread Operator"
 [shallow-copy]: https://medium.com/@serdarkabaoglu/shallow-copying-cloning-objects-in-javascript-ee8e0f1c1058 "Shallow copy article on Medium"
 [strict-equality]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Strict_equality "MDN: Strict Equality"
+[promise]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise "MDN: Promise"
+[async]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function "MDN: Async functions"
