@@ -15,8 +15,8 @@ image: "javascript.png"
 ---
 
 "JavaScript: the good parts" is a book by Douglas Crockford that made it big in 2008 
-as the world began to realize that web development and,  particularly, frontend 
-development were here to stay. 
+as the world began to realize that web development and,  particularly, 
+**_front-end_ technologies** were here to stay. 
 
 In the book, Douglas focuses on aspects of the language that we can use 
 **to write clean code that runs fast**: JavaScript for the Enterprise.
@@ -29,23 +29,29 @@ have changed in the last 12 years.
 
 ## In This Article:
 
-- [Contants](#constants)
+- [Try / Catch](#try--catch)
+- [Constants](#constants)
 - [Strict Equality](#strict-equality)
 - [Template Literals](#template-literals)
 - [Arrow Functions](#arrow-functions)
+- [IIFE: Immediately Invoked Function Expression](#iife-immediately-invoked-function-expression)
 - [Destructuring Assignment](#destructuring-assignment)
 - [Array API](#array-api)
 - [Rest Operator](#rest-operator)
 - [Spread Operator](#spread-operator)
 - [Promises](#promises)
 - [Async / Await](#async--await)
-- [Try / Catch](#try--catch)
-- [Custom Errors](#custom-errors)
+- [Error Handling](#error-handling)
+
+## Try / Catch
+
+[[ TO BE COMPLETED ]]
 
 ## Constants
 
-[Constants][constants] are [_block scoped_][block-scoped] variable who's **reference can not be mutated**. 
-If you try to change their value, you will get an exception.
+[Constants][constants] are [_block scoped_][block-scoped] variables who's 
+**reference can not be mutated**. 
+If you try to change their reference, you will get an exception:
 
 ```js
 const name = 'Marco';
@@ -85,6 +91,22 @@ const foo = (result === null)
   ? 'default value'
   : result
 ```
+
+👉 Mind that `value` and `reference` is a different thing.
+
+```js
+// ❌ bad: this tries to chance the constant's reference:
+const foo = 'xxx';
+foo = 'yyy'; 
+
+// ✅ good: "foo" reference remains unchanged:
+const foo = {
+  key: 'xxx'
+};
+foo.key = 'yyy';
+```
+
+[Click here to read a good article about "value vs reference".](https://codeburst.io/explaining-value-vs-reference-in-javascript-647a975e12a0)
 
 ## Strict Equality
 
@@ -148,6 +170,17 @@ sayHi('Marco');
 ```js
 const sum = (a, b) => a + b;
 console.log(sum(2, 4))
+```
+
+👉 Be careful with the meaning of `{}` when you want to return an object:
+
+```js
+// ❌ bad way, here the curly brackets are interpreted as
+//    the function's body:
+const makeObject = (key, val) => { key: val};
+
+// ✅ good way, wrap your object so to make it an explicit reference:
+const makeObject = (key, val) => ({ key: val});
 ```
 
 👉 An argument can define a default value:
@@ -227,6 +260,30 @@ const getChoice = (res) => {
 
 const foo = getChoice(doSomething()) || 'default value';
 ```
+
+## IIFE: Immediately Invoked Function Expression
+
+The [immediately Invoked Function Expression][iife] is a neat syntax that leverages
+the fact that you can wrap any piece of code with `()` 
+in order **to retrieve the reference** to it.
+While this is not really useful with _symbols_ and _primitives_, it gets extremely in handy
+with _objects_:
+
+```js
+const italianToday = (() => {
+  const pad = (v) => String(v).padStart(2, 0);
+  const today = new Date();
+  const day = pad(today.getDate());
+  const month = pad(today.getMonth() + 1);
+  const year = today.getFullYear();
+  return `${day}/${month}/${year}`;
+})();
+
+console.log(italianToday);
+```
+
+Used properly, **_IIFE_ prevents you to pollute the scope with support variables** and
+eventually lets you write cleaner and more declarative code.
 
 ## Destructuring Assignment
 
@@ -543,7 +600,7 @@ Promise.resolve()
 
 ## Async / Await
 
-The [`async / await`][async] is just a smimpler syntax around [Promises][promise].
+The [`async / await`][async] is just a simpler syntax around [Promises][promise].
 
 We can easily rewrite the last example as:
 
@@ -556,21 +613,65 @@ const doTheJob = async () => {
 }
 
 // 👉 an "async" function always return a promise:
-doTheJob().then(result => console.log(`(1 + 1) * 2 / 2 = ${result}`));
+doTheJob()
+  .then(result => console.log(`(1 + 1) * 2 / 2 = ${result}`))
+  .catch(error => `Could not do the math: ${error.message}`);
+```
+
+👉 You can use `try / catch` in combination with `async / await`:
+
+```js
+(async () => {
+  try {
+    const result = await doTheJob();
+    console.log(`(1 + 1) * 2 / 2 = ${result}`);
+  }
+  catch (error) {
+    console.log(`Could not do the math: ${error.message}`);
+  }
+})();
 ```
 
 In the end, `async / await` it's just syntactic sugar around a Promise and
 let you write your code in a procedural style that is easier on the eye.
 
-[[ ADD CATCH EXAMPLES ]]
+## Error Handling
 
-## Try / Catch
+Error handling is definitely Javascript's Achille's knee. Tools like [VSCode][vscode],
+[Chrome's DevTools][devtools] and [source-maps][sourcemaps] make our life less painful,
+still Javascript error management is not great compared to other languages.
 
-[[ TO BE COMPLETED ]]
+Here are a few tips to **improve your developer's experience** in Javascript when it comes to
+errors and debugging.
 
-## Custom Errors
+### 👉 Save Often: 
 
-[[ TO BE COMPLETED ]]
+> If you save after one single LOC change and get an error, you know for sure that the bug
+> lies within that single line of code.
+
+When you do backend you can use tools like [Nodemon][nodemon] to live reload
+you code every time you save a file (if it gets slow, it is a good indicator you are doing
+something wrong with your application). 
+
+In modern frontend it's common to leverage on [live-reload][livereload] and 
+[hot module replacement][hmr] to apply code changes on save. If this process slows down, it
+is even more critical that you figure out what are you doing wrong, as loading performances
+in frontend are paramount!
+
+### 👉 Use TDD and Jest:
+
+[Test Driven Development][tdd] is not just a QA tool, it is the most useful 
+**active development tool EVER**.
+
+Unit testing using [Jest][jest] is unbelievably fast. You can consider unit testing as
+**abstract programmatic silent breakpoints**. Your code goes through as many breakpoints
+as you may need, and an alarm goes off in case any expectation is not met.
+
+E2E testing is similar, and you can still use [Jest][jest] to run it. But in this case, your
+programmatic breakpoints are **state aware** and you can check for real-time execution.
+
+To me, it's almost unthinkable to develop an API without TDD nowadays.
+
 
 
 [block-scoped]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/block "MDN: Block Scoped"
@@ -593,3 +694,12 @@ let you write your code in a procedural style that is easier on the eye.
 [strict-equality]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Strict_equality "MDN: Strict Equality"
 [promise]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise "MDN: Promise"
 [async]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function "MDN: Async functions"
+[iife]: https://developer.mozilla.org/en-US/docs/Glossary/IIFE "MDN: Immediately invoked function expression"
+[vscode]: https://code.visualstudio.com/
+[devtools]: https://developers.google.com/web/tools/chrome-devtools
+[sourcemaps]: https://www.html5rocks.com/en/tutorials/developertools/sourcemaps/
+[nodemon]: https://nodemon.io/
+[livereload]: http://livereload.com/
+[hmr]: https://webpack.js.org/guides/hot-module-replacement/
+[tdd]: https://en.wikipedia.org/wiki/Test-driven_development
+[jest]: https://jestjs.io/
