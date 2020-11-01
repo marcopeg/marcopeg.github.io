@@ -96,6 +96,16 @@
             margin-left: auto;
             margin-right: auto
         }
+
+        // Nested list
+        & ul > li > p {
+            margin: 0;
+        }
+        & ul > li > ul {
+            margin-top: 5px;
+            margin-left: 20px;
+            font-size: 0.85em;
+        }
     }
 }
 
