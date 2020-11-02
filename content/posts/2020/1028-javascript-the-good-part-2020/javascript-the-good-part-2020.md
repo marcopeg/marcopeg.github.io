@@ -68,7 +68,7 @@ have changed in the last 12 years.
 If you try to change their reference, you will get an exception:
 
 ```js
-const name = 'Marco';
+const name = 'John';
 
 try {
   name = 'Luca';
@@ -148,8 +148,8 @@ console.log(null === undefined);
 ## Template Literals
 
 ```js
-const name = 'Marco';
-const surname = 'Pegoraro';
+const name = 'John';
+const surname = 'Doe';
 
 console.log(`hello ${name} ${surname}`);
 ```
@@ -179,14 +179,14 @@ A function that takes just one argument can skip the `()` around it:
 const sayHi = name => {
   console.log(`hi, ${name}`)
 };
-sayHi('Marco');
+sayHi('John');
 
 // Multiple arguments
 
 const sayHi = (name, surname) => {
   console.log(`hi, ${name} ${surname}`)
 };
-sayHi('Marco', 'Pegoraro);
+sayHi('John', 'Doe);
 ```
 
 ### 👉 Single instruction syntax
@@ -222,8 +222,8 @@ const calculateAge = (dateOfBirth, today = new Date()) => {
   return Math.abs(age_dt.getUTCFullYear() - 1970);
 };
 
-console.log(`You are ${calculateAge(new Date("1981-06-30"))} years old`);
-console.log(`You were ${calculateAge(new Date("1981-06-30"), new Date("2010"))} years old in 2010`);
+console.log(`You are ${calculateAge(new Date("1946-06-02"))} years old`);
+console.log(`You were ${calculateAge(new Date("1946-06-02"), new Date("2010"))} years old in 2010`);
 ```
 
 ### 👉 Function Composition
@@ -236,8 +236,8 @@ const dateDiff = (d1, d2) => ensureDate(d1).getTime() - ensureDate(d2).getTime()
 const dateYears = (date) => Math.abs(date.getUTCFullYear() - 1970);
 const calculateAge = (dateOfBirth, today = new Date()) => dateYears(new Date(dateDiff(today, dateOfBirth)));
 
-console.log(`You are ${calculateAge(new Date("1981-06-30"))} years old`);
-console.log(`You were ${calculateAge(new Date("1981-06-30"), new Date("2010"))} years old in 2010`);
+console.log(`You are ${calculateAge(new Date("1946-06-02"))} years old`);
+console.log(`You were ${calculateAge(new Date("1946-06-02"), new Date("2010"))} years old in 2010`);
 ```
 
 ### 👉 Currying
@@ -325,9 +325,9 @@ The [Destructuring Assignment][destructuring] allows to export symbols into the 
 
 ```js
 const payload = {
-  name: 'Marco',
-  surname: 'Pegoraro',
-  dateOfBirth: '1981-06-30'
+  name: 'John',
+  surname: 'Doe',
+  dateOfBirth: '1946-06-02'
 }
 
 const { name, surname } = payload;
@@ -382,8 +382,8 @@ a map of `key:value` that makes it possible:
 
 ```js
 const payload = {
-  first: "Marco",
-  last: "Pegoraro"
+  first: "John",
+  last: "Doe"
 };
 
 const { first: name, last: surname } = payload;
@@ -396,8 +396,8 @@ console.log(`${name} ${surname}`);
 ```js
 const payload = {
   name: {
-    first: "Marco",
-    last: "Pegoraro"
+    first: "John",
+    last: "Doe"
   },
   address: {
     city: "Malmö",
@@ -477,9 +477,9 @@ object.
 
 ```js
 const payload = {
-  name: 'Marco',
-  surname: 'Pegoraro',
-  dateOfBirth: '1981-06-30',
+  name: 'John',
+  surname: 'Doe',
+  dateOfBirth: '1946-06-02',
   hobbies: ['paragliding', 'sailing']
 };
 
@@ -510,15 +510,15 @@ of objects:
 
 ```js
 const payload = {
-  name: 'Marco',
-  surname: 'Pegoraro',
+  name: 'John',
+  surname: 'Doe',
   dateOfBirth: '1781-06-30',
   hobbies: ['paragliding', 'sailing']
 };
 
 const shallowCopy = {
   ...payload,
-  dateOfBirth: '1981-06-30', // I'm not THAT old!
+  dateOfBirth: '1946-06-02',
   married: true
 }
 ```
@@ -528,8 +528,8 @@ const shallowCopy = {
 ```js
 const payload = {
   info: {
-    first: "Marco",
-    last: "Pegoraro"
+    first: "John",
+    last: "Doe"
     address: {
       city: "Malmö",
       country: "Sweden"
