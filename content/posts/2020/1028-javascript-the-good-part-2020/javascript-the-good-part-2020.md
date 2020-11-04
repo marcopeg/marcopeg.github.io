@@ -59,6 +59,9 @@ have changed in the last 12 years.
 
 ## Try / Catch
 
+One thing is sure in life: errors happen. The `try...catch` statement helps
+to take ownership on runtime errors and handle them programmatically.
+
 [[ TO BE COMPLETED ]]
 
 ## Constants
