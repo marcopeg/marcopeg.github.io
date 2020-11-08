@@ -21,7 +21,7 @@ as the world began to realize that web development and,  particularly,
 In the book, Douglas focuses on aspects of the language that we can use 
 **to write clean code that runs fast**: JavaScript for the Enterprise.
 
-This is my reviewed version of it, adjourned to 2020, because a whole lot of things 
+This is my reviewed version of it, adjourned to 2020 because a whole lot of things 
 have changed in the last 12 years.
 
 > Less is More  
@@ -67,8 +67,8 @@ have changed in the last 12 years.
 
 ## Constants
 
-[Constants][constants] are [_block scoped_][block-scoped] variables who's 
-**reference can not be mutated**. 
+[Constants][constants] are [_block-scoped_][block-scoped] variables whose
+**reference can not be mutated**.  
 If you try to change their reference, you will get an exception:
 
 ```js
@@ -107,7 +107,7 @@ const foo = doSomething() || 'default value';
 const result = doSomething();
 const foo = (result === null)
   ? 'default value'
-  : result
+  : result;
 ```
 
 ### 👉 Mind that `value` and `reference` is a different thing:
@@ -128,7 +128,7 @@ foo.key = 'yyy';
 
 ## Strict Equality
 
-[Strict Equality][strict-equality] ensure faster comparison by enforcing type check.
+[Strict Equality][strict-equality] ensures faster comparison by enforcing type check.
 
 ```js
 // ❌ bad way, using loose equality:
@@ -169,7 +169,8 @@ const fn = () => {};
 [Arrow Functions][arrowfn] are a relatively newly introduced syntax to create functions.
 It's natively supported in NodeJS since version 4.4.5 and by all major browsers excluding IE.
 
-**With this syntax you can build just a function.** 
+> With this syntax,  
+> you can build just a function
 
 There is no `this` so you can't fall into the temptation of creating constructors.
 And there is no runtime scope, so you can't mess with it using `call`, `apply` or `bind`.
@@ -369,19 +370,19 @@ console.log(doSomething({ a: 5, b: 5, c: 5 }));
 ```
 
 The first implementation uses **positional arguments** so if you need to add a new
-argument to enrich the function's capabilty you have 2 choices:
+argument to enrich the function's capability you have 2 choices:
 
 1. just append the new argument at the end of the list
 2. refactor all the code that uses this function
 
-There are also some other disadvantages of using positional arguments such 
+There are also some other disadvantages of using positional arguments such as 
 **you can not skip middle arguments**.
 
 The second implementation uses the **destructuring assignment** in order to create
 a map of `key:value` that makes it possible:
 
 1. the caller can provide arguments in any order
-2. the caller can specify only part of the arguments, the rest will be defaulted
+2. the caller can specify only part of the arguments, the rest will default
 3. adding a new argument (with a default value) won't break existing code
 
 [Click here to read a good article about "named arguments vs positional arguments"](https://blog.bitsrc.io/javascript-why-named-arguments-are-better-than-positional-arguments-9b15ab3155ef)
@@ -441,7 +442,7 @@ console.log(`second: ${second}`);
 
 ## Array API
 
-Lists are ubiquitous nowadays and the good ol' `for ... do` is gone. Instead, you should
+Lists are ubiquitous nowadays and the good old `for ... do` is gone. Instead, you should
 consider using the [Array API][array-api] that, in composition with the **arrow functions**
 make your code more expressive and readable.
 
@@ -484,10 +485,10 @@ const theGoodPart = jsStuff
 
 ## Rest Operator
 
-The [rest operator][rest-operator] is a sweet tool collect "whatever else" from a Javascript
+The [rest operator][rest-operator] is a sweet tool to collect "whatever else" from a Javascript
 object.
 
-👉 Use it in combination with the Destructuring Assignment:
+### 👉 Use it in combination with the Destructuring Assignment:
 
 ```js
 const payload = {
@@ -503,7 +504,7 @@ const { name, surname, ...other } = payload;
 console.log(other);
 ```
 
-👉 Use it to collect a function's arguments into an array:
+## 👉 Use it to collect a function's arguments into an array:
 
 ```js
 const foo = (a, b, ...args) => {
@@ -519,7 +520,7 @@ foo('a', 'b', 'c', 'd', 'e');
 
 ## Spread Operator
 
-The [Spread Operator][spread-operator] lets you quikly build [shallow copies][shallow-copy] 
+The [Spread Operator][spread-operator] lets you quickly build [shallow copies][shallow-copy] 
 of objects:
 
 ```js
@@ -537,7 +538,9 @@ const shallowCopy = {
 }
 ```
 
-👉 You can nest spread operator to achieve a _manual deep copy_:
+### 👉 Nested Spread Operator
+
+You can nest spread operator to achieve a _manual deep copy_:
 
 ```js
 const payload = {
@@ -566,7 +569,7 @@ const shallowCopy = {
 
 ## Promises
 
-[Promises][promise] are ways to streamline what once was referred as
+[Promises][promise] are ways to streamline what once was referred to as
 [the callback hell](http://callbackhell.com/).
 
 Any asynchronous code could be wrapped up and served as a Promise:
@@ -584,9 +587,9 @@ const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 delay(1000).then(doSomething);
 ```
 
-For this little example it may seem to be an overcomplication... but if
+For this little example, it may seem to be an overcomplication... but if
 you try to do something more complex like putting together multiple
-asynchronous and callback based functions it will make much more sense:
+asynchronous and callback-based functions it will make much more sense:
 
 ```js
 // Some ludicrous but asynchronous functions:
@@ -605,11 +608,11 @@ delayedSum(1, 1, (result) => {
 ```
 
 This thing with nested callbacks can go on forever when you deal with
-multiple database lookups, HTTP requests or File System interactions.
+multiple database lookups, HTTP requests, or File System interactions.
 
 Here is a small utility that uses [Arrow Functions](#arrow-functions), 
-[Rest Operator](#rest-operator) and [Currying][curry] to 
-**transform any callback based function into a promise based** one:
+[Rest Operator](#rest-operator), and [Currying][curry] to 
+**transform any callback-based function into a promise-based** one:
 
 ```js
 const promisify = (fn) => (...args) =>
@@ -633,7 +636,7 @@ const delayedMultiP = promisify(delayedMulti);
 const delayedDivisionP = promisify(delayedDivision);
 ```
 
-And finally use them in a nice Promise chain:
+And finally, use them in a nice Promise chain:
 
 ```js
 // ✅ good way, use Promise.resolve() to start a Promise chain:
@@ -643,8 +646,6 @@ Promise.resolve()
   .then((result) => delayedDivisionP(result, 2))
   .then((result) => console.log(`(1 + 1) * 2 / 2 = ${result}`));
 ```
-
-[[ ADD CATCH EXAMPLES ]]
 
 ## Async / Await
 
@@ -681,13 +682,13 @@ doTheJob()
 ```
 
 In the end, `async / await` it's just syntactic sugar around a Promise and
-let you write your code in a procedural style that is easier on the eye.
+lets you write your code in a procedural style that is easier on the eye.
 
 ## Error Handling
 
 Error handling is definitely Javascript's Achille's knee. Tools like [VSCode][vscode],
-[Chrome's DevTools][devtools] and [source-maps][sourcemaps] make our life less painful,
-still Javascript error management is not great compared to other languages.
+[Chrome's DevTools][devtools], and [source-maps][sourcemaps] make our life less painful,
+still, Javascript error management is not great compared to other languages.
 
 Here are a few tips to **improve your developer's experience** in Javascript when it comes to
 errors and debugging.
@@ -697,18 +698,18 @@ errors and debugging.
 > If you save after one single LOC change and get an error, you know for sure that the bug
 > lies within that single line of code.
 
-When you do backend you can use tools like [Nodemon][nodemon] to live reload
-you code every time you save a file (if it gets slow, it is a good indicator you are doing
+When you do backend you can use tools like [Nodemon][nodemon] to live-reload
+your code every time you save a file (if it gets slow, it is a good indicator you are doing
 something wrong with your application). 
 
-In modern frontend it's common to leverage on [live-reload][livereload] and 
+In the modern frontend, it's common to leverage on [live-reload][livereload] and 
 [hot module replacement][hmr] to apply code changes on save. If this process slows down, it
 is even more critical that you figure out what are you doing wrong, as loading performances
-in frontend are paramount!
+in the frontend are paramount!
 
 ### 👉 Use TDD and Jest:
 
-[Test Driven Development][tdd] is not just a QA tool, it is the most useful 
+[Test-Driven Development][tdd] is not just a QA tool, it is the most useful 
 **active development tool EVER**.
 
 Unit testing using [Jest][jest] is unbelievably fast. You can consider unit testing as
@@ -735,7 +736,7 @@ try {
 ```
 
 You may want to carefully choose a specific Javascript error that helps
-representig the failing situation:
+to represent the failing situation:
 
 ```js
 const vote = (age, value) => {
@@ -747,8 +748,8 @@ const vote = (age, value) => {
 }
 ```
 
-In this example we apply a simple age based validation rule and we throw
-an specific error that clearly communicate what's going wrong.
+In this example, we apply a simple age-based validation rule and we throw
+a specific error that clearly communicates what's going wrong.
 
 In JavaScript there are a few specialized errors:
 
@@ -796,7 +797,7 @@ try {
 
 Some cool stuff about custom errors:
 
-- You can provide meaninful error names
+- You can provide meaningful error names
 - You can define a default value for the error message
 - You can decorate them with any other properties you may need
 
@@ -806,11 +807,11 @@ Some cool stuff about custom errors:
 ## Try / Catch
 
 One thing is sure in life: errors happen. The [`try...catch`][trycatch] statement 
-helps to take ownership on runtime errors and handle them programmatically.
+helps to take ownership of runtime errors and handle them programmatically.
 
 ### 👉 Avoid Tedious Conditionals
 
-In modern web-development you can use `try...catch` to simplify tedious checks like:
+In modern web development, you can use `try...catch` to simplify tedious checks like:
 
 ```js
 // ❌ bad way, using tedious checks:
@@ -970,7 +971,7 @@ we still achieve:
 
 ## Conclusions
 
-JavaScript is a good language.  
+**JavaScript is a good language.**  
 It simply has too much legacy that you should really avoid 😉.
 
 [block-scoped]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/block "MDN: Block Scoped"
