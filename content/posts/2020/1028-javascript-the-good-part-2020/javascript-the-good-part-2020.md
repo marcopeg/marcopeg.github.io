@@ -29,7 +29,6 @@ have changed in the last 12 years.
 
 ## In This Article:
 
-- [Try / Catch](#try--catch)
 - [Constants](#constants)
   - [Use default values](#-its-easy-to-use-default-values-for-constants)
   - [Use the ternary operator](#-you-get-even-more-control-with-ternary-operator)
@@ -46,6 +45,11 @@ have changed in the last 12 years.
   - [Avoid switch operators](#-avoid-switch-operators)
 - [IIFE: Immediately Invoked Function Expression](#iife-immediately-invoked-function-expression)
 - [Destructuring Assignment](#destructuring-assignment)
+  - [Importing Modules](#-importing-modules)
+  - [Fulfill Open/Close](#-fulfill-openclose)
+  - [Rename Properties](#-rename-properties)
+  - [Nested Destructuring](#-nested-destructuring)
+  - [With Arrays](#-with-arrays)
 - [Array API](#array-api)
 - [Rest Operator](#rest-operator)
 - [Spread Operator](#spread-operator)
@@ -56,13 +60,10 @@ have changed in the last 12 years.
   - [Use TDD and Jest](#-use-tdd-and-jest)
   - [Throw specific errors](#-throw-specific-errors)
   - [Throw custom errors](#-throw-custom-errors)
+- [Try / Catch](#try--catch)
+  - [Avoid Tedious Conditionals](#-avoid-tedious-conditiona)
+  - [Check HTTP Errors](#-check-http-errors)
 
-## Try / Catch
-
-One thing is sure in life: errors happen. The `try...catch` statement helps
-to take ownership on runtime errors and handle them programmatically.
-
-[[ TO BE COMPLETED ]]
 
 ## Constants
 
@@ -339,7 +340,9 @@ console.log(`name: ${name}`);
 console.log(`surname: ${surname}`);
 ```
 
-👉 It is particularly useful when importing only parts of a module:
+### 👉 Importing Modules
+
+It is particularly useful when importing only parts of a module:
 
 ```js
 // With classic NodeJS style:
@@ -349,7 +352,9 @@ const { useMemo, useEffect } = require('react');
 import { useMemo, useEffect } from 'react';
 ```
 
-👉 And you can use it to implement the [Open-Closed Principle][open-closed]:
+### 👉 Fulfill Open/Close
+
+And you can use it to implement the [Open-Closed Principle][open-closed]:
 
 ```js
 // ❌ bad way, using positional arguments with default values:
@@ -381,7 +386,9 @@ a map of `key:value` that makes it possible:
 
 [Click here to read a good article about "named arguments vs positional arguments"](https://blog.bitsrc.io/javascript-why-named-arguments-are-better-than-positional-arguments-9b15ab3155ef)
 
-👉 You can rename properties while destructuring:
+### 👉 Rename Properties
+
+You can rename properties while destructuring:
 
 ```js
 const payload = {
@@ -394,7 +401,9 @@ const { first: name, last: surname } = payload;
 console.log(`${name} ${surname}`);
 ```
 
-👉 You can also nest destructuring assignments:
+### 👉 Nested Destructuring
+
+You can also nest destructuring assignments:
 
 ```js
 const payload = {
@@ -416,7 +425,9 @@ const {
 console.log(`${name} lives in ${city}`);
 ```
 
-👉 Destructuring Assignment **works with arrays as well**:
+### 👉 With Arrays
+
+Destructuring Assignment **works with arrays as well**:
 
 ```js
 const payload = ['one', 'two', 'three'];
@@ -792,8 +803,175 @@ Some cool stuff about custom errors:
 [Click here for a cool guide to error handling.](https://www.valentinog.com/blog/error/)
 
 
+## Try / Catch
 
+One thing is sure in life: errors happen. The [`try...catch`][trycatch] statement 
+helps to take ownership on runtime errors and handle them programmatically.
 
+### 👉 Avoid Tedious Conditionals
+
+In modern web-development you can use `try...catch` to simplify tedious checks like:
+
+```js
+// ❌ bad way, using tedious checks:
+let val = null;
+if (myObject.k1 && myObject.k1.k2 && myObject.k1.k2.k3) {
+  val = myObject.k1.k2.k3;
+}
+
+// ✅ good way, using try...catch:
+let val = null;
+try {
+  val = myObject.k1.k2.k3;
+} catch () {
+  val = null;
+}
+
+// 😎 cool way, with const, immediate expression & arrow functions:
+const val = (() => {
+  try {
+    return myObject.k1.k2.k3;
+  } catch () {
+    return null;
+  }
+})();
+
+```
+
+### 👉 Check HTTP Errors
+
+Let's say that you want to build a nice function `fetch()` that wraps the
+famous library `axios`, and - **for the purpose of better error handling** -
+you also want to throw some custom errors in case things go south:
+
+```js
+// Import AXIOS library:
+// https://www.npmjs.com/package/axios
+const axios = require("axios");
+
+/**
+ * Define some custom errors as explained in the earlier paragraph:
+ */ 
+
+class FetchError extends Error {
+  constructor(originalError) {
+    super(originalError.message);
+    this.name = "FetchError";
+    this.originalError = originalError;
+  }
+}
+
+class RequestError extends FetchError {
+  constructor(...params) {
+    super(...params);
+    this.name = "RequestError";
+  }
+}
+
+class ResponseError extends FetchError {
+  constructor(...params) {
+    super(...params);
+    this.name = "ResponseError";
+  }
+}
+
+class NotFoundError extends ResponseError {
+  constructor(...params) {
+    super(...params);
+    this.name = "NotFoundError";
+  }
+}
+```
+
+The piece of code where you do the error handling is quite simple to identify:
+
+```js
+const fetch = async (url) => {
+  try {
+    const { data: { title } } = await axios.get(url);
+    return `Todo: ${title}`;
+  } catch (err) {
+    // --->
+    // HANDLE ERROR HERE!
+    // <--- 
+  }
+};
+```
+
+Without `try...catch` you may need to resolve to nested conditionals
+which is quite a poor way to handle this problem:
+
+```js
+/**
+ * ❌ bad way, using nested conditionals:
+ */
+
+} catch (err) {
+  if (err.response) {
+    if (err.response.status === 404) {
+      throw new NotFoundError(err);
+    }
+    throw new ResponseError(err);
+  }
+  if (err.request) {
+    throw new RequestError(err);
+  }
+  throw new FetchError(err);
+}
+```
+
+But you can make a clever utilization of `try...catch` and [SRP][srp] and build
+a function that identifies which error to throw in a more readable way:
+
+```js
+/**
+ * ✅ good way, using try...catch and SRP:
+ */
+
+// Specialized function that identifies the error thrown by Axios:
+const getFetchError = (err) => {
+  // Test for a Request error:
+  try {
+    if (err.response.status === 404) {
+      return new NotFoundError(err);
+    }
+    return new ResponseError(err);
+  } catch (err) {}
+
+  // Test for a Response error:
+  try {
+    if (err.request) {
+      return new RequestError(err);
+    }
+  } catch (err) {}
+
+  // Fallback on a generic error:
+  return new FetchError(err);
+};
+
+// Here goes the entire `fetch()` implementation:
+const fetch = async (url) => {
+  try {
+    const { data: { title } } = await axios.get(url);
+    return `Todo: ${title}`;
+  } catch (err) {
+    throw getFetchError(err);
+  }
+};
+```
+
+Even if for this simplistic example the "good way" means writing more code,
+we still achieve:
+
+1. better readability
+2. better unit testing  
+   <small>(as we can test the `getFetchError()` function in complete isolation.)</small>
+3. fulfillment of SRP
+
+## Conclusions
+
+JavaScript is a good language.  
+It simply has too much legacy that you should really avoid 😉.
 
 [block-scoped]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/block "MDN: Block Scoped"
 [constants]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const "MDN: Constants"
@@ -824,3 +1002,4 @@ Some cool stuff about custom errors:
 [hmr]: https://webpack.js.org/guides/hot-module-replacement/
 [tdd]: https://en.wikipedia.org/wiki/Test-driven_development
 [jest]: https://jestjs.io/
+[trycatch]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch "MDN: try...catch"
