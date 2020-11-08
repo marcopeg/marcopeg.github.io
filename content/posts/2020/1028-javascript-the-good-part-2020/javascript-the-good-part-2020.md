@@ -29,7 +29,6 @@ have changed in the last 12 years.
 
 ## In This Article:
 
-- [Try / Catch](#try--catch)
 - [Constants](#constants)
   - [Use default values](#-its-easy-to-use-default-values-for-constants)
   - [Use the ternary operator](#-you-get-even-more-control-with-ternary-operator)
@@ -56,13 +55,8 @@ have changed in the last 12 years.
   - [Use TDD and Jest](#-use-tdd-and-jest)
   - [Throw specific errors](#-throw-specific-errors)
   - [Throw custom errors](#-throw-custom-errors)
+- [Try / Catch](#try--catch)
 
-## Try / Catch
-
-One thing is sure in life: errors happen. The `try...catch` statement helps
-to take ownership on runtime errors and handle them programmatically.
-
-[[ TO BE COMPLETED ]]
 
 ## Constants
 
@@ -792,6 +786,46 @@ Some cool stuff about custom errors:
 [Click here for a cool guide to error handling.](https://www.valentinog.com/blog/error/)
 
 
+## Try / Catch
+
+One thing is sure in life: errors happen. The [`try...catch`][trycatch] statement 
+helps to take ownership on runtime errors and handle them programmatically.
+
+### Avoid tedious conditionals:
+
+In modern web-development you can use `try...catch` to simplify tedious checks like:
+
+```js
+// ❌ bad way, using tedious checks:
+let val = null;
+if (myObject.k1 && myObject.k1.k2 && myObject.k1.k2.k3) {
+  val = myObject.k1.k2.k3;
+}
+
+// ✅ good way, using try...catch:
+let val = null;
+try {
+  val = myObject.k1.k2.k3;
+} catch () {
+  val = null;
+}
+
+// 😎 cool way, with const, immediate expression & arrow functions:
+// (see those subjects in later paragraphs)
+const val = (() => {
+  try {
+    return myObject.k1.k2.k3;
+  } catch () {
+    return null;
+  }
+})();
+
+```
+
+### Check HTTP requests errors:
+
+[[ need test on sandbox ]]
+
 
 
 
@@ -824,3 +858,4 @@ Some cool stuff about custom errors:
 [hmr]: https://webpack.js.org/guides/hot-module-replacement/
 [tdd]: https://en.wikipedia.org/wiki/Test-driven_development
 [jest]: https://jestjs.io/
+[trycatch]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch "MDN: try...catch"
