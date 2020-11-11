@@ -113,7 +113,7 @@ const foo = (result === null)
 ### 👉 Mind that `value` and `reference` is a different thing:
 
 ```js
-// ❌ bad: this tries to chance the constant's reference:
+// ❌ bad: this tries to change the constant's reference:
 const foo = 'xxx';
 foo = 'yyy'; 
 
@@ -174,6 +174,9 @@ It's natively supported in NodeJS since version 4.4.5 and by all major browsers 
 
 There is no `this` so you can't fall into the temptation of creating constructors.
 And there is no runtime scope, so you can't mess with it using `call`, `apply` or `bind`.
+It is also [very complicated to implement recursion with arrow functions](https://stackoverflow.com/questions/25228394/how-do-i-write-an-arrow-function-in-es6-recursively).
+Although recursion is not a bad thing at all, it is often misused and ends up in memory 
+issues, so it is not a bad thing that it is really difficult to implement it with arrow functions ;-)
 
 ### 👉 Single argument syntax
 
@@ -294,7 +297,7 @@ swith (doSomething()) {
 const getChoice = (res) => {
   if (res === "a") return "option 1";
   if (res === "b") return "option 2";
-  return "no choiche";
+  return "no choice";
 };
 
 const foo = getChoice(doSomething()) || 'default value';
