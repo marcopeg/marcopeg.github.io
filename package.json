@@ -4,7 +4,7 @@
   "description": "A minimal, lightweight and mobile-first starter for creating blazing-fast static blogs",
   "main": "n/a",
   "scripts": {
-    "start": "npm run clean && gatsby develop --host 0.0.0.0",
+    "start": "gatsby develop --host 0.0.0.0",
     "clean": "rimraf .cache public",
     "build": "npm run clean && gatsby build",
     "serve": "npm run build && ./node_modules/.bin/http-server ./public",
