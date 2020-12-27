@@ -1,0 +1,135 @@
+@import '../../../assets/scss/variables';
+@import '../../../assets/scss/mixins';
+
+.content {
+    max-width: $layout-post-single-width;
+    padding: 0 15px;
+    margin: 0 auto;
+    &__image {
+        @include margin-top(0.5);
+    }
+    &__title {
+        font-size: $typographic-base-font-size * 2;
+        max-width: $layout-post-width;
+        margin-left: auto;
+        margin-right: auto;
+        font-weight: 600;
+        text-align: center;
+        @include line-height(1.65);
+        @include margin-top(0.5);
+        @include margin-bottom(0)
+    }
+    &__body {
+        & > h2 {
+            margin-top: 80px;
+        }
+
+        /* preformatted */
+        & div:global(.gatsby-highlight) pre {
+            background-color: #ddd;
+            font-size: 0.8em;
+
+            & code[class*="language-"] {
+                color: #222;
+            }
+        }
+        & p + div:global(.gatsby-highlight) {
+            margin-top: -15px;
+        }
+        /* inline code */
+        & p code[class*="language-"]  {
+            color: #222;
+            background-color: #ddd;
+            font-size: 0.85em;
+            padding: 0 3px;
+        }
+
+        & figure {
+            @include margin-bottom(1);
+            & blockquote {
+                font-style: italic;
+                text-align: center;
+                margin-top: 0;
+                @include padding(1, 0);
+                & p {
+                    max-width: $layout-post-width;
+                    font-size: $typographic-base-font-size * 1.6817;
+                    margin-top: 0;
+                    @include margin-bottom(1);
+                    @include line-height(1.5)
+                }
+            }
+        }
+        & a {
+            text-decoration: underline
+        }
+        & blockquote {
+            text-align: left;
+            font-weight: 300;
+            color: #666;
+            padding: 1em 2em;
+            border: none;
+            line-height: 1.5em;
+
+            p {
+                line-height: 1.5em;
+                font-size: 1.3em;
+
+                strong {
+                    color: #444;
+                }
+            }
+        }
+        & div:global(.gatsby-highlight) + blockquote,
+        & div:global(.gatsby-highlight) + p {
+            margin-top: 20px;
+        }
+
+        & div:global(.gatsby-highlight) + h1,
+        & div:global(.gatsby-highlight) + h2,
+        & div:global(.gatsby-highlight) + h3 {
+            margin-top: 50px;
+        }
+        & *:not(div) {
+            width: 100%;
+            max-width: $layout-post-width;
+            margin-left: auto;
+            margin-right: auto
+        }
+
+        // Nested list
+        & ul > li > p {
+            margin: 0;
+        }
+        & ul > li > ul {
+            margin-top: 5px;
+            margin-left: 20px;
+            font-size: 0.85em;
+        }
+    }
+}
+
+@include breakpoint-md {
+    .content {
+        padding: 0;
+        &__image {
+            @include margin-top(1);
+        }
+        &__title {
+            font-size: $typographic-base-font-size * 3;
+            @include line-height(2.25);
+            @include margin-top(1);
+            @include margin-bottom(1.5)
+        }
+        &__body {
+            font-size: $typographic-base-font-size * 1.125;
+            @include line-height(1.125);
+            @include margin-bottom(1.125);
+            & p {
+                font-size: $typographic-base-font-size * 1.125;
+                @include line-height(1.125);
+                @include margin-bottom(1.125)
+            }
+        }
+    }
+}
