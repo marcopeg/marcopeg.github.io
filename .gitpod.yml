@@ -1,0 +1,15 @@
+
+tasks:
+  - init: npm install
+    command: npm start
+    openIn: bottom
+
+ports:
+  - port: 8000
+    onOpen: open-preview
+  - port: 9229
+    onOpen: ignore
+
+vscode:
+  extensions:
+    - znck.grammarly@0.12.5:JdrR0JlktcOeKLu6lxGbJw==

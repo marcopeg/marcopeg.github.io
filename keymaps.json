@@ -1,0 +1,37 @@
+[
+    {
+        "command": "core.nextTab",
+        "keybinding": "alt+cmd+right",
+        "context": ""
+    },
+    {
+        "command": "core.previousTab",
+        "keybinding": "alt+cmd+left",
+        "context": ""
+    },
+    {
+        "command": "core.close.tab",
+        "keybinding": "cmd+w",
+        "context": ""
+    },
+    {
+        "command": "editor.action.deleteLines",
+        "keybinding": "ctrl+shift+k",
+        "context": ""
+    },
+    {
+        "command": "monaco.editor.action.copyLinesDownAction",
+        "keybinding": "shift+cmd+d",
+        "context": "strictEditorTextFocus"
+    },
+    {
+        "command": "monaco.editor.action.moveLinesDownAction",
+        "keybinding": "ctrl+alt+down",
+        "context": "strictEditorTextFocus"
+    },
+    {
+        "command": "monaco.editor.action.moveLinesUpAction",
+        "keybinding": "ctrl+alt+up",
+        "context": "strictEditorTextFocus"
+    }
+]
