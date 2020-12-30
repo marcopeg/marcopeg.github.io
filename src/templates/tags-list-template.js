@@ -20,14 +20,14 @@ const TagsListTemplate = ({ data }) => {
       <Page title="Tags">
         <section className='WaffleGridSection__grid'>
         {group.map((tag) => (
-            <div key={tag.fieldValue} className='tagBlock'>
-             
-                <h4>{tag.fieldValue}</h4>
-                Total Article : {tag.totalCount}
-                <Link to={`/tag/${kebabCase(tag.fieldValue)}/`}>
-                  <img src={rightarrow} ></img>
-                </Link>
-            </div>
+            
+             <Link to={`/tag/${kebabCase(tag.fieldValue)}/`} className='tagBlock'>
+               <div key={tag.fieldValue} >
+                  <h4>{tag.fieldValue}</h4>
+                  Total Article : {tag.totalCount}
+                    <img src={rightarrow} ></img>
+                  </div>
+              </Link>
           ))}
         </section>
       </Page>
