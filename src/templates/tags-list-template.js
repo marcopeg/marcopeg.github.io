@@ -5,7 +5,7 @@ import Layout from '../components/Layout';
 import Sidebar from '../components/Sidebar';
 import Page from '../components/Page';
 import './tag-list.scss';
-import rightarrow from "../assets/images/right-arrow24.png"; 
+import rightarrow from "../assets/images/arrow24.png";
 
 const TagsListTemplate = ({ data }) => {
   const {
@@ -20,13 +20,10 @@ const TagsListTemplate = ({ data }) => {
       <Page title="Tags">
         <section className='WaffleGridSection__grid'>
         {group.map((tag) => (
-            
-             <Link to={`/tag/${kebabCase(tag.fieldValue)}/`} className='tagBlock'>
-               <div key={tag.fieldValue} >
+             <Link to={`/tag/${kebabCase(tag.fieldValue)}/`} key={tag.fieldValue} className='tagBlock'>
                   <h4>{tag.fieldValue}</h4>
                   Total Article : {tag.totalCount}
                     <img src={rightarrow} ></img>
-                  </div>
               </Link>
           ))}
         </section>

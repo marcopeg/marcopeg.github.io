@@ -21,7 +21,7 @@ const TagTemplate = ({ data, pageContext }) => {
     hasNextPage
   } = pageContext;
 
-  const { edges } = data.allMarkdownRemark;
+  const { edges, totalCount } = data.allMarkdownRemark;
   const pageTitle = currentPage > 0 ? `All Posts tagged as "${tag}" - Page ${currentPage} - ${siteTitle}` : `All Posts tagged as "${tag}" - ${siteTitle}`;
 
   return (
@@ -29,12 +29,14 @@ const TagTemplate = ({ data, pageContext }) => {
       <Sidebar />
       <Page title={tag}>
         <Feed edges={edges} />
-        <Pagination
+        { totalCount > 8 &&
+         <Pagination
           prevPagePath={prevPagePath}
           nextPagePath={nextPagePath}
           hasPrevPage={hasPrevPage}
           hasNextPage={hasNextPage}
-        />
+        />  
+        }
       </Page>
     </Layout>
   );
@@ -59,6 +61,7 @@ export const query = graphql`
           fields {
             slug
             categorySlug
+            image
           }
           frontmatter {
             title
@@ -68,6 +71,7 @@ export const query = graphql`
           }
         }
       }
+      totalCount
     }
   }
 `;
