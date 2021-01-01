@@ -5,6 +5,7 @@ import Sidebar from '../components/Sidebar';
 import Feed from '../components/Feed';
 import Page from '../components/Page';
 import Pagination from '../components/Pagination';
+const siteConfig = require('../../config.js');
 
 const TagTemplate = ({ data, pageContext }) => {
   const {
@@ -29,7 +30,7 @@ const TagTemplate = ({ data, pageContext }) => {
       <Sidebar />
       <Page title={tag}>
         <Feed edges={edges} />
-        { totalCount > 8 &&
+        { totalCount > siteConfig.postsPerPage &&
          <Pagination
           prevPagePath={prevPagePath}
           nextPagePath={nextPagePath}
