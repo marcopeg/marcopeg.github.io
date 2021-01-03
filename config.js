@@ -18,6 +18,10 @@ module.exports = {
             path: '/tags'
         },
         {
+            label: 'Categories ',
+            path: '/categories'
+        },
+        {
             label: 'About me',
             path: '/pages/about'
         },
