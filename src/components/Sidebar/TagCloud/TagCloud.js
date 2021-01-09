@@ -19,8 +19,7 @@ const options = {
 };
 
 const newUrl = (tag) =>{
-  debugger;
-  return  window.open(`/tag/${kebabCase(tag.text)}/`, "_blank");
+  return  window.open(`/tag/${kebabCase(tag.text)}/`,"_self");
 }
 
 const TagListCloud = ({ tagList }) => {
@@ -28,7 +27,7 @@ const TagListCloud = ({ tagList }) => {
       onWordClick:  newUrl,
     };
 
-   return (<div style={{ height: 700, width: '100%' , background: 'lightgrey' }}>
+   return (<div style={{ height: 400, width: '100%'}}>
         <ReactWordcloud options={options} words={tagList} callbacks={callbacks} />
       </div>);
   };
