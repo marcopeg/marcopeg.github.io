@@ -27,7 +27,7 @@ const TagListCloud = ({ tagList }) => {
       onWordClick:  newUrl,
     };
 
-   return (<div style={{ height: 400, width: '100%'}}>
+   return (<div style={{ height: 400, width: '100%', marginLeft: '-6%'}}>
         <ReactWordcloud options={options} words={tagList} callbacks={callbacks} />
       </div>);
   };
