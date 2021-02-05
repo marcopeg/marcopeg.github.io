@@ -5,6 +5,7 @@ import Sidebar from '../components/Sidebar';
 import Feed from '../components/Feed';
 import Page from '../components/Page';
 import Pagination from '../components/Pagination';
+const siteConfig = require('../../config.js');
 
 const CategoryTemplate = ({ data, pageContext }) => {
   const {
@@ -21,7 +22,7 @@ const CategoryTemplate = ({ data, pageContext }) => {
     hasNextPage,
   } = pageContext;
 
-  const { edges } = data.allMarkdownRemark;
+  const { edges, totalCount } = data.allMarkdownRemark;
   const pageTitle = currentPage > 0 ? `${category} - Page ${currentPage} - ${siteTitle}` : `${category} - ${siteTitle}`;
 
   return (
@@ -29,12 +30,14 @@ const CategoryTemplate = ({ data, pageContext }) => {
       <Sidebar />
       <Page title={category}>
         <Feed edges={edges} />
-        <Pagination
-          prevPagePath={prevPagePath}
-          nextPagePath={nextPagePath}
-          hasPrevPage={hasPrevPage}
-          hasNextPage={hasNextPage}
-        />
+        { totalCount > siteConfig.postsPerPage &&
+          <Pagination
+            prevPagePath={prevPagePath}
+            nextPagePath={nextPagePath}
+            hasPrevPage={hasPrevPage}
+            hasNextPage={hasNextPage}
+          />
+      }
       </Page>
     </Layout>
   );
@@ -59,6 +62,7 @@ export const query = graphql`
           fields {
             categorySlug
             slug
+            image
           }
           frontmatter {
             date
@@ -68,6 +72,7 @@ export const query = graphql`
           }
         }
       }
+      totalCount
     }
   }
 `;

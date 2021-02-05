@@ -4,6 +4,8 @@ import kebabCase from 'lodash/kebabCase';
 import Sidebar from '../components/Sidebar';
 import Layout from '../components/Layout';
 import Page from '../components/Page';
+import './category-list.scss';
+import rightarrow from "../assets/images/arrow24.png";
 
 const CategoriesListTemplate = ({ data }) => {
   const {
@@ -17,15 +19,15 @@ const CategoriesListTemplate = ({ data }) => {
     <Layout title={`Categories - ${title}`} description={subtitle}>
       <Sidebar />
       <Page title="Categories">
-        <ul>
-          {group.map((category) => (
-            <li key={category.fieldValue}>
-              <Link to={`/category/${kebabCase(category.fieldValue)}/`}>
-                {category.fieldValue} ({category.totalCount})
+      <section className='WaffleGridSection__grid'>
+        {group.map((category) => (
+             <Link to={`/category/${kebabCase(category.fieldValue)}/`} key={category.fieldValue} className='categoryBlock'>
+                  <h4>{category.fieldValue}</h4>
+                  Total Article : {category.totalCount}
+                    <img src={rightarrow} ></img>
               </Link>
-            </li>
           ))}
-        </ul>
+        </section>
       </Page>
     </Layout>
   );

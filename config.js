@@ -14,6 +14,14 @@ module.exports = {
             path: '/'
         },
         {
+            label: 'Tags',
+            path: '/tags'
+        },
+        {
+            label: 'Categories ',
+            path: '/categories'
+        },
+        {
             label: 'About me',
             path: '/pages/about'
         },
