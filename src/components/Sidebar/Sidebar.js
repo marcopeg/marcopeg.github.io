@@ -5,6 +5,7 @@ import Contacts from './Contacts'
 import Copyright from './Copyright'
 import Menu from './Menu'
 import styles from './Sidebar.module.scss'
+import TagCloud from './TagCloud'
 
 export const PureSidebar = ({ data, isIndex }) => {
     const {
@@ -13,15 +14,25 @@ export const PureSidebar = ({ data, isIndex }) => {
         menu
     } = data.site.siteMetadata
 
+    const { group } = data.allMarkdownRemark;
+    
+    const dataTag=[];
+    
+    group.map((item) => (
+      dataTag.push({ text: item.fieldValue, value : item.totalCount})
+    ))
+
     return (
         <div className={styles['sidebar']}>
             <div className={styles['sidebar__inner']}>
                 <Author author={author} isIndex={isIndex} />
                 <Menu menu={menu} />
+                <TagCloud tagList={dataTag}/>
                 <Contacts contacts={author.contacts} />
                 <Copyright copyright={copyright} />
             </div>
         </div>
+        
     )
 }
 
@@ -51,6 +62,14 @@ export const Sidebar = (props) => (
                 vkontakte
               }
             }
+          }
+        }
+        allMarkdownRemark(
+          filter: { frontmatter: { template: { eq: "post" }, draft: { ne: true } } }
+        ) {
+          group(field: frontmatter___tags) {
+            fieldValue
+            totalCount
           }
         }
       }

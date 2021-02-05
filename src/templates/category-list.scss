@@ -1,0 +1,26 @@
+
+
+
+.WaffleGridSection__grid .categoryBlock {
+    background: #568e90;
+    margin-top: 0;
+    padding: 30px;
+    lost-waffle: 1/2;
+}
+
+.WaffleGridSection__grid .categoryBlock{
+    color: #fff;
+}
+@media (max-width: 500px) {
+    .WaffleGridSection__grid .categoryBlock {
+        lost-waffle: 1;
+    }
+}
+
+.WaffleGridSection__grid .categoryBlock img {
+    float: right;
+    transition: 0.5s all ease-in-out; 
+}
+.WaffleGridSection__grid .categoryBlock img:hover {
+    transform: scale(1.5); 
+}
