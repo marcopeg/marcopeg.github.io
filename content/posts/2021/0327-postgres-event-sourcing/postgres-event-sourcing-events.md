@@ -1,5 +1,5 @@
 ---
-title: "The Basics of Event Sourcing in PostgreSQL"
+title: "Event Sourcing in Postgres: The Events"
 date: "2021-03-27T06:47:37.121Z"
 template: "post"
 draft: false

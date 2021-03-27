@@ -1,4 +1,4 @@
-`---
+---
 title: "Event Sourcing in Postgres"
 date: "2021-03-27T06:46:37.121Z"
 template: "post"
@@ -24,6 +24,4 @@ A [relational database][relational-database] such [PostgreSQL][postgres] it is s
 
 In series of list of articles, we're going to **discover a data model** that let us store and consume events in a reliable way, offering the possibility for concurrent producers/consumers to work together without race-condition each other.
 
-> The entire source code, complete with tests and performance analysis is available at: https://github.com/marcopeg/postgres-event-sourcing.
-
-`
+👉 The entire source code, complete with tests and performance analysis is available at: https://github.com/marcopeg/postgres-event-sourcing.
