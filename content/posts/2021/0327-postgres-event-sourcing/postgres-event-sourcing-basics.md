@@ -1,0 +1,78 @@
+---
+title: "The Basics of Event Sourcing in PostgreSQL"
+date: "2021-03-27T06:47:37.121Z"
+template: "post"
+draft: false
+slug: "/2021/event-sourcing-in-postgres-basics"
+category: "Blog"
+tags:
+  - "postgres"
+  - "event sourcing"
+  - "kafka"
+  - "events"
+  - "logs"
+  - "event drivenr"
+description: "How to build a basic data model for Event Sourcing in PostgreSQL, and let multiple clients consume one or more topics."
+image: "postgres.png"
+---
+
+[Event Sourcing][event-sourcing] seems to be a complicated topic for most people, but in fact is quite simple and I'm sure you've used it almost every day of your life ever since you were a 6-7 years old kid: books.
+
+A book is the perfect Event Sourcing analogy. Each page og the book is an _event_, it has a _page number_ that solves two problems:
+
+1. It lets the reader start reading from where they stopeed the previous day
+2. It tells which page to read first, second, and so forth
+
+After the reader is done with page n.32, they move to page n.33. But page n.32 is still there, unchanged, so that another reader can go through the same book.
+
+## Meet the `events` table:
+
+Our first data model will be based on the concept of a book:
+
+```sql
+CREATE TABLE IF NOT EXISTS "events" (
+  "offset" BIGSERIAL,
+  "payload" JSONB DEFAULT '{}'
+  PRIMARY KEY ("offset")
+);
+```
+
+We use the `offset` to identify the event in an ordered and unique way, and a simple _JSONB_ field to store the event's data.
+
+## How to write a new Event:
+
+Writing events is as simple as **appending rows** into the table. With PostreSQL, this is already a thread-safe operation and concurrency will never be an issue:
+
+```sql
+INSERT INTO "events" 
+("payload") VALUES
+('{"name": "first event"}'),
+('{"name": "second event"}')
+RETURNING *
+```
+
+## How to read from the `events` table:
+
+Reading from this data model is also thread-safe and pretty basic. 
+
+The consumer will ask one event at the time, using the last known `offset` to move forward into the list of available events:
+
+```sql
+SELECT * FROM "events"
+WHERE "offset" > 0
+ORDER BY "offset" ASC
+LIMIT 1;
+```
+
+If we are at the beginning of the book, we simply start from the first page, which is `offset=0` in our data model.
+
+When our query will stop yielding results, it means we reached the end of the "book".
+
+## Moving Forward
+
+With this simple data-model, each consumer must store the last consumed message.
+
+This design choice makes it difficult to build software as each consumer must store that information somewhere, and coordinate in case of horizontal scaling of the consumer itself.
+
+In the next article of the serie, we'll learn how to overcome this limitation and store the information in PostgreSQL itself.
+
