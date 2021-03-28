@@ -3,7 +3,7 @@ title: "Event Sourcing in Postgres: The Events"
 date: "2021-03-27T06:47:37.121Z"
 template: "post"
 draft: false
-slug: "/2021/event-sourcing-in-postgres-basics"
+slug: "/2021/event-sourcing-in-postgres-events"
 category: "Blog"
 tags:
   - "postgres"
@@ -95,6 +95,12 @@ scaling of the consumer itself.
 
 ## Moving Forward
 
-In the next article of the serie, we'll learn how to overcome this limitation and store the information in PostgreSQL itself.
+In the [next article of the serie](/2021/event-sourcing-in-postgres-clients), we'll learn how to overcome this limitation and store the information in PostgreSQL itself.
+
+## Articles on Event Sourcing in PostgreSQL
+
+- [Event Sourcing in PostgreSQL](/2021/event-sourcing-in-postgres)
+- [How to store Events in PostgreSQL](/2021/event-sourcing-in-postgres-events)
+- [How to retain the cursor memory by Client ID](/2021/event-sourcing-in-postgres-clients)
 
 [event-sourcing]: https://www.eventstore.com/blog/what-is-event-sourcing
