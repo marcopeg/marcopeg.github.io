@@ -21,33 +21,40 @@ utility that runs on your production server as a container and
 **keeps disk usage under control**.
 
 _Docker Vacuum_ prunes the system every now and then (10 minutes by default) and applies
-your custom rules so to remove unused images with date based retention.
+your custom rules so to remove unused images with a date-based retention policy.
 
-> You are right, there is `docker system prune --volumes --force [--all]`!
+> Indeed, you are right, there is `docker system prune --volumes --force [--all]`!  
+>
+> So, why yet another tool?  
+> _I'm glad you asked 😎._
 
-But guess what? It wasn't quite enough for me because I want to
-**keep the last _N_ images on my server so I can quickly revert**
-in case shit hits the fan. Plus I don't want to risk deleting resources that are
+Cron based pruning wasn't quite enough for me because I want to **keep the last _N_ images on my server so I can quickly revert** in case s**t hits the fan. 
+
+Plus, I don't want to risk deleting resources that are
 needed by paused containers.
 
 ## Try it Out!
 
 On your local machine:
 
-    docker run -v /var/run/docker.sock:/var/run/docker.sock docker-vacuum
+```bash
+docker run -v /var/run/docker.sock:/var/run/docker.sock marcopeg/docker-vacuum
+```
 
 Or run it as a background service in your production server:
 
-    docker run -d \
-        -e VACUUM_INTERVAL=600000 \
-        -e VACUUM_RULES="[{\"match\":\"(.*)\",\"retain\":2}]" \
-        -v /var/run/docker.sock:/var/run/docker.sock \
-        docker-vacuum:latest
+```bash
+docker run -d \
+-e VACUUM_RULES="[{\"match\":\"(.*)\",\"retain\":2}]" \
+-e VACUUM_INTERVAL=600000 \
+-v /var/run/docker.sock:/var/run/docker.sock \
+marcopeg/docker-vacuum:
+```
 
-The two environment variables are optional, and the example above
-implements their default values.
+> 👉 The two environment variables are optional, and the example above implements their default values.
 
-**The volume is very important:** _Docker Vacuum_ needs to run some Docker commands on your
+**BUT THE VOLUME CONFIGURATION IS CRITICAL:**  
+_Docker Vacuum_ needs to run some Docker commands on your
 behalf on the host machine. Without direct access to the Docker socket, it won't work.
 
 ## Configuration:
@@ -79,20 +86,18 @@ _Docker Vacuum_ also honors the classic `LOG_LEVEL` setting with values as:
 
 ## Who Needs Docker Vacuum?
 
-### CapRover users:
+### CapRover:
 
-I'm using [CapRover](https://caprover.com/) to manage some small servers.
+I'm using [CapRover](https://caprover.com/) to manage some small servers, and I love it.
 
-Although it does a wonderful job in running apps and basic deployment automation,
-it lacks the ability to clean up after himself.
+Although it does a wonderful job in running apps and basic deployment automation, it lacks the ability to clean up after himself.
 
 > So if you deploy a lot on CapRover,
 > be perpared to see your disk usage grow fast.
 
-I run DockerVacuum as a CapRover app and that enables fine-grained control of how
-to clean up my system and still be able to quickly revert a deployment.
+I run _Docker Vacuum_ as a CapRover app and that enables fine-grained control of how to clean up my system and still be able to quickly revert a deployment.
 
-### DockerCompose users:
+### DockerCompose:
 
 On other instances I use `docker-compose` to run my projects.
 
