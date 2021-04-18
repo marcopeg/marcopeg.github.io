@@ -6,12 +6,12 @@ draft: false
 slug: "/2021/speak-the-language-of-your-customer"
 category: "Blog"
 tags:
-  - "javascript"
-  - "function"
-  - "const"
-  - "array"
-description: "How to build an Event Sourcing system using one of the best data-store tools available to humankind: Postgres!"
-image: "postgres.png"
+  - "self help"
+  - "communication"
+  - "life"
+  - "experience"
+description: "This is part of a series of good lessons that my dad tried to give me when I was young. Of course, I didn't get it for the best part of my life. But it is better late than never, right?"
+image: "happy-life.jpg"
 ---
 
 ![gasoline-burner](./media/gasoline-burner.png)
