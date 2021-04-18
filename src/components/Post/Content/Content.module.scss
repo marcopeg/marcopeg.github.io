@@ -106,6 +106,63 @@
             margin-left: 20px;
             font-size: 0.85em;
         }
+
+        /**
+         * Horizontal Rule Style
+         * https://codepen.io/Grienauer/pen/PdPPKZ
+         *
+         * Other ideas:
+         * https://uicookies.com/html-hr-css/
+         */
+        @mixin dot {
+            $dot-color: #F7A046;
+            $dot-size: 6px;
+            content: "";
+            background-color: $dot-color;
+            display: block;
+            height: $dot-size;
+            width: $dot-size;
+            border-radius: 50%;
+        }
+
+        & hr {
+            background: transparent;
+            background-image: none;
+            overflow: visible;
+            border: 0;
+            @include dot();
+            position: relative;
+            
+            &:before {
+                @include dot();
+                position: absolute;
+                left: -15px;
+                animation: dot-move-left 1s ease-out forwards;
+            }
+            &:after {
+                @include dot();
+                position: absolute;
+                left: 15px;
+                animation: dot-move-right 1s ease-out forwards;
+            }
+        }
+        
+        @keyframes dot-move-right {
+            0% {
+                left: 0;
+            }
+            100% {
+                left: 32px;
+            }
+        }
+        @keyframes dot-move-left {
+            0% {
+                left: 0;
+            }
+            100% {
+                left: -32px;
+            }
+        }
     }
 }
 
