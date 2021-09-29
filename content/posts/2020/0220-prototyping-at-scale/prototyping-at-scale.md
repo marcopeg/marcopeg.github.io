@@ -20,7 +20,7 @@ How many times did you hear **"Time To Market"** or **"Timing is King"** during 
 I bet you did a lot.
 
 >The truth is:  
-**good ideas are cheap**
+**good ideas are cheap and implementation is tricky**
 
 Many people have many good ideas every single day. Less people have the **skills and the resources**
 to take an idea to life and create a functioning POC. And even fewer people are able to scale a 
